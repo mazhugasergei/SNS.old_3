@@ -2,11 +2,13 @@
 import { HiMenuAlt4 } from "react-icons/hi"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { toggleMenuOpened } from "@/store/slices/ui.slice"
+import { RootState } from "@/store/store"
 
 export default () => {
   const dispatch = useDispatch()
+  const auth = useSelector((state: RootState) => state.user.auth)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -43,11 +45,15 @@ export default () => {
               <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
               <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
             </svg>
-            <span className="hidden font-bold sm:inline-block">Hello</span>
+            <span className="hidden font-bold sm:inline-block">hello</span>
           </Link>
           {/* auth */}
-          <Link href="/sign-up" className={buttonVariants({ variant: "outline" }) + " mr-4"}>Log in</Link>
-          <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
+          { auth ? <>
+            !!!PFP!!!
+          </> : <>
+            <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
+            <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
+          </> }
         </div>
         {/* mobile */}
         <div className="md:hidden">

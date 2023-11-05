@@ -12,7 +12,6 @@ import { toggleMenuOpened } from "@/store/slices/ui.slice"
 export default () => {
   const dispatch = useDispatch()
   const menu_opened = useSelector((state: RootState) => state.ui.menu_opened)
-  const auth = useSelector((state: RootState) => state.user.auth)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -91,7 +90,7 @@ export default () => {
             <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
             <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
           </svg>
-          <span className="font-bold">Hello</span>
+          <span className="font-bold">hello</span>
         </Link>
 
         {/* close menu btn */}
