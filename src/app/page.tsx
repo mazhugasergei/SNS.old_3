@@ -1,6 +1,9 @@
-export default function Home() {
+export default () => {
   return (
-    <main className="">
+    <main
+      className="
+      "
+    >
       home
     </main>
   )

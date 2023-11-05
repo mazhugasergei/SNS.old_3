@@ -11,8 +11,29 @@ export default () => {
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container pl-4 pr-4 sm:pl-8 sm:pr-8 flex h-14 items-center">
+    <header
+      className="
+        sticky
+        top-0
+        z-50
+        w-full
+        border-b
+        bg-background/95
+        backdrop-blur
+        supports-[backdrop-filter]:bg-background/60
+      "
+    >
+      {/* container */}
+      <div
+        className="
+          container
+          h-14
+          flex
+          items-center
+          px-4
+          sm:px-8
+        "
+      >
         {/* desktop */}
         <div className="hidden md:flex w-full justify-between">
           {/* logo */}
