@@ -37,7 +37,7 @@ export default () => {
 
         md:sticky
         md:top-14
-        md:z-50
+        md:z-49
         md:w-full
         md:shrink-0
         md:pl-1
@@ -116,7 +116,7 @@ export default () => {
             justify-between
           "
         >
-          <div className="flex flex-col gap-4 md:gap-3.5">
+          <div className="flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-3"><LuHome />Home</Link>
             <Link href="/messages" className="flex items-center gap-3"><LuMessageSquare />Messages</Link>
             <Link href="/search" className="flex items-center gap-3"><LuSearch />Search</Link>

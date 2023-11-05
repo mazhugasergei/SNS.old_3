@@ -13,7 +13,7 @@ export default () => {
   return (
     <header
       className="
-        sticky
+        fixed
         top-0
         z-50
         w-full
