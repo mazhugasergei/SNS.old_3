@@ -1,5 +1,5 @@
 export default () => {
   return (
-    <main>home</main>
+    <main>settings</main>
   )
 }

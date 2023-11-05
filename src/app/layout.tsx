@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
-import './styles/index.css'
+import '@/styles/globals.css'
+import '@/styles/index.css'
 import Header from '@/components/Header'
-import Aside from '@/components/Aside'
+import Menu from '@/components/Menu'
 import Footer from '@/components/Footer'
 import Provider from '@/store/Provider'
 
@@ -30,12 +30,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
               md:gap-6
               lg:grid-cols-[240px_minmax(0,1fr)]
               lg:gap-10
+              min-h-[calc(100vh-6.05rem)]
               px-4
               sm:px-8
               pt-14
             "
           >
-            <Aside />
+            <Menu />
             { children }
           </div>
           <Footer />

@@ -12,6 +12,7 @@ import { toggleMenuOpened } from "@/store/slices/ui.slice"
 export default () => {
   const dispatch = useDispatch()
   const menu_opened = useSelector((state: RootState) => state.ui.menu_opened)
+  const auth = useSelector((state: RootState) => state.user.auth)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
