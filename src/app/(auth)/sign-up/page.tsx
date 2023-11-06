@@ -83,12 +83,12 @@ export default () => {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="username"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="1231213" type="password" {...field} required />
+                  <Input placeholder="johnsmith" {...field} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,12 +96,12 @@ export default () => {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="johnsmith" {...field} required />
+                  <Input placeholder="1231213" type="password" {...field} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>

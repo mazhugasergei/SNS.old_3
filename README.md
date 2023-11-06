@@ -1,0 +1,2 @@
+# How Server Actions Work
+With Server Actions, you don't need to manually create API endpoints. Instead, you define asynchronous server functions that can be called directly from your components. Server Actions can be defined in Server Components or called from Client Components.
