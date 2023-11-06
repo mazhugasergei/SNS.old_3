@@ -4,15 +4,15 @@ import nodemailer from "nodemailer"
 import bcrypt from "bcrypt"
 
 export default async (email: string, username: string, fullname: string, password: string) => {
-  // if the email is in use
-  const user = await User.findOne({ email })
-  if(user && !user.verification_code) throw "[email]: This email is already in use."
-
   // if the username is in use
   await User.findOne({ username })
     .then(user => {
-      if(user) throw "[username]: This username is already in use."
+      if(user && !user.verification_code) throw "[username]: This username is already in use."
     })
+
+  // if the email is in use
+  const user = await User.findOne({ email })
+  if(user && !user.verification_code) throw "[email]: This email is already in use."
 
   // create not yet verified user document
   const verification_code = Math.floor((Math.random() * 10000)).toString().padStart(4, '0')
@@ -32,8 +32,8 @@ export default async (email: string, username: string, fullname: string, passwor
   await transporter.sendMail({
     from: `${process.env.APP_NAME} <${process.env.EMAIL}>`,
     to: `Recipient <${email}>`,
-    subject: `Registration verification code`,
-    text: `Your verification code: ${verification_code.toString()}`
+    subject: `Your verification code`,
+    text: `Your verification code: ${verification_code}`
   })
 
   return

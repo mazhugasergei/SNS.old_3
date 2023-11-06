@@ -39,9 +39,9 @@ export default () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "markuswedler8@gmail.com",
-      username: "asd",
+      username: "markuswedler",
       password: "12345678",
-      fullname: "asd"
+      fullname: "Markus Wedler"
     }
   })
 

@@ -15,7 +15,7 @@ import { RootState } from "@/store/store"
 import { useEffect, useState } from "react"
 
 const formSchema = z.object({
-  code: z.string().max(50)
+  code: z.string().length(4)
 })
 
 export default () => {
@@ -39,7 +39,6 @@ export default () => {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
     const { code } = values
     // verify the code
     await verify(email!, code)
@@ -57,15 +56,14 @@ export default () => {
       <Header_Auth />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Verify Email</h1>
+          <h1 className="text-4xl font-bold tracking-tight">Code from Email</h1>
           <FormField
             control={form.control}
             name="code"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel>Verification code</FormLabel>
                 <FormControl>
-                  <Input className="text-error" placeholder="johnsmith@example.com" type="code" {...field} required />
+                  <Input className="text-error" placeholder="****" type="code" {...field} required />
                 </FormControl>
                 <FormMessage>{form.formState.errors.code?.message}</FormMessage>
               </FormItem>
