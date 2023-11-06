@@ -32,7 +32,7 @@ export default () => {
     <div className="relative h-full flex flex-col justify-center">
       <Header_Auth />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-3 mx-auto">
           <h1 className="text-4xl font-bold tracking-tight mb-2">Create account</h1>
           <FormField
             control={form.control}
