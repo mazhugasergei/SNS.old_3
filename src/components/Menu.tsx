@@ -41,7 +41,7 @@ export default () => {
         md:w-full
         md:shrink-0
         md:pl-1
-        md:py-6
+        md:py-8
       "
     >
 

@@ -6,12 +6,11 @@ import Header from '@/components/Header'
 import Menu from '@/components/Menu'
 import Footer from '@/components/Footer'
 import Provider from '@/store/Provider'
-import { headers } from 'next/headers'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Home - Hello',
+  title: 'Home - hello',
   description: 'Mazhuga Sergei\'s graduation thesis',
 }
 
@@ -30,13 +29,14 @@ export default ({ children }: { children: React.ReactNode }) => {
               grid
               md:grid-cols-[13.75rem_minmax(0,1fr)]
               lg:grid-cols-[15rem_minmax(0,1fr)]
+              md:gap-6
               px-4
               sm:px-8
               pt-[3.55rem]
             "
           >
             <Menu />
-            <main className="relative h-full py-6 pl-6">{ children }</main>
+            <main className="relative h-full py-8">{ children }</main>
           </div>
           <Footer />
         </body>

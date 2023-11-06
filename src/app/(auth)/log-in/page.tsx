@@ -8,18 +8,16 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(8).max(24),
-  fullname: z.string().min(2).max(50)
+  email: z.string().min(2).max(50),
+  password: z.string().min(8).max(24)
 })
 
 export default () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
-      fullname: ""
+      email: "",
+      password: ""
     }
   })
 
@@ -30,16 +28,16 @@ export default () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="h-full flex flex-col justify-center space-y-3 max-w-sm mx-auto">
-          <h1 className="text-4xl font-bold mb-2">Create account</h1>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="h-full max-w-sm flex flex-col justify-center space-y-3 mx-auto">
+          <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome back</h1>
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Email or Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="johnsmith" {...field} />
+                  <Input placeholder="johnsmith" {...field} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -52,24 +50,8 @@ export default () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="1231213" {...field} />
+                  <Input placeholder="1231213" type="password" {...field} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="fullname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Smith" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
