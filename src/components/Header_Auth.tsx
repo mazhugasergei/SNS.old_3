@@ -21,7 +21,7 @@ export default () => {
             <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
             <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
           </svg>
-          <span className="inline-block font-bold text-baze">hello</span>
+          <span className="inline-block font-bold text-baze">Wave</span>
         </Link>
         <Link href="/" className="flex items-center gap-1.5 text-sm font-semibold"><HiOutlineArrowLeft style={{ strokeWidth: "3" }} /> Go back</Link>
       </div>

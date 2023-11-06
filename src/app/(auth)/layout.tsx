@@ -1,15 +1,9 @@
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '@/styles/globals.css'
 import '@/styles/index.css'
 import Provider from '@/store/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Home - hello',
-  description: 'Mazhuga Sergei\'s graduation thesis',
-}
 
 export default ({ children }: { children: React.ReactNode }) => {
   return (

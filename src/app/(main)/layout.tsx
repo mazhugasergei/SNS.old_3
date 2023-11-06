@@ -10,8 +10,7 @@ import Provider from '@/store/Provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Home - hello',
-  description: 'Mazhuga Sergei\'s graduation thesis',
+  title: 'Home - Wave'
 }
 
 export default ({ children }: { children: React.ReactNode }) => {
