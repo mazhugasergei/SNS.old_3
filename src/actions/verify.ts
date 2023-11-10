@@ -6,7 +6,7 @@ export default async (email: string, verificationCode: string) => {
   // if the code doesn't exist
   let user = await User.findOne({ email })
   if(!user || !user.verification_code || verificationCode !== user.verification_code)
-    throw "The code is wrong or expired"
+    throw "[code]: The code is wrong or expired."
   
   // delete the code
   user = await User.findOneAndUpdate({ email }, { $unset: { verification_code: 1, expires: 1 } })

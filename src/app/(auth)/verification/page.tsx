@@ -45,10 +45,16 @@ export default () => {
       .then(res => {
         // redirect
         const { token } = res
+        localStorage.setItem("token", token)
         dispatch(setUser({ auth: true, token }))
         router.push("/")
       })
-      .catch(err => form.setError("code", { type: "server", message: err.message.replace("Error: ", "") }))
+      .catch(err => {
+        const error = err.message.replace("Error: ", "")
+        const errType = error.substring(1, error.indexOf("]: "))
+        const errMessage = error.substring(error.indexOf("]: ")+3)
+        form.setError(errType, { type: "server", message: errMessage })
+      })
   }
 
   return signingUp && (
