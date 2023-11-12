@@ -49,11 +49,11 @@ export default () => {
           </Link>
           {/* auth */}
           { auth ? <>
-            !!!PFP!!!
+            <div className="w-6 h-6 rounded-[50%] bg-border" />
           </> : <>
             <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
             <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
-          </> }
+          </>}
         </div>
         {/* mobile */}
         <div className="md:hidden">

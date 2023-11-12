@@ -12,6 +12,7 @@ import { toggleMenuOpened } from "@/store/slices/ui.slice"
 export default () => {
   const dispatch = useDispatch()
   const menu_opened = useSelector((state: RootState) => state.ui.menu_opened)
+  const auth = useSelector((state: RootState) => state.user.auth)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -122,10 +123,13 @@ export default () => {
             <Link href="/search" className="flex items-center gap-3"><LuSearch />Search</Link>
             <Link href="/settings" className="flex items-center gap-3"><LuSettings />Settings</Link>
           </div>
-          <div className="md:hidden flex flex-col gap-3 pt-6">
+          {/* auth */}
+          { auth ? <>
+            aaa
+          </> : <div className="md:hidden flex flex-col gap-3 pt-6">
             <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
-            <Link href="/sign-up" className={buttonVariants({ variant: "outline" })}>Log in</Link>
-          </div>
+            <Link href="/log-in" className={buttonVariants({ variant: "outline" })}>Log in</Link>
+          </div> }
         </div>
       </div>
     </menu>

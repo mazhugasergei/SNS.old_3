@@ -46,17 +46,18 @@ export default () => {
     // generate verification code
     const { email, password } = values
     await log_in(email, password)
-      // .then(res => {
-      //   dispatch(setUser({ email, is_signing_up: true }))
-      //   setTimeout(() => dispatch(setUser({ email: null, is_signing_up: null })), 300000)
-      //   router.push("/verification")
-      // })
-      // .catch(err => {
-      //   const error = err.message.replace("Error: ", "")
-      //   const errType = error.substring(1, error.indexOf("]: "))
-      //   const errMessage = error.substring(error.indexOf("]: ")+3)
-      //   form.setError(errType, { type: "server", message: errMessage })
-      // })
+      .then(res => {
+        const { token } = res
+        localStorage.setItem("token", token)
+        dispatch(setUser({ auth: true, token }))
+        router.push("/")
+      })
+      .catch(err => {
+        const error = err.message.replace("Error: ", "")
+        const errType = error.substring(1, error.indexOf("]: "))
+        const errMessage = error.substring(error.indexOf("]: ")+3)
+        form.setError(errType, { type: "server", message: errMessage })
+      })
   }
 
   return !loggedIn && (
