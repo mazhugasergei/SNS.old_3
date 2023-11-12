@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Header_Auth from "@/components/Header_Auth"
 import { useDispatch, useSelector } from "react-redux"
@@ -64,15 +64,19 @@ export default () => {
         <Header_Auth />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight">Code from Email</h1>
+            <h1 className="text-4xl font-bold tracking-tight">Verification</h1>
             <FormField
               control={form.control}
               name="code"
               render={({ field }) => (
                 <FormItem className="space-y-1">
+                  <FormLabel>Verification code</FormLabel>
                   <FormControl>
                     <Input className="text-error" placeholder="****" type="code" {...field} required />
                   </FormControl>
+                  <FormDescription>
+                    Verification code was sent on your email.
+                  </FormDescription>
                   <FormMessage>{form.formState.errors.code?.message}</FormMessage>
                 </FormItem>
               )}
