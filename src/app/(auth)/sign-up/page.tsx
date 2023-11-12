@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { useEffect, useState } from "react"
 import { RootState } from "@/store/store"
+import AuthBG from '@/components/AuthBG'
 
 const formSchema = z.object({
   email: z.string().max(50),
@@ -31,8 +32,8 @@ export default () => {
   // redirect if logged in
   useEffect(()=>{
     if(auth) router.push("/")
-    else setLoggedIn(false)
-  })
+    else if(auth === false) setLoggedIn(false)
+  }, [auth])
 
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onChange",
@@ -63,70 +64,73 @@ export default () => {
   }
 
   return !loggedIn && (
-    <div className="relative h-full flex flex-col justify-center">
-      <Header_Auth />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">Create account</h1>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input className="text-error" placeholder="johnsmith@example.com" type="email" {...field} required />
-                </FormControl>
-                <FormMessage>{form.formState.errors.email?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="johnsmith" {...field} required />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input placeholder="1231213" type="password" {...field} required />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="fullname"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Smith" {...field} required />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Create account</Button>
-          <FormDescription className="text-center text-text">Already have an account? <Link href="/log-in" className="font-bold underline">Log in</Link></FormDescription>
-        </form>
-      </Form>
-    </div>
+    <>
+      <div className="relative h-full flex flex-col justify-center">
+        <Header_Auth />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
+            <h1 className="text-4xl font-bold tracking-tight mb-2">Create account</h1>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input className="text-error" placeholder="johnsmith@example.com" type="email" {...field} required />
+                  </FormControl>
+                  <FormMessage>{form.formState.errors.email?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="johnsmith" {...field} required />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder="1231213" type="password" {...field} required />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fullname"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Smith" {...field} required />
+                  </FormControl>
+                  <FormDescription>
+                    This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Create account</Button>
+            <FormDescription className="text-center text-text">Already have an account? <Link href="/log-in" className="font-bold underline">Log in</Link></FormDescription>
+          </form>
+        </Form>
+      </div>
+      <AuthBG />
+    </>
   )
 }

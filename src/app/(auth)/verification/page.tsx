@@ -13,6 +13,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import verify from "@/actions/verify"
 import { RootState } from "@/store/store"
 import { useEffect, useState } from "react"
+import AuthBG from '@/components/AuthBG'
 
 const formSchema = z.object({
   code: z.string().length(4)
@@ -29,7 +30,7 @@ export default () => {
   useEffect(()=>{
     if(!is_signing_up) router.push("/")
     else setSigningUp(true)
-  })
+  }, [is_signing_up])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,26 +59,29 @@ export default () => {
   }
 
   return signingUp && (
-    <div className="relative h-full flex flex-col justify-center">
-      <Header_Auth />
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
-          <h1 className="text-4xl font-bold tracking-tight">Code from Email</h1>
-          <FormField
-            control={form.control}
-            name="code"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormControl>
-                  <Input className="text-error" placeholder="****" type="code" {...field} required />
-                </FormControl>
-                <FormMessage>{form.formState.errors.code?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
-          <Button disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Confirm</Button>
-        </form>
-      </Form>
-    </div>
+    <>
+      <div className="relative h-full flex flex-col justify-center">
+        <Header_Auth />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
+            <h1 className="text-4xl font-bold tracking-tight">Code from Email</h1>
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem className="space-y-1">
+                  <FormControl>
+                    <Input className="text-error" placeholder="****" type="code" {...field} required />
+                  </FormControl>
+                  <FormMessage>{form.formState.errors.code?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+            <Button disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Confirm</Button>
+          </form>
+        </Form>
+      </div>
+      <AuthBG />
+    </>
   )
 }
