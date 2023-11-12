@@ -2,7 +2,7 @@ import Provider from '@/store/Provider'
 import mongoose from 'mongoose'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import IsAuth from '@/components/IsAuth'
+import AutoAuth from '@/components/AutoAuth'
 
 // connect to db
 mongoose.connect(process.env.MONGODB_URI!)
@@ -20,7 +20,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <Provider>
         <body className={`${inter.className} min-h-screen relative`}>
-          <IsAuth />
+          <AutoAuth />
           { children }
         </body>
       </Provider>
