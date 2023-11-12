@@ -10,6 +10,7 @@ export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const username = useSelector((state: RootState) => state.user.username)
+  const pfp = useSelector((state: RootState) => state.user.pfp)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -49,9 +50,9 @@ export default () => {
             <span className="hidden font-bold sm:inline-block">Wave</span>
           </Link>
           {/* auth */}
-          { auth ? <>
-            { username }<div className="w-6 h-6 rounded-[50%] bg-border" />
-          </> : <>
+          { auth ?
+            <div style={{ backgroundImage: `url('${pfp}')` }} className="cursor-pointer w-7 h-7 rounded-[50%] bg-border bg-cover bg-center hover:shadow-[0_0_0_.2rem_#F0F0F0]" />
+          : <>
             <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
             <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
           </>}
