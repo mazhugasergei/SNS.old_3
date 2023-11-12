@@ -4,16 +4,24 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 export interface UserState {
   auth?: boolean | null
   is_signing_up?: boolean | null
+  _id?: string | null
   email?: string | null
+  username?: string | null
   password?: string | null
+  display_name?: string | null
+  pfp?: string | null
   token?: string | null
 }
 
 const initialState: UserState = {
   auth: null,
   is_signing_up: null,
+  _id: null,
   email: null,
+  username: null,
   password: null,
+  display_name: null,
+  pfp: null,
   token: null
 }
 
