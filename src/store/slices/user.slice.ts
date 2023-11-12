@@ -4,11 +4,9 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 export interface UserState {
   auth?: boolean | null
   is_signing_up?: boolean | null
-  _id?: string | null
   email?: string | null
   username?: string | null
-  password?: string | null
-  display_name?: string | null
+  fullname?: string | null
   pfp?: string | null
   token?: string | null
 }
@@ -16,11 +14,9 @@ export interface UserState {
 const initialState: UserState = {
   auth: null,
   is_signing_up: null,
-  _id: null,
   email: null,
   username: null,
-  password: null,
-  display_name: null,
+  fullname: null,
   pfp: null,
   token: null
 }
@@ -33,7 +29,9 @@ export const userSlice = createSlice({
       if(typeof action.payload.auth !== undefined) state.auth = action.payload.auth
       if(typeof action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
       if(typeof action.payload.email !== undefined) state.email = action.payload.email
-      if(typeof action.payload.password !== undefined) state.password = action.payload.password
+      if(typeof action.payload.username !== undefined) state.username = action.payload.username
+      if(typeof action.payload.fullname !== undefined) state.fullname = action.payload.fullname
+      if(typeof action.payload.pfp !== undefined) state.pfp = action.payload.pfp
       if(typeof action.payload.token !== undefined) state.token = action.payload.token
     }
   }

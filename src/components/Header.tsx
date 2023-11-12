@@ -9,6 +9,7 @@ import { RootState } from "@/store/store"
 export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
+  const username = useSelector((state: RootState) => state.user.username)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -49,7 +50,7 @@ export default () => {
           </Link>
           {/* auth */}
           { auth ? <>
-            <div className="w-6 h-6 rounded-[50%] bg-border" />
+            { username }<div className="w-6 h-6 rounded-[50%] bg-border" />
           </> : <>
             <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
             <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>

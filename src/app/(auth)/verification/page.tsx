@@ -45,9 +45,9 @@ export default () => {
     await verify(email!, code)
       .then(res => {
         // redirect
-        const { token } = res
+        const { token, ...user } = res
         localStorage.setItem("token", token)
-        dispatch(setUser({ auth: true, token }))
+        dispatch(setUser({ auth: true, token, ...user }))
         router.push("/")
       })
       .catch(err => {

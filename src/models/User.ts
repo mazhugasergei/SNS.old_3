@@ -5,10 +5,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  pfp: {
-    type: String,
-    default: undefined
-  },
+  pfp: String,
   username: {
     type: String,
     required: true

@@ -11,9 +11,16 @@ export default async (email: string, password: string) => {
   const user = await User.findOne(username ? { username } : { email })
   if(!user) throw "[email]: User doesn't exist"
   // check if the password is correct
-  const isValid = await bcrypt.compare(password, user.password)
-  if(!isValid) throw "[password]: Incorrect password"
+  const is_valid = await bcrypt.compare(password, user.password)
+  if(!is_valid) throw "[password]: Incorrect password"
   // token
   const token = jwt.sign({ user }, process.env.JWT_SECRET!, { expiresIn: '30d' })
-  return { token }
+
+  return {
+    email,
+    username: user.username,
+    fullname: user.fullname,
+    pfp: user.pfp,
+    token
+  }
 }

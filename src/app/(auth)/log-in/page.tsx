@@ -47,9 +47,9 @@ export default () => {
     const { email, password } = values
     await log_in(email, password)
       .then(res => {
-        const { token } = res
+        const { token, ...user } = res
         localStorage.setItem("token", token)
-        dispatch(setUser({ auth: true, token }))
+        dispatch(setUser({ auth: true, token, ...user }))
         router.push("/")
       })
       .catch(err => {

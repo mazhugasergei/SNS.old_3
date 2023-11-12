@@ -91,7 +91,7 @@ export default () => {
             <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
             <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" />
           </svg>
-          <span className="font-bold">hello</span>
+          <span className="font-bold">Wave</span>
         </Link>
 
         {/* close menu btn */}
@@ -124,12 +124,14 @@ export default () => {
             <Link href="/settings" className="flex items-center gap-3"><LuSettings />Settings</Link>
           </div>
           {/* auth */}
-          { auth ? <>
-            aaa
-          </> : <div className="md:hidden flex flex-col gap-3 pt-6">
-            <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
-            <Link href="/log-in" className={buttonVariants({ variant: "outline" })}>Log in</Link>
-          </div> }
+          <div className="md:hidden flex flex-col gap-3 pt-6">
+            { auth ? <>
+              aaa
+            </> : <>
+              <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
+              <Link href="/log-in" className={buttonVariants({ variant: "outline" })}>Log in</Link>
+            </> }
+          </div>
         </div>
       </div>
     </menu>
