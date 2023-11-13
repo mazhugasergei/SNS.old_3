@@ -18,7 +18,7 @@ import log_in from "@/actions/log_in"
 
 const formSchema = z.object({
   email: z.string().max(50),
-  password: z.string().min(8).max(50)
+  password: z.string().max(50)
 })
 
 export default () => {

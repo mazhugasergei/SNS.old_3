@@ -26,7 +26,17 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
-      if(typeof action.payload.auth !== undefined) state.auth = action.payload.auth
+      if(typeof action.payload.auth !== undefined){
+        state.auth = action.payload.auth
+        if(state.auth === false){
+          state.is_signing_up = null
+          state.email = null
+          state.username = null
+          state.fullname = null
+          state.pfp = null
+          state.token = null
+        }
+      }
       if(typeof action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
       if(typeof action.payload.email !== undefined) state.email = action.payload.email
       if(typeof action.payload.username !== undefined) state.username = action.payload.username

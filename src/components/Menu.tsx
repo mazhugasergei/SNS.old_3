@@ -8,13 +8,23 @@ import { buttonVariants } from "@/components/ui/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { toggleMenuOpened } from "@/store/slices/ui.slice"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
+import { setUser } from "@/store/slices/user.slice"
+import { HiOutlineDotsHorizontal } from "react-icons/hi"
 
 export default () => {
   const dispatch = useDispatch()
   const menu_opened = useSelector((state: RootState) => state.ui.menu_opened)
   const auth = useSelector((state: RootState) => state.user.auth)
+  const fullname = useSelector((state: RootState) => state.user.fullname)
+  const pfp = useSelector((state: RootState) => state.user.pfp)
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    dispatch(setUser({ auth: false }))
+  }
 
   return (
     <menu
@@ -109,7 +119,6 @@ export default () => {
             max-md:h-full
             max-md:relative
             max-md:flex-1
-            max-md:overflow-hidden
             max-md:my-10
             max-md:pl-6
             max-md:pr-6
@@ -125,9 +134,25 @@ export default () => {
           </div>
           {/* auth */}
           <div className="md:hidden flex flex-col gap-3 pt-6">
-            { auth ? <>
-              aaa
-            </> : <>
+            { auth ?
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-2 p-2 -m-2">
+                  <div style={{ backgroundImage: `url('${pfp}')` }} className="cursor-pointer shrink-0 w-7 h-7 rounded-[50%] bg-border bg-cover bg-center" />
+                  <div className="overflow-hidden flex-1 text-sm text-left font-medium whitespace-nowrap">{ fullname }</div>
+                  <HiOutlineDotsHorizontal className="shrink-0" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="relative -left-10 w-full mx-10">
+                  <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            : <>
               <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
               <Link href="/log-in" className={buttonVariants({ variant: "outline" })}>Log in</Link>
             </> }
