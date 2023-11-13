@@ -28,13 +28,23 @@ export default async (email: string, username: string, fullname: string, passwor
     }
   })
 
-  // // send email
-  // await transporter.sendMail({
-  //   from: `${process.env.APP_NAME} <${process.env.EMAIL}>`,
-  //   to: `Recipient <${email}>`,
-  //   subject: `Your verification code`,
-  //   text: `Your verification code: ${verification_code}`
-  // })
+  // send email
+  await transporter.sendMail({
+    from: `${process.env.APP_NAME} <${process.env.EMAIL}>`,
+    to: `Recipient <${email}>`,
+    subject: `Your verification code: ${verification_code}`,
+    html: `
+      <body style="background: #0f172a; color: #0f172a; border-radius: .5rem; padding: 4rem 2rem;">
+        <div class="container" style="background: #fff; max-width: 32rem; border-radius: .5rem; padding: 2rem; margin-left: auto; margin-right: auto;">
+          <a href="/">
+            <img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AK7aPaDKBt0J_oaI66EkuG5frZc2tan_ON0FiTU86mVBKrgy7zOZLg4FPwTxG_NY0FulI0mao0Y0XMUJSIj0gLaZFSiUGCfntQ=w2880-h1576" width="80" />
+          </a>
+          <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0 .75rem;">${verification_code}</div>
+          <div>Please enter this code in the provided field to complete the verification process. If you did not initiate this verification process, please ignore this email. However, if you suspect any unauthorized access to your account, please contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a;">support team</a> immediately.</div>
+        </div>
+      </body>
+    `
+  })
 
   return
 }

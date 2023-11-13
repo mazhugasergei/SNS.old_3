@@ -61,7 +61,7 @@ export default () => {
           { auth ?
             <DropdownMenu>
               <DropdownMenuTrigger style={{ backgroundImage: `url('${pfp}')` }} className="cursor-pointer w-7 h-7 rounded-[50%] bg-border bg-cover bg-center transition hover:shadow-[0_0_0_.2rem_#F0F0F0]" />
-              <DropdownMenuContent className="w-40 mr-8">
+              <DropdownMenuContent className="mr-8">
                 <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
