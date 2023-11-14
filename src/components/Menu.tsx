@@ -141,7 +141,7 @@ export default () => {
                   <div className="overflow-hidden flex-1 text-sm text-left font-medium whitespace-nowrap">{ fullname }</div>
                   <HiOutlineDotsHorizontal className="shrink-0" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="relative -left-10 w-full mx-10">
+                <DropdownMenuContent>
                   <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
