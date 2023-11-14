@@ -36,7 +36,7 @@ export default () => {
           { auth ?
             <DropdownMenu>
               <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_#F0F0F0]">
-                <Avatar className="w-full h-full bg-cover bg-center">
+                <Avatar className="w-full h-full bg-cover bg-center border">
                   <AvatarImage src={pfp} />
                   <AvatarFallback>
                     <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />

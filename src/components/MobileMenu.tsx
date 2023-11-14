@@ -55,7 +55,7 @@ export default () => {
             { auth ?
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 p-2 -m-2">
-                  <Avatar className="w-8 h-8 bg-cover bg-center">
+                  <Avatar className="w-8 h-8 bg-cover bg-center border">
                     <AvatarImage src={pfp} />
                     <AvatarFallback>
                       <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
