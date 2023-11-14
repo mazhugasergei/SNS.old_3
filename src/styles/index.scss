@@ -1,3 +1,7 @@
 main + :not(header){
   font-size: .875rem;
 }
+
+main{
+  min-height: 200vh;
+}
