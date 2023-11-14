@@ -7,13 +7,15 @@ import { toggleMenuOpened } from "@/store/slices/ui.slice"
 import { RootState } from "@/store/store"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { setUser } from "@/store/slices/user.slice"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { BsPersonFill } from "react-icons/bs"
 
 
 export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const fullname = useSelector((state: RootState) => state.user.fullname)
-  const pfp = useSelector((state: RootState) => state.user.pfp)
+  const pfp = useSelector((state: RootState) => state.user.pfp) as string
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -60,13 +62,20 @@ export default () => {
           {/* auth */}
           { auth ?
             <DropdownMenu>
-              <DropdownMenuTrigger style={{ backgroundImage: `url('${pfp}')` }} className="cursor-pointer w-7 h-7 rounded-[50%] bg-border bg-cover bg-center transition hover:shadow-[0_0_0_.2rem_#F0F0F0]" />
+              <DropdownMenuTrigger className="w-8 h-8 rounded-[50%] transition hover:shadow-[0_0_0_.2rem_#F0F0F0]">
+                <Avatar className="w-full h-full bg-cover bg-center">
+                  <AvatarImage src={pfp} />
+                  <AvatarFallback>
+                    <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
               <DropdownMenuContent className="mr-8">
                 <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <Link href="/profile"><DropdownMenuItem>Profile</DropdownMenuItem></Link>
+                  <Link href="/settings"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>

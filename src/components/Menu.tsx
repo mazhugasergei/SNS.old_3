@@ -11,13 +11,15 @@ import { toggleMenuOpened } from "@/store/slices/ui.slice"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { setUser } from "@/store/slices/user.slice"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { BsPersonFill } from "react-icons/bs"
 
 export default () => {
   const dispatch = useDispatch()
   const menu_opened = useSelector((state: RootState) => state.ui.menu_opened)
   const auth = useSelector((state: RootState) => state.user.auth)
   const fullname = useSelector((state: RootState) => state.user.fullname)
-  const pfp = useSelector((state: RootState) => state.user.pfp)
+  const pfp = useSelector((state: RootState) => state.user.pfp) as string
 
   const handleMenuOpenedToogle = () => dispatch(toggleMenuOpened())
 
@@ -127,17 +129,22 @@ export default () => {
           "
         >
           <div className="flex flex-col gap-4">
-            <Link href="/" className="flex items-center gap-3"><LuHome />Home</Link>
-            <Link href="/messages" className="flex items-center gap-3"><LuMessageSquare />Messages</Link>
-            <Link href="/search" className="flex items-center gap-3"><LuSearch />Search</Link>
-            <Link href="/settings" className="flex items-center gap-3"><LuSettings />Settings</Link>
+            <Link href="/" className="flex items-center gap-3" onClick={handleMenuOpenedToogle}><LuHome />Home</Link>
+            <Link href="/messages" className="flex items-center gap-3" onClick={handleMenuOpenedToogle}><LuMessageSquare />Messages</Link>
+            <Link href="/search" className="flex items-center gap-3" onClick={handleMenuOpenedToogle}><LuSearch />Search</Link>
+            <Link href="/settings" className="flex items-center gap-3" onClick={handleMenuOpenedToogle}><LuSettings />Settings</Link>
           </div>
           {/* auth */}
           <div className="md:hidden flex flex-col gap-3 pt-6">
             { auth ?
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 p-2 -m-2">
-                  <div style={{ backgroundImage: `url('${pfp}')` }} className="cursor-pointer shrink-0 w-7 h-7 rounded-[50%] bg-border bg-cover bg-center" />
+                  <Avatar className="w-8 h-8 bg-cover bg-center">
+                    <AvatarImage src={pfp} />
+                    <AvatarFallback>
+                      <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="overflow-hidden flex-1 text-sm text-left font-medium whitespace-nowrap">{ fullname }</div>
                   <HiOutlineDotsHorizontal className="shrink-0" />
                 </DropdownMenuTrigger>
@@ -145,8 +152,8 @@ export default () => {
                   <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <Link href="/profile" onClick={handleMenuOpenedToogle}><DropdownMenuItem>Profile</DropdownMenuItem></Link>
+                    <Link href="/settings" onClick={handleMenuOpenedToogle}><DropdownMenuItem>Settings</DropdownMenuItem></Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
