@@ -7,7 +7,9 @@ interface User {
   email: string
   username: string
   fullname: string
+  bio: string
   pfp: string
+  createdAt: Date
   token: string
 }
 
@@ -21,9 +23,9 @@ export default async (token: string) => {
   })
   // if verified, check if the user still exists
   if(user){
-    const { _id, email, username, fullname, pfp } = user
+    const { _id, email, username, fullname, bio, pfp, createdAt } = user
     const exists = await User.findById(_id)
-    if(exists) return { email, username, fullname, pfp, token }
+    if(exists) return { email, username, fullname, bio, pfp, created: createdAt }
     else return null
   }
   else return null

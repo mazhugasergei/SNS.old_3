@@ -8,9 +8,9 @@ export default () => {
   const dispatch = useDispatch()
   // check auth status
   useEffect(()=>{
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") as string
     if(token) (async ()=>{
-      const user = await is_auth(token as string)
+      const user = await is_auth(token)
       if(user) dispatch(setUser({ auth: true, ...user }))
       else dispatch(setUser({ auth: false }))
     })()

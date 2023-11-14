@@ -1,7 +1,3 @@
-main + :not(header) {
-  font-size: 0.875rem;
-}
-
 main {
   min-height: 200vh;
 }/*# sourceMappingURL=index.css.map */

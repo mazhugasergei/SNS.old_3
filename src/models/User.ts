@@ -5,7 +5,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  pfp: String,
   username: {
     type: String,
     required: true
@@ -18,9 +17,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  verification_code: {
-    type: String
-  },
+  bio: String,
+  pfp: String,
+  verification_code: String,
   createdAt: {
     type: Date,
     default: Date.now

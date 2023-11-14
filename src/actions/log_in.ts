@@ -20,7 +20,9 @@ export default async (email: string, password: string) => {
     email,
     username: user.username,
     fullname: user.fullname,
+    bio: user.bio,
     pfp: user.pfp,
+    created: user.createdAt,
     token
   }
 }
