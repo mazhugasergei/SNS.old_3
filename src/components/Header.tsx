@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import Logo from "./Logo"
 import MobileMenu from "./MobileMenu"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 export default () => {
@@ -33,7 +34,8 @@ export default () => {
             <Logo />
           </div>
           {/* auth */}
-          { auth ?
+          { auth === null && <Skeleton className="w-[2rem] h-[2rem] rounded-full" /> }
+          { auth === true && 
             <DropdownMenu>
               <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_#F0F0F0]">
                 <Avatar className="w-full h-full bg-cover bg-center border">
@@ -54,10 +56,13 @@ export default () => {
                 <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          : <>
-            <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
-            <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
-          </>}
+          }
+          { auth === false &&
+            <>
+              <Link href="/log-in" className={buttonVariants({ variant: "outline" }) + " bg-background mr-4"}>Log in</Link>
+              <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
+            </>
+          }
         </div>
         
         {/* mobile */}

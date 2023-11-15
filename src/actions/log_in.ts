@@ -22,7 +22,7 @@ export default async (email: string, password: string) => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
-    created: user.createdAt,
+    created: user.createdAt.toString(),
     token
   }
 }

@@ -9,7 +9,7 @@ export interface UserState {
   fullname?: string | null
   bio?: string | null
   pfp?: string | null
-  created?: Date | null
+  created?: string | null
   token?: string | null
 }
 
