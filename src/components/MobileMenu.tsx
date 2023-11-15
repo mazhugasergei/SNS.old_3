@@ -1,9 +1,5 @@
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
-import { LuHome } from "react-icons/lu"
-import { LuMessageSquare } from "react-icons/lu"
-import { LuSearch } from "react-icons/lu"
-import { LuSettings } from "react-icons/lu"
 import { HiMenuAlt4 } from "react-icons/hi"
 import Logo from "./Logo"
 import Link from "next/link"
@@ -14,10 +10,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "./ui/button"
 import { setUser } from "@/store/slices/user.slice"
+import Aside from "./Aside"
+import Nav from "./Nav"
 
 export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
+  const username = useSelector((state: RootState) => state.user.username)
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const pfp = useSelector((state: RootState) => state.user.pfp) as string
 
@@ -36,17 +35,8 @@ export default () => {
         <div className="h-[calc(100%-5rem)] relative my-10 pl-6 pr-6 flex flex-col justify-between">
           {/* links */}
           <div className="flex flex-col gap-4">
-            <SheetClose asChild className="block">
-              <Link href="/" className="flex items-center gap-3"><LuHome />Home</Link>
-            </SheetClose>
-            <SheetClose asChild className="block">
-              <Link href="/messages" className="flex items-center gap-3"><LuMessageSquare />Messages</Link>
-            </SheetClose>
-            <SheetClose asChild className="block">
-              <Link href="/search" className="flex items-center gap-3"><LuSearch />Search</Link>
-            </SheetClose>
-            <SheetClose asChild className="block">
-              <Link href="/settings" className="flex items-center gap-3"><LuSettings />Settings</Link>
+            <SheetClose asChild>
+              <Nav />
             </SheetClose>
           </div>
 
@@ -69,7 +59,7 @@ export default () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <SheetClose asChild className="block">
-                      <Link href="/profile">
+                      <Link href={`/${username}`}>
                         <DropdownMenuItem>Profile</DropdownMenuItem>
                       </Link>
                     </SheetClose>

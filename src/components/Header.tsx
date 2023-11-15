@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
+  const username = useSelector((state: RootState) => state.user.username)
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const pfp = useSelector((state: RootState) => state.user.pfp) as string
 
@@ -49,7 +50,7 @@ export default () => {
                 <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <Link href="/profile"><DropdownMenuItem>Profile</DropdownMenuItem></Link>
+                  <Link href={`/${username}`}><DropdownMenuItem>Profile</DropdownMenuItem></Link>
                   <Link href="/settings"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

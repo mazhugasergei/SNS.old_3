@@ -18,7 +18,17 @@ import AuthBG from '@/components/AuthBG'
 
 const formSchema = z.object({
   email: z.string().max(50),
-  username: z.string().min(2, { message: "Username must be at least 2 characters" }).max(50, { message: "Username must contain at most 50 characters" }),
+  username: z.string()
+    .min(2, { message: "Username must be at least 2 characters" })
+    .max(50, { message: "Username must contain at most 50 characters" })
+    .refine(value =>
+      value !== "log-in" &&
+      value !== "sign-up" &&
+      value !== "verification" &&
+      value !== "messages" &&
+      value !== "settings",
+      { message: "Invalid username" }
+    ),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }).max(50, { message: "Password must contain at most 50 characters" }),
   fullname: z.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" })
 })
