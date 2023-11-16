@@ -27,12 +27,6 @@ const UserSchema = new Schema({
 
   verification_code: String,
 
-  darkTheme: {
-    type: Boolean,
-    default: false,
-    required: true
-  },
-
   createdAt: {
     type: Date,
     default: Date.now

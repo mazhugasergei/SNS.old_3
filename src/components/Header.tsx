@@ -38,7 +38,7 @@ export default () => {
           { auth === null && <AvatarSkeleton /> }
           { auth === true && 
             <DropdownMenu>
-              <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_#F0F0F0]">
+              <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_rgb(210,210,210,0.5)]">
                 <Avatar className="w-full h-full bg-cover bg-center border">
                   <AvatarImage src={pfp} />
                   <AvatarFallback>

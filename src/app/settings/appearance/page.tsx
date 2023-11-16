@@ -6,41 +6,41 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Switch } from "@/components/ui/switch"
 import { toast } from "@/components/ui/use-toast"
+import { useTheme } from "next-themes" 
 
 export default () => {
+  const { theme, setTheme } = useTheme()
+
   const FormSchema = z.object({
-    dark_theme: z.boolean(),
+    dark_theme: z.boolean()
   })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      dark_theme: false
+      // dark_theme: false
+      dark_theme: theme === "dark" ? true : false
     }
   })
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     toast({
-      title: "You submitted the following values:",
+      title: "Changes were saved",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+        <div>Niceeeeee!</div>
+      )
     })
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Appearance</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="dark_theme"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <h3 className="mb-4 text-lg font-medium">Appearance</h3>
+        <div className="space-y-4">
+          <FormField control={form.control} name="dark_theme"
+            render={({ field }) => {
+              return (
+                <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm" onChange={() => setTheme(field.value ? "dark" : "light")}>
                   <div className="space-y-0.5">
                     <FormLabel>Dark theme</FormLabel>
                     <FormDescription>
@@ -51,11 +51,10 @@ export default () => {
                     <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItem>
-              )}
-            />
-          </div>
+              )
+            }}
+          />
         </div>
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

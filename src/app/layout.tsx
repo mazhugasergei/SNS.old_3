@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import AutoAuth from '@/components/AutoAuth'
+import { Toaster } from "@/components/ui/toaster"
+import ThemeProvider from '@/components/ThemeProvider'
 
 // connect to db
 mongoose.connect(process.env.MONGODB_URI!)
@@ -20,8 +22,14 @@ export default ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <Provider>
         <body className={`${inter.className} min-h-screen relative`}>
-          <AutoAuth />
-          { children }
+          <ThemeProvider
+            attribute="class"
+            disableTransitionOnChange
+          >
+            <AutoAuth />
+            { children }
+            <Toaster />
+          </ThemeProvider>
         </body>
       </Provider>
     </html>
