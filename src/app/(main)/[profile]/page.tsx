@@ -26,7 +26,7 @@ export default ({ params }: { params: { profile: string } }) => {
     <>user not found</>
   : profile &&
     <>
-      <div className="contianer relative border rounded-md p-10">
+      <div className="contianer relative border rounded-lg p-10 shadow-sm">
         { username === params.profile && <Link href="/settings/profile" className={`${buttonVariants({ variant: "outline" })} absolute top-5 right-5`}>Edit profile</Link> }
 
         <Avatar className="w-20 h-20 bg-cover bg-center border mb-2">

@@ -18,7 +18,6 @@ export default () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      // dark_theme: false
       dark_theme: theme === "dark" ? true : false
     }
   })

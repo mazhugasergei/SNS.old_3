@@ -22,10 +22,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     <html lang="en">
       <Provider>
         <body className={`${inter.className} min-h-screen relative`}>
-          <ThemeProvider
-            attribute="class"
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute="class" disableTransitionOnChange>
             <AutoAuth />
             { children }
             <Toaster />
