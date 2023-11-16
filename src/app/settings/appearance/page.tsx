@@ -34,27 +34,30 @@ export default () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <h3 className="mb-4 text-lg font-medium">Appearance</h3>
-        <div className="space-y-4">
-          <FormField control={form.control} name="dark_theme"
-            render={({ field }) => {
-              return (
-                <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm" onChange={() => setTheme(field.value ? "dark" : "light")}>
-                  <div className="space-y-0.5">
-                    <FormLabel>Dark theme</FormLabel>
-                    <FormDescription>
-                      Make the interface appear in dark colors.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )
-            }}
-          />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div>
+          <h3 className="mb-4 text-lg font-medium">Appearance</h3>
+          <div className="space-y-4">
+            <FormField control={form.control} name="dark_theme"
+              render={({ field }) => {
+                return (
+                  <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm" onChange={() => setTheme(field.value ? "dark" : "light")}>
+                    <div className="space-y-0.5">
+                      <FormLabel>Dark theme</FormLabel>
+                      <FormDescription>
+                        Make the interface appear in dark colors.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )
+              }}
+            />
+          </div>
         </div>
+        {/* <Button>Submit</Button> */}
       </form>
     </Form>
   )
