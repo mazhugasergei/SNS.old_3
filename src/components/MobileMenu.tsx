@@ -10,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "./ui/button"
 import { setUser } from "@/store/slices/user.slice"
-import Aside from "./Aside"
 import Nav from "./Nav"
 
 export default () => {

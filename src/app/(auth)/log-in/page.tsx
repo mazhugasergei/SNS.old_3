@@ -22,8 +22,8 @@ const formSchema = z.object({
 })
 
 export default () => {
-  const dispatch = useDispatch()
   const router = useRouter()
+  const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const [loggedIn,  setLoggedIn] = useState(true)
 

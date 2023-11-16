@@ -1,49 +1,43 @@
 "use client"
 import { RootState } from "@/store/store"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
-import { Button } from "@/components/ui/button"
-import * as z from "zod"
+import { buttonVariants } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import get_user from "@/actions/get_user"
+import { UserState } from "@/store/slices/user.slice"
+import Link from "next/link"
 
-export default () => {
-  const router = useRouter()
-  const [loggedIn, setLoggedIn] = useState(false)
-  const auth = useSelector((state: RootState) => state.user.auth)
-  const fullname = useSelector((state: RootState) => state.user.fullname)
-  const bio = useSelector((state: RootState) => state.user.bio)
-  const pfp = useSelector((state: RootState) => state.user.pfp) as string
-  const created = useSelector((state: RootState) => state.user.created)
+export default ({ params }: { params: { profile: string } }) => {
+  const [profile, setProfile] = useState<UserState | null | undefined>()
+  const username = useSelector((state: RootState) => state.user.username)
 
-  // redirect if logged out
   useEffect(()=>{
-    if(auth === false) router.push("/")
-    else if(auth) setLoggedIn(true)
-  }, [auth])
+    (async ()=>{
+      const user = await get_user(params.profile)
+      setProfile(user ? user : null)
+    })()
+  }, [])
 
-  const formSchema = z.object({
-    email: z.string().max(50),
-    username: z.string().min(2, { message: "Username must be at least 2 characters" }).max(50, { message: "Username must contain at most 50 characters" }),
-    fullname: z.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" })
-  })
-
-  return loggedIn && (
+  return profile === undefined ?
+    <>loading...</>
+  : profile == null ?
+    <>user not found</>
+  : profile &&
     <>
       <div className="contianer relative border rounded-md p-10">
-        <Button variant="outline" className="absolute top-5 right-5">Edit profile</Button>
+        { username === params.profile && <Link href="/settings/profile" className={`${buttonVariants({ variant: "outline" })} absolute top-5 right-5`}>Edit profile</Link> }
 
         <Avatar className="w-20 h-20 bg-cover bg-center border mb-2">
-          <AvatarImage src={pfp} />
+          <AvatarImage src={profile.pfp as string} />
           <AvatarFallback>
             <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
           </AvatarFallback>
         </Avatar>
-        <h1 className="text-3xl font-bold mb-2">{ fullname }</h1>
-        { bio && <p className="max-w-[44rem] mb-2">{ bio }</p> }
-        { created && <p className="opacity-[.75] text-sm">Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+        <h1 className="text-3xl font-bold mb-2">{ profile.fullname }</h1>
+        { profile.bio && <p className="max-w-[44rem] mb-2">{ profile.bio }</p> }
+        { profile.created && <p className="opacity-[.75] text-sm">Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
       </div>
     </>
-  )
 }
