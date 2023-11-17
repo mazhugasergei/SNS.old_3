@@ -24,7 +24,7 @@ const initialState: UserState = {
   fullname: null,
   bio: null,
   pfp: null,
-  settings: undefined,
+  settings: null,
   created: null,
   token: null
 }
