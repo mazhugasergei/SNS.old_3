@@ -49,7 +49,7 @@ export default () => {
       .then(res => {
         const { token, ...user } = res
         localStorage.setItem("token", token)
-        dispatch(setUser({ auth: true, token, ...user }))
+        dispatch(setUser({ auth: true, ...user }))
         router.push("/")
       })
       .catch(err => {

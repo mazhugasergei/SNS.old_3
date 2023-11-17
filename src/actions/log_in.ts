@@ -15,14 +15,16 @@ export default async (email: string, password: string) => {
   if(!is_valid) throw "[password]: Incorrect password"
   // token
   const token = jwt.sign({ user }, process.env.JWT_SECRET!, { expiresIn: '30d' })
-
+  
   return {
     email,
     username: user.username,
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
-    private_email: user.private_email,
+    settings: {
+      private_email: user.settings?.private_email
+    },
     created: user.createdAt.toString(),
     token
   }

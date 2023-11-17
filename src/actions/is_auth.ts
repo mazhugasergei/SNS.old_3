@@ -9,7 +9,9 @@ interface User {
   fullname: string
   bio: string
   pfp: string
-  private_email: boolean
+  settings: {
+    private_email: boolean
+  }
   createdAt: Date
   token: string
 }
@@ -24,9 +26,9 @@ export default async (token: string) => {
   })
   // if verified, check if the user still exists
   if(user){
-    const { _id, email, username, fullname, bio, pfp, private_email, createdAt } = user
+    const { _id, email, username, fullname, bio, pfp, settings, createdAt } = user
     const exists = await User.findById(_id)
-    if(exists) return { email, username, fullname, bio, pfp, private_email, created: createdAt }
+    if(exists) return { email, username, fullname, bio, pfp, settings, created: createdAt }
     else return null
   }
   else return null

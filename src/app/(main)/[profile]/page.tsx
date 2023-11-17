@@ -37,7 +37,7 @@ export default ({ params }: { params: { profile: string } }) => {
         </Avatar>
         <h1 className="text-3xl font-bold mb-2">{ profile.fullname }</h1>
         { profile.bio && <p className="max-w-[44rem] mb-2">{ profile.bio }</p> }
-        { !profile.private_email && <p className="opacity-[.75] text-sm"><a href={`mailto:${profile.email}`}>{ profile.email }</a></p> }
+        { !profile.settings?.private_email && <p className="opacity-[.75] text-sm"><a href={`mailto:${profile.email}`}>{ profile.email }</a></p> }
         { profile.created && <p className="opacity-[.75] text-sm">Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
       </div>
     </>
