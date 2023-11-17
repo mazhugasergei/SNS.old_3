@@ -27,6 +27,8 @@ const UserSchema = new Schema({
 
   verification_code: String,
 
+  private_email: Boolean,
+
   createdAt: {
     type: Date,
     default: Date.now

@@ -19,6 +19,7 @@ export default async (email: string, verificationCode: string) => {
     fullname: user?.fullname,
     bio: user?.bio,
     pfp: user?.pfp,
+    private_email: user?.private_email,
     created: user?.createdAt.toString(),
     token
   }

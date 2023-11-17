@@ -9,6 +9,7 @@ export interface UserState {
   fullname?: string | null
   bio?: string | null
   pfp?: string | null
+  private_email?: boolean | null
   created?: string | null
   token?: string | null
 }
@@ -21,6 +22,7 @@ const initialState: UserState = {
   fullname: null,
   bio: null,
   pfp: null,
+  private_email: null,
   created: null,
   token: null
 }
@@ -39,6 +41,7 @@ export const userSlice = createSlice({
           state.fullname = null
           state.bio = null
           state.pfp = null
+          state.private_email = null
           state.created = null
           state.token = null
         }
@@ -49,6 +52,7 @@ export const userSlice = createSlice({
       if(typeof action.payload.fullname !== undefined) state.fullname = action.payload.fullname
       if(typeof action.payload.bio !== undefined) state.bio = action.payload.bio
       if(typeof action.payload.pfp !== undefined) state.pfp = action.payload.pfp
+      if(typeof action.payload.private_email !== undefined) state.private_email = action.payload.private_email
       if(typeof action.payload.created !== undefined) state.created = action.payload.created
       if(typeof action.payload.token !== undefined) state.token = action.payload.token
     }
