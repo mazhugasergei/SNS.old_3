@@ -1,4 +1,5 @@
 "use client"
+import { Settings } from "@/interfaces/Settings"
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 export interface UserState {
@@ -9,11 +10,8 @@ export interface UserState {
   fullname?: string | null
   bio?: string | null
   pfp?: string | null
-  settings?: {
-    private_email?: boolean | null
-  } | null | undefined
+  settings?: Settings | null
   created?: string | null
-  token?: string | null
 }
 
 const initialState: UserState = {
@@ -25,8 +23,7 @@ const initialState: UserState = {
   bio: null,
   pfp: null,
   settings: null,
-  created: null,
-  token: null
+  created: null
 }
 
 export const userSlice = createSlice({
@@ -34,7 +31,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
-      if(typeof action.payload.auth !== undefined){
+      if(action.payload.auth !== undefined){
         state.auth = action.payload.auth
         if(state.auth === false){
           state.is_signing_up = null
@@ -45,18 +42,16 @@ export const userSlice = createSlice({
           state.pfp = null
           state.settings = null
           state.created = null
-          state.token = null
         }
       }
-      if(typeof action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
-      if(typeof action.payload.email !== undefined) state.email = action.payload.email
-      if(typeof action.payload.username !== undefined) state.username = action.payload.username
-      if(typeof action.payload.fullname !== undefined) state.fullname = action.payload.fullname
-      if(typeof action.payload.bio !== undefined) state.bio = action.payload.bio
-      if(typeof action.payload.pfp !== undefined) state.pfp = action.payload.pfp
-      if(typeof action.payload.settings !== undefined) state.settings = action.payload.settings
-      if(typeof action.payload.created !== undefined) state.created = action.payload.created
-      if(typeof action.payload.token !== undefined) state.token = action.payload.token
+      if(action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
+      if(action.payload.email !== undefined) state.email = action.payload.email
+      if(action.payload.username !== undefined) state.username = action.payload.username
+      if(action.payload.fullname !== undefined) state.fullname = action.payload.fullname
+      if(action.payload.bio !== undefined) state.bio = action.payload.bio
+      if(action.payload.pfp !== undefined) state.pfp = action.payload.pfp
+      if(action.payload.settings !== undefined) state.settings = action.payload.settings
+      if(action.payload.created !== undefined) state.created = action.payload.created
     }
   }
 })

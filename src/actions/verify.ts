@@ -12,16 +12,14 @@ export default async (email: string, verificationCode: string) => {
   user = await User.findOneAndUpdate({ email }, { $unset: { verification_code: 1, expires: 1 } })
 
   // create token
-  const token = jwt.sign({ user }, process.env.JWT_SECRET!, { expiresIn: '30d' })
+  const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET!, { expiresIn: '30d' })
 
   return {
     username: user?.username,
     fullname: user?.fullname,
     bio: user?.bio,
     pfp: user?.pfp,
-    private_email: {
-      private_email: user?.settings?.private_email
-    },
+    private_email: JSON.parse(JSON.stringify(user?.settings)),
     created: user?.createdAt.toString(),
     token
   }

@@ -14,7 +14,7 @@ export default async (email: string, password: string) => {
   const is_valid = await bcrypt.compare(password, user.password)
   if(!is_valid) throw "[password]: Incorrect password"
   // token
-  const token = jwt.sign({ user }, process.env.JWT_SECRET!, { expiresIn: '30d' })
+  const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET!, { expiresIn: '30d' })
   
   return {
     email,
@@ -22,9 +22,7 @@ export default async (email: string, password: string) => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
-    settings: {
-      private_email: user.settings?.private_email
-    },
+    settings: JSON.parse(JSON.stringify(user.settings)),
     created: user.createdAt.toString(),
     token
   }

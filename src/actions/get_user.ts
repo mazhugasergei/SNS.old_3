@@ -9,9 +9,7 @@ export default async (username: string) => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
-    settings: {
-      private_email: user.settings?.private_email
-    },
+    settings: JSON.parse(JSON.stringify(user.settings)),
     created: user.createdAt.toString()
   } : null
 }

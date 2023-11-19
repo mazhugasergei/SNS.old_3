@@ -17,18 +17,26 @@ interface User {
 }
 
 export default async (token: string) => {
-  let user: User | undefined
+  let _id, password
   // verify token
   jwt.verify(token, process.env.JWT_SECRET!, (err, decoded)=>{
     if(!decoded) return
     const _decoded = decoded as JwtPayload
-    user = _decoded.user
+    _id = _decoded._id
+    password = _decoded.password
   })
   // if verified, check if the user still exists
-  if(user){
-    const { _id, email, username, fullname, bio, pfp, settings, createdAt } = user
-    const exists = await User.findById(_id)
-    if(exists) return { email, username, fullname, bio, pfp, settings, created: createdAt }
+  if(_id && password){
+    const user = await User.findOne({ _id, password })
+    if(user) return {
+      email: user.email,
+      username: user.username,
+      fullname: user.fullname,
+      bio: user.bio,
+      pfp: user.pfp,
+      settings: JSON.parse(JSON.stringify(user.settings)),
+      created: user.createdAt.toString()
+    }
     else return null
   }
   else return null
