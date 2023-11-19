@@ -11,8 +11,10 @@ import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "./ui/button"
 import { setUser } from "@/store/slices/user.slice"
 import Nav from "./Nav"
+import SettingsNav from "./SettingsNav"
+import { Separator } from "@radix-ui/react-dropdown-menu"
 
-export default () => {
+export default ({ settings }: { settings: boolean | undefined }) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const username = useSelector((state: RootState) => state.user.username)
@@ -35,7 +37,13 @@ export default () => {
           {/* links */}
           <div className="flex flex-col gap-4">
             <SheetClose asChild>
-              <Nav />
+              <>
+                { settings && <>
+                  <SettingsNav />
+                  <Separator />
+                </> }
+                <Nav />
+              </>
             </SheetClose>
           </div>
 

@@ -12,7 +12,7 @@ import MobileMenu from "./MobileMenu"
 import AvatarSkeleton from "./skeletons/AvatarSkeleton"
 
 
-export default () => {
+export default ({ settings }: { settings: boolean | undefined }) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const username = useSelector((state: RootState) => state.user.username)
@@ -67,7 +67,7 @@ export default () => {
         </div>
         
         {/* mobile */}
-        <MobileMenu />
+        <MobileMenu {...{settings}} />
       </div>
     </header>
   )
