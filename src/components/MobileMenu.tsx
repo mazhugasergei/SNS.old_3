@@ -63,7 +63,7 @@ export default () => {
                       </Link>
                     </SheetClose>
                     <SheetClose asChild className="block">
-                      <Link href="/settings">
+                      <Link href="/settings/profile">
                         <DropdownMenuItem>Settings</DropdownMenuItem>
                       </Link>
                     </SheetClose>

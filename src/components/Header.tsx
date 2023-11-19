@@ -51,7 +51,7 @@ export default () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <Link href={`/${username}`}><DropdownMenuItem>Profile</DropdownMenuItem></Link>
-                  <Link href="/settings"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
+                  <Link href="/settings/profile"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>

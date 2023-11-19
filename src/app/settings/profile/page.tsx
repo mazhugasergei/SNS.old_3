@@ -25,7 +25,7 @@ export default () => {
 
   // redirect if not logged in
   useEffect(()=>{
-    if(auth === false) router.push("/")
+    if(auth === false) router.push("/settings/appearance")
     else if(auth) setLoggedIn(true)
   }, [auth])
 

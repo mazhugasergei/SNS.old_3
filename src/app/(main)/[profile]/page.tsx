@@ -29,7 +29,7 @@ export default ({ params }: { params: { profile: string } }) => {
       <div className="contianer relative border rounded-lg p-10 shadow-sm">
         { username === params.profile && <Link href="/settings/profile" className={`${buttonVariants({ variant: "outline" })} absolute top-5 right-5`}>Edit profile</Link> }
 
-        <Avatar className="w-20 h-20 bg-cover bg-center border mb-2">
+        <Avatar className="w-20 h-20 bg-cover bg-center border mb-3">
           <AvatarImage src={profile.pfp as string} />
           <AvatarFallback>
             <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
