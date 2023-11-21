@@ -26,7 +26,8 @@ const formSchema = z.object({
       value !== "sign-up" &&
       value !== "verification" &&
       value !== "messages" &&
-      value !== "settings",
+      value !== "settings" &&
+      !value.includes("/"),
       { message: "Invalid username" }
     ),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }).max(50, { message: "Password must contain at most 50 characters" }),
@@ -87,7 +88,7 @@ export default () => {
                 <FormItem className="space-y-1">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input className="text-error" placeholder="johnsmith@example.com" type="email" {...field} required />
+                    <Input placeholder="johnsmith@example.com" type="email" {...field} required />
                   </FormControl>
                   <FormMessage>{form.formState.errors.email?.message}</FormMessage>
                 </FormItem>

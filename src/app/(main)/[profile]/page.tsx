@@ -1,13 +1,13 @@
 "use client"
 import { RootState } from "@/store/store"
 import { useSelector } from "react-redux"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import get_user from "@/actions/get_user"
 import { UserState } from "@/store/slices/user.slice"
 import Link from "next/link"
+import Avatar from "@/components/Avatar"
 
 export default ({ params }: { params: { profile: string } }) => {
   const [profile, setProfile] = useState<UserState | null | undefined>()
@@ -29,14 +29,10 @@ export default ({ params }: { params: { profile: string } }) => {
       <div className="contianer relative border rounded-lg p-10 shadow-sm">
         { username === params.profile && <Link href="/settings/profile" className={`${buttonVariants({ variant: "outline" })} absolute top-5 right-5`}>Edit profile</Link> }
 
-        <Avatar className="w-20 h-20 bg-cover bg-center border mb-3">
-          <AvatarImage src={profile.pfp as string} />
-          <AvatarFallback>
-            <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
-          </AvatarFallback>
-        </Avatar>
-        <h1 className="text-3xl font-bold mb-2">{ profile.fullname }</h1>
-        { profile.bio && <p className="max-w-[44rem] mb-2">{ profile.bio }</p> }
+        <Avatar src={profile.pfp as string} className="w-20 h-20" />
+        <p className="text-3xl font-bold">{ profile.fullname }</p>
+        <p className="opacity-[.75] text-sm">{ profile.username }</p>
+        { profile.bio && <p className="max-w-[44rem] my-2">{ profile.bio }</p> }
         { !profile.settings?.private_email && <p className="opacity-[.75] text-sm"><a href={`mailto:${profile.email}`}>{ profile.email }</a></p> }
         { profile.created && <p className="opacity-[.75] text-sm">Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
       </div>

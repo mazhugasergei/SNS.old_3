@@ -67,22 +67,18 @@ export default () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
             <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome back</h1>
-            <FormField
-              control={form.control}
-              name="email"
+            <FormField control={form.control} name="email"
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Email or username</FormLabel>
                   <FormControl>
-                    <Input className="text-error" placeholder="johnsmith@example.com" type="email" {...field} required />
+                    <Input placeholder="johnsmith@example.com" type="email" {...field} required />
                   </FormControl>
                   <FormMessage>{form.formState.errors.email?.message}</FormMessage>
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
+            <FormField control={form.control} name="password"
               render={({ field }) => (
                 <FormItem className="space-y-1">
                   <FormLabel>Password</FormLabel>

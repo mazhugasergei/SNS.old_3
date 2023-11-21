@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { setUser } from "@/store/slices/user.slice"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import Logo from "./Logo"
 import MobileMenu from "./MobileMenu"
 import AvatarSkeleton from "./skeletons/AvatarSkeleton"
+import Avatar from "./Avatar"
 
 
-export default ({ settings }: { settings: boolean | undefined }) => {
+export default ({ settings }: { settings?: boolean | undefined }) => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const username = useSelector((state: RootState) => state.user.username)
@@ -39,12 +39,7 @@ export default ({ settings }: { settings: boolean | undefined }) => {
           { auth === true && 
             <DropdownMenu>
               <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_rgb(210,210,210,0.5)]">
-                <Avatar className="w-full h-full bg-cover bg-center border">
-                  <AvatarImage src={pfp} />
-                  <AvatarFallback>
-                    <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
-                  </AvatarFallback>
-                </Avatar>
+              <Avatar src={pfp} className="w-full h-full" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mr-8">
                 <DropdownMenuLabel>{ fullname }</DropdownMenuLabel>

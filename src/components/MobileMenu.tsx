@@ -6,13 +6,13 @@ import Link from "next/link"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "./ui/button"
 import { setUser } from "@/store/slices/user.slice"
 import Nav from "./Nav"
 import SettingsNav from "./SettingsNav"
 import { Separator } from "@radix-ui/react-dropdown-menu"
+import Avatar from "./Avatar"
 
 export default ({ settings }: { settings: boolean | undefined }) => {
   const dispatch = useDispatch()
@@ -52,12 +52,7 @@ export default ({ settings }: { settings: boolean | undefined }) => {
             { auth ?
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center gap-2 p-2 -m-2">
-                  <Avatar className="w-8 h-8 bg-cover bg-center border">
-                    <AvatarImage src={pfp} />
-                    <AvatarFallback>
-                      <BsPersonFill className="opacity-[.5] w-[50%] h-[50%]" />
-                    </AvatarFallback>
-                  </Avatar>
+                  <Avatar src={pfp} w="8" h="8" />
                   <div className="overflow-hidden flex-1 text-sm text-left font-medium whitespace-nowrap">{ fullname }</div>
                   <HiOutlineDotsHorizontal className="shrink-0" />
                 </DropdownMenuTrigger>
