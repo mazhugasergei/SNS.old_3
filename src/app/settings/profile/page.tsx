@@ -3,7 +3,7 @@ import { RootState } from "@/store/store"
 import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Switch } from "@/components/ui/switch"
 import * as z from "zod"
@@ -19,8 +19,11 @@ import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import DeleteAccountDialog from "@/components/DeleteAccountDialog"
 
-const FormSchema = z.object({
+const formSchema = z.object({
   pfp: z.string().optional(),
   email: z.string().max(50),
   username: z.string()
@@ -71,23 +74,19 @@ export default () => {
     reader.onload = () => setNewPFP(String(reader.result))
   }
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema)
   })
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     const toastError = () => toast({
       variant: "destructive",
       title: "Uh oh! Something went wrong.",
       description: "There was an error saving the changes.",
       action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
     })
-
-    // if changing email
-    if(email !== data.email) emailDialogRef.current?.click()
     
-    const updateProfile = async (data: z.infer<typeof FormSchema>) => {
-      // {...data, pfp: newPFP}
+    const updateProfile = async (data: z.infer<typeof formSchema>) => {
       await update_profile(username as string, data)
         .then((res) => {
           if(res){
@@ -107,40 +106,46 @@ export default () => {
         form.setError(errType, { type: "server", message: errMessage })
       })
     }
+
+    // if changing email
+    if(email !== data.email) emailDialogRef.current?.click()
+    else updateProfile({...data, pfp: newPFP as string | undefined})
   }
 
   return loggedIn ? (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* public view */}
-        <h3 className="mb-4 text-lg font-medium">Public view</h3>
-        <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
-          <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
-          <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
-          <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
-          <p className="max-w-[44rem] my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
-          { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
-            <p className="opacity-[.75] text-sm">
-              <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
-                <LuMail />
-                { form.getValues("email") !== undefined ? form.getValues("email") : email }
-              </a>
-            </p>
-          }
-          { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
-        </div>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {/* public view */}
+          <div>
+            <h3 className="text-lg font-medium mb-4">Public view</h3>
+            <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
+              <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
+              <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
+              <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
+              <p className="max-w-[44rem] my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
+              { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
+                <p className="opacity-[.75] text-sm">
+                  <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
+                    <LuMail />
+                    { form.getValues("email") !== undefined ? form.getValues("email") : email }
+                  </a>
+                </p>
+              }
+              { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+            </div>
+          </div>
 
-        {/* settings */}
-        <div>
-          <h3 className="mb-4 text-lg font-medium">Profile settings</h3>
+          {/* settings */}
           <div className="space-y-4">
+            <h3 className="mb-4 text-lg font-medium">Profile settings</h3>
             {/* pfp */}
             <FormField control={form.control} name="pfp" defaultValue=""
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Profile picture</FormLabel>
                   <FormControl>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <Avatar src={newPFP as string} className="w-[2.25rem] h-[2.25rem]" />
                       <Input id="pfpInput" className="hidden" type="file" {...field} onChange={e => e.target.files && handlePFPChange(e.target.files[0])} />
                       <Button type="button" variant="outline" onClick={() => document.getElementById("pfpInput")?.click()}>Choose picture</Button>
@@ -209,10 +214,8 @@ export default () => {
               <DialogTrigger ref={emailDialogRef} className="hidden">Open</DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Aha</DialogTitle>
-                  <DialogDescription>
-                    You're changing your email, aren't you?
-                  </DialogDescription>
+                  <DialogTitle>Changing Email</DialogTitle>
+                  <DialogDescription>For security reasons in order to change the email address you have to provide two codes: one is sent to your current email address, another is sent to the new one. Please, enter them both below.</DialogDescription>
                 </DialogHeader>
               </DialogContent>
             </Dialog>
@@ -232,12 +235,20 @@ export default () => {
                 </FormItem>
               )}
             />
+            {/* danger zone */}
+            {/* <Separator /> */}
+            <div className="container text-destructive space-y-2 bg-destructive/[.1] rounded-lg p-4">
+              <Label>Danger zone</Label>
+              <Label htmlFor="deleteAccountDialog" className={`cursor-pointer block w-full text-center ${buttonVariants({ variant: "destructive" })}`}>Delete account</Label>
+            </div>
+            {/* <Separator /> */}
           </div>
-        </div>
-        <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6" style={{ marginBottom: "-1.5rem" }}>
-          <Button className="w-full" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <><ReloadIcon className="mr-2 h-4 w-4 animate-spin" />Saving</> : "Save changes" }</Button>
-        </div>
-      </form>
-    </Form>
+          <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6" style={{ marginBottom: "-1.5rem" }}>
+            <Button className="w-full" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <><ReloadIcon className="mr-2 h-4 w-4 animate-spin" />Saving</> : "Save changes" }</Button>
+          </div>
+        </form>
+      </Form>
+      <DeleteAccountDialog />
+    </>
   ) : <>loading...</>
 }

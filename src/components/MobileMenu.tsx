@@ -35,14 +35,14 @@ export default ({ settings }: { settings: boolean | undefined }) => {
         <div className="h-[calc(100%-5rem)] relative my-10 pl-6 pr-6 flex flex-col justify-between">
           {/* links */}
           <div className="flex flex-col gap-4">
+            { settings && <>
+              <SheetClose asChild>
+                <SettingsNav />
+              </SheetClose>
+              <Separator />
+            </> }
             <SheetClose asChild>
-              <>
-                { settings && <>
-                  <SettingsNav />
-                  <Separator />
-                </> }
-                <Nav />
-              </>
+              <Nav />
             </SheetClose>
           </div>
 
