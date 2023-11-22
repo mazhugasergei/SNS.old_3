@@ -90,7 +90,7 @@ export default () => {
                   <FormControl>
                     <Input placeholder="johnsmith@example.com" type="email" {...field} required />
                   </FormControl>
-                  <FormMessage>{form.formState.errors.email?.message}</FormMessage>
+                  <FormMessage />
                 </FormItem>
               )}
             />

@@ -54,7 +54,7 @@ export default () => {
       })
       .catch(err => {
         const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
+        const errType = error.substring(7, error.indexOf("]: "))
         const errMessage = error.substring(error.indexOf("]: ")+3)
         form.setError(errType, { type: "server", message: errMessage })
       })
@@ -74,7 +74,7 @@ export default () => {
                   <FormControl>
                     <Input placeholder="johnsmith@example.com" type="email" {...field} required />
                   </FormControl>
-                  <FormMessage>{form.formState.errors.email?.message}</FormMessage>
+                  <FormMessage />
                 </FormItem>
               )}
             />

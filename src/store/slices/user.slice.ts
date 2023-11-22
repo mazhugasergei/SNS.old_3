@@ -1,20 +1,8 @@
 "use client"
-import { Settings } from "@/interfaces/Settings"
+import { UserType } from "@/types/User"
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
-export interface UserState {
-  auth?: boolean | null
-  is_signing_up?: boolean | null
-  email?: string | null
-  username?: string | null
-  fullname?: string | null
-  bio?: string | null
-  pfp?: string | null
-  settings?: Settings | null
-  created?: string | null
-}
-
-const initialState: UserState = {
+const initialState: UserType = {
   auth: null,
   is_signing_up: null,
   email: null,
@@ -30,7 +18,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState>) => {
+    setUser: (state, action: PayloadAction<UserType>) => {
       if(action.payload.auth !== undefined){
         state.auth = action.payload.auth
         if(state.auth === false){

@@ -1,25 +1,24 @@
 "use client"
 import { RootState } from "@/store/store"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Switch } from "@/components/ui/switch"
 import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { toast } from "@/components/ui/use-toast"
-import update_settings from "@/actions/update_settings"
-import { ToastAction } from "@/components/ui/toast"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { setUser } from "@/store/slices/user.slice"
-import { BsPersonFill } from "react-icons/bs"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Image from "next/image"
-import { Label } from "@/components/ui/label"
 import Avatar from "@/components/Avatar"
+import { toast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
+import update_profile from "@/actions/update_profile"
+import { setUser } from "@/store/slices/user.slice"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { LuCalendarDays, LuMail } from "react-icons/lu"
 
 const FormSchema = z.object({
   pfp: z.string().optional(),
@@ -50,10 +49,11 @@ export default () => {
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const bio = useSelector((state: RootState) => state.user.bio)
   const private_email = useSelector((state: RootState) => state.user.settings?.private_email)
-  const [newPFP,  setNewPFP] = useState<typeof pfp>()
   const created = useSelector((state: RootState) => state.user.created)
   const settings = useSelector((state: RootState) => state.user.settings)
+  const [newPFP,  setNewPFP] = useState<typeof pfp>()
   const [loggedIn,  setLoggedIn] = useState(false)
+  const emailDialogRef = useRef<HTMLButtonElement>(null)
 
   // redirect if not logged in
   useEffect(()=>{
@@ -76,24 +76,37 @@ export default () => {
   })
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log(data)
+    const toastError = () => toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: "There was an error saving the changes.",
+      action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
+    })
 
-    // const toastError = () => toast({
-    //   variant: "destructive",
-    //   title: "Uh oh! Something went wrong.",
-    //   description: "There was an error saving the changes.",
-    //   action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
-    // })
+    // if changing email
+    if(email !== data.email) emailDialogRef.current?.click()
     
-    // await update_settings(username as string, data)
-    //   .then((res) => {
-    //     if(res){
-    //       toast({ description: res ? "Changes were saved." : "There was an error saving the changes." })
-    //       dispatch(setUser({ settings: data }))
-    //     }
-    //     else toastError()
-    //   })
-    // .catch(() => toastError())
+    const updateProfile = async (data: z.infer<typeof FormSchema>) => {
+      // {...data, pfp: newPFP}
+      await update_profile(username as string, data)
+        .then((res) => {
+          if(res){
+            toast({
+              title: "Success.",
+              description: res ? "Changes were saved." : "There was an error saving the changes."
+            })
+            dispatch(setUser(data))
+          }
+          else toastError()
+        })
+      .catch(err => {
+        toastError()
+        const error = err.message.replace("Error: ", "")
+        const errType = error.substring(1, error.indexOf("]: "))
+        const errMessage = error.substring(error.indexOf("]: ")+3)
+        form.setError(errType, { type: "server", message: errMessage })
+      })
+    }
   }
 
   return loggedIn ? (
@@ -105,15 +118,16 @@ export default () => {
           <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
           <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
           <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
-          { bio && <p className="max-w-[44rem] my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p> }
+          <p className="max-w-[44rem] my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
           { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
             <p className="opacity-[.75] text-sm">
-              <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`}>
+              <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
+                <LuMail />
                 { form.getValues("email") !== undefined ? form.getValues("email") : email }
               </a>
             </p>
           }
-          { created && <p className="opacity-[.75] text-sm">Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+          { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
         </div>
 
         {/* settings */}
@@ -190,6 +204,18 @@ export default () => {
                 </FormItem>
               )}
             />
+            {/* email confirm */}
+            <Dialog>
+              <DialogTrigger ref={emailDialogRef} className="hidden">Open</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Aha</DialogTitle>
+                  <DialogDescription>
+                    You're changing your email, aren't you?
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
             {/* private_email */}
             <FormField control={form.control} name="private_email" defaultValue={settings?.private_email as boolean}
               render={({ field }) => (
