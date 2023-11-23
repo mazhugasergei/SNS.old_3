@@ -34,7 +34,7 @@ export default ({ params }: { params: { profile: string } }) => {
         <p className="text-3xl font-bold">{ profile.fullname }</p>
         <p className="opacity-[.75] text-sm">{ profile.username }</p>
         <p className="max-w-[44rem] my-2">{ profile.bio }</p>
-        { !profile.settings?.private_email && <p className="opacity-[.75] text-sm">
+        { !profile.private_email && <p className="opacity-[.75] text-sm">
           <a href={`mailto:${profile.email}`} className="flex items-center gap-1"><LuMail />{ profile.email }</a>
         </p> }
         { profile.created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }

@@ -5,31 +5,25 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-
   username: {
     type: String,
     required: true
   },
-
   fullname: {
     type: String,
     required: true
   },
-
   password: {
     type: String,
     required: true
   },
-
   bio: String,
-
   pfp: String,
 
   verification_code: String,
+  changing_email_codes: [String],
 
-  settings: {
-    private_email: Boolean
-  },
+  private_email: Boolean,
 
   createdAt: {
     type: Date,

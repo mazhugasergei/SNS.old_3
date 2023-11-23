@@ -35,7 +35,7 @@ export default ({ settings }: { settings?: boolean | undefined }) => {
             <Logo />
           </div>
           {/* auth */}
-          { auth === null && <AvatarSkeleton /> }
+          { auth === undefined && <AvatarSkeleton /> }
           { auth === true && 
             <DropdownMenu>
               <DropdownMenuTrigger className="w-8 h-8 rounded-full transition hover:shadow-[0_0_0_.2rem_rgb(210,210,210,0.5)]">

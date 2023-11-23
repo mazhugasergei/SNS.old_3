@@ -50,10 +50,10 @@ export default () => {
     mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "ghbdtnghbdtn8@gmail.com",
-      username: "mazhugasergei",
-      password: "12345678",
-      fullname: "Mazhuga Sergei"
+      email: "",
+      username: "",
+      password: "",
+      fullname: ""
     }
   })
 
@@ -64,6 +64,7 @@ export default () => {
       .then(res => {
         dispatch(setUser({ email, is_signing_up: true }))
         setTimeout(() => dispatch(setUser({ email: null, is_signing_up: null })), 300000)
+        form.reset()
         router.push("/verification")
       })
       .catch(err => {
@@ -114,7 +115,7 @@ export default () => {
                 <FormItem className="space-y-1">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="1231213" type="password" {...field} required />
+                    <Input placeholder="********" type="password" {...field} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -1,5 +1,3 @@
-import { SettingsType } from "./Settings"
-
 export type UserType = {
   auth?: boolean | null
   is_signing_up?: boolean | null
@@ -8,6 +6,6 @@ export type UserType = {
   fullname?: string | null
   bio?: string | null
   pfp?: string | null
-  settings?: SettingsType | null
+  private_email?: boolean | null
   created?: string | null
 }

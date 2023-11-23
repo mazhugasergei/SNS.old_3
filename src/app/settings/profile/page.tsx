@@ -1,7 +1,7 @@
 "use client"
 import { RootState } from "@/store/store"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -17,11 +17,12 @@ import { toast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 import DeleteAccountDialog from "@/components/DeleteAccountDialog"
+import send_email_codes from "@/actions/send_email_codes"
+import ChangeEmailDialog from "@/components/ChangeEmailDialog"
+import { UserType } from "@/types/User"
 
 const formSchema = z.object({
   pfp: z.string().optional(),
@@ -51,12 +52,10 @@ export default () => {
   const username = useSelector((state: RootState) => state.user.username)
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const bio = useSelector((state: RootState) => state.user.bio)
-  const private_email = useSelector((state: RootState) => state.user.settings?.private_email)
+  const private_email = useSelector((state: RootState) => state.user.private_email)
   const created = useSelector((state: RootState) => state.user.created)
-  const settings = useSelector((state: RootState) => state.user.settings)
   const [newPFP,  setNewPFP] = useState<typeof pfp>()
   const [loggedIn,  setLoggedIn] = useState(false)
-  const emailDialogRef = useRef<HTMLButtonElement>(null)
 
   // redirect if not logged in
   useEffect(()=>{
@@ -85,16 +84,32 @@ export default () => {
       description: "There was an error saving the changes.",
       action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
     })
+
+    // check which values are changed
+    let newData: UserType = {}
+    if(pfp !== newPFP) newData["pfp"] = newPFP
+    if(username !== data.username) newData["username"] = data.username
+    if(fullname !== data.fullname) newData["fullname"] = data.fullname
+    if(bio !== data.bio) newData["bio"] = data.bio
+    if(private_email !== data.private_email) newData["private_email"] = data.private_email
+
+    // if changing email
+    if(email !== data.email){
+      document.getElementById("changeEmailDialogTrigger")?.click()
+      await send_email_codes(username as string)
+    }
     
-    const updateProfile = async (data: z.infer<typeof formSchema>) => {
-      await update_profile(username as string, data)
+    // update profile
+    if(Object.keys(newData).length){
+      const moddedData = {...newData, pfp: newPFP as string | undefined}
+      await update_profile(username as string, moddedData)
         .then((res) => {
           if(res){
             toast({
               title: "Success.",
               description: res ? "Changes were saved." : "There was an error saving the changes."
             })
-            dispatch(setUser(data))
+            dispatch(setUser(moddedData))
           }
           else toastError()
         })
@@ -106,10 +121,6 @@ export default () => {
         form.setError(errType, { type: "server", message: errMessage })
       })
     }
-
-    // if changing email
-    if(email !== data.email) emailDialogRef.current?.click()
-    else updateProfile({...data, pfp: newPFP as string | undefined})
   }
 
   return loggedIn ? (
@@ -209,18 +220,8 @@ export default () => {
                 </FormItem>
               )}
             />
-            {/* email confirm */}
-            <Dialog>
-              <DialogTrigger ref={emailDialogRef} className="hidden">Open</DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Changing Email</DialogTitle>
-                  <DialogDescription>For security reasons in order to change the email address you have to provide two codes: one is sent to your current email address, another is sent to the new one. Please, enter them both below.</DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
             {/* private_email */}
-            <FormField control={form.control} name="private_email" defaultValue={settings?.private_email as boolean}
+            <FormField control={form.control} name="private_email" defaultValue={private_email as boolean}
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
                   <div className="space-y-0.5">
@@ -248,6 +249,7 @@ export default () => {
           </div>
         </form>
       </Form>
+      <ChangeEmailDialog />
       <DeleteAccountDialog />
     </>
   ) : <>loading...</>

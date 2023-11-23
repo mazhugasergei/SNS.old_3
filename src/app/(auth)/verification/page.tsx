@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import AuthBG from '@/components/AuthBG'
 
 const formSchema = z.object({
-  code: z.string().length(4, { message: "The code must contain at most 4 characters" })
+  code: z.string().length(4, { message: "The code must contain 4 characters" })
 })
 
 export default () => {

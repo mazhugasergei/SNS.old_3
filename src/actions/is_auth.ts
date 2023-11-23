@@ -34,7 +34,7 @@ export default async (token: string) => {
       fullname: user.fullname,
       bio: user.bio,
       pfp: user.pfp,
-      settings: JSON.parse(JSON.stringify(user.settings)),
+      private_email: user.private_email,
       created: user.createdAt.toString()
     }
     else return null
