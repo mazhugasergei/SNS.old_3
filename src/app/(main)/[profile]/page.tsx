@@ -30,10 +30,10 @@ export default ({ params }: { params: { profile: string } }) => {
       <div className="contianer relative border rounded-lg p-10 shadow-sm">
         { username === params.profile && <Link href="/settings/profile" className={`${buttonVariants({ variant: "outline" })} absolute top-5 right-5`}>Edit profile</Link> }
 
-        <Avatar src={profile.pfp as string} className="w-20 h-20" />
+        <Avatar src={profile.pfp as string} className="w-20 h-20 mb-3" />
         <p className="text-3xl font-bold">{ profile.fullname }</p>
         <p className="opacity-[.75] text-sm">{ profile.username }</p>
-        { profile.bio && <p className="max-w-[44rem] my-2">{ profile.bio }</p> }
+        <p className="max-w-[44rem] my-2">{ profile.bio }</p>
         { !profile.settings?.private_email && <p className="opacity-[.75] text-sm">
           <a href={`mailto:${profile.email}`} className="flex items-center gap-1"><LuMail />{ profile.email }</a>
         </p> }
