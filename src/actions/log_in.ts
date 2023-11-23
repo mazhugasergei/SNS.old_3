@@ -22,7 +22,7 @@ export default async (email: string, password: string) => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
-    settings: JSON.parse(JSON.stringify(user.settings)),
+    private_email: user.private_email,
     created: user.createdAt.toString(),
     token
   }

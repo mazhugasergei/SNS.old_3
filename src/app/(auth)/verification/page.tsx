@@ -14,6 +14,7 @@ import verify from "@/actions/verify"
 import { RootState } from "@/store/store"
 import { useEffect, useState } from "react"
 import AuthBG from '@/components/AuthBG'
+import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
   code: z.string().length(4, { message: "The code must contain 4 characters" })
@@ -50,12 +51,7 @@ export default () => {
         dispatch(setUser({ auth: true, ...user }))
         router.push("/")
       })
-      .catch(err => {
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
-      })
+      .catch(err => useFormError(form, err))
   }
 
   return signingUp && (

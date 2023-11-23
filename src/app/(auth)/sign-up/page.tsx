@@ -15,6 +15,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { useEffect, useState } from "react"
 import { RootState } from "@/store/store"
 import AuthBG from '@/components/AuthBG'
+import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
   email: z.string().max(50),
@@ -67,12 +68,7 @@ export default () => {
         form.reset()
         router.push("/verification")
       })
-      .catch(err => {
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
-      })
+      .catch(err => useFormError(form, err))
   }
 
   return !loggedIn && (

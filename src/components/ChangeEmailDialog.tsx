@@ -5,13 +5,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import verify_email_codes from "@/actions/verify_email_codes"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store/store"
 
 const formSchema = z.object({
   code_1: z.string().length(4, { message: "The code must contain 4 characters" }),
   code_2: z.string().length(4, { message: "The code must contain 4 characters" })
 })
 
-export default () => {
+export default ({ newEmail }: { newEmail: string }) => {
+  const email = useSelector((state: RootState) => state.user.email)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -20,7 +25,22 @@ export default () => {
     }
   })
 
-  const onSubmit = () => {}
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    await verify_email_codes(email as string, newEmail, data.code_1, data.code_2)
+      .then(res => {
+        if(res){
+          console.log(newEmail)
+          // TODO: update email in store
+          // TODO: add loading animation for the button
+        }
+      })
+      .catch(err => {
+        const error = err.message.replace("Error: ", "")
+        const errType = error.substring(1, error.indexOf("]: "))
+        const errMessage = error.substring(error.indexOf("]: ")+3)
+        form.setError(errType, { type: "server", message: errMessage })
+      })
+  }
 
   return (
     <Dialog>

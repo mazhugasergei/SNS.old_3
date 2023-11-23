@@ -23,6 +23,7 @@ import DeleteAccountDialog from "@/components/DeleteAccountDialog"
 import send_email_codes from "@/actions/send_email_codes"
 import ChangeEmailDialog from "@/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
+import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
   pfp: z.string().optional(),
@@ -78,13 +79,6 @@ export default () => {
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const toastError = () => toast({
-      variant: "destructive",
-      title: "Uh oh! Something went wrong.",
-      description: "There was an error saving the changes.",
-      action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
-    })
-
     // check which values are changed
     let newData: UserType = {}
     if(pfp !== newPFP) newData["pfp"] = newPFP
@@ -95,15 +89,18 @@ export default () => {
 
     // if changing email
     if(email !== data.email){
-      document.getElementById("changeEmailDialogTrigger")?.click()
-      await send_email_codes(username as string)
+      await send_email_codes(username as string, data.email)
+        .then(res => {
+          if(res) document.getElementById("changeEmailDialogTrigger")?.click()
+        })
+        .catch(err => useFormError(form, err))
     }
     
     // update profile
     if(Object.keys(newData).length){
       const moddedData = {...newData, pfp: newPFP as string | undefined}
       await update_profile(username as string, moddedData)
-        .then((res) => {
+        .then(res => {
           if(res){
             toast({
               title: "Success.",
@@ -111,15 +108,8 @@ export default () => {
             })
             dispatch(setUser(moddedData))
           }
-          else toastError()
         })
-      .catch(err => {
-        toastError()
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
-      })
+      .catch(err => useFormError(form, err))
     }
   }
 
@@ -249,7 +239,7 @@ export default () => {
           </div>
         </form>
       </Form>
-      <ChangeEmailDialog />
+      <ChangeEmailDialog newEmail={form.watch("email")} />
       <DeleteAccountDialog />
     </>
   ) : <>loading...</>

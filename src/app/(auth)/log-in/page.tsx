@@ -15,6 +15,7 @@ import { useEffect, useState } from "react"
 import { RootState } from "@/store/store"
 import AuthBG from '@/components/AuthBG'
 import log_in from "@/actions/log_in"
+import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
   email: z.string(),
@@ -52,12 +53,7 @@ export default () => {
         dispatch(setUser({ auth: true, ...user }))
         router.push("/")
       })
-      .catch(err => {
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
-      })
+      .catch(err => useFormError(form, err))
   }
 
   return !loggedIn && (
