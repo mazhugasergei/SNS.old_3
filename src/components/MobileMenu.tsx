@@ -65,7 +65,7 @@ export default ({ settings }: { settings: boolean | undefined }) => {
                       </Link>
                     </SheetClose>
                     <SheetClose asChild className="block">
-                      <Link href="/settings/profile">
+                      <Link href={`/settings/${ auth ? "profile" : "appearance" }`}>
                         <DropdownMenuItem>Settings</DropdownMenuItem>
                       </Link>
                     </SheetClose>
