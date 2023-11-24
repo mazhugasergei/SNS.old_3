@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import Header_Auth from "@/components/Header_Auth"
+import Header from "@/app/(auth)/components/Header"
 import sign_up from "@/actions/sign_up"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "@/store/slices/user.slice"
@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { useEffect, useState } from "react"
 import { RootState } from "@/store/store"
-import AuthBG from '@/components/AuthBG'
+import AuthBG from '@/app/(auth)/components/AuthBG'
 import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
@@ -74,7 +74,7 @@ export default () => {
   return !loggedIn && (
     <>
       <div className="relative h-full flex flex-col justify-center">
-        <Header_Auth />
+        <Header />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
             <h1 className="text-4xl font-bold tracking-tight mb-2">Create account</h1>

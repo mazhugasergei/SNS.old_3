@@ -6,7 +6,7 @@ import { RootState } from "@/store/store"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { setUser } from "@/store/slices/user.slice"
 import { BsPersonFill } from "react-icons/bs"
-import Logo from "./Logo"
+import Logo from "../../components/Logo"
 import MobileMenu from "./MobileMenu"
 import AvatarSkeleton from "./skeletons/AvatarSkeleton"
 import Avatar from "./Avatar"
@@ -25,15 +25,12 @@ export default ({ settings }: { settings?: boolean | undefined }) => {
   }
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* container */}
       <div className="container h-14 flex items-center px-4 sm:px-8">
         {/* desktop */}
-        <div className="hidden md:flex items-center w-full justify-between">
-          {/* logo */}
-          <div className="mr-auto">
-            <Logo />
-          </div>
+        <div className="hidden md:flex items-center w-full">
+          <Logo />
           {/* auth */}
           { auth === undefined && <AvatarSkeleton /> }
           { auth === true && 
@@ -62,7 +59,7 @@ export default ({ settings }: { settings?: boolean | undefined }) => {
         </div>
         
         {/* mobile */}
-        <MobileMenu {...{settings}} />
+        <MobileMenu />
       </div>
     </header>
   )

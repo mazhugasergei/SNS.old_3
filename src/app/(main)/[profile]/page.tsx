@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import get_user from "@/actions/get_user"
 import Link from "next/link"
-import Avatar from "@/components/Avatar"
+import Avatar from "@/app/(main)/components/Avatar"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { UserType } from "@/types/User"
 

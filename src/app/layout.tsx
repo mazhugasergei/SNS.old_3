@@ -2,9 +2,9 @@ import Provider from '@/store/Provider'
 import mongoose from 'mongoose'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import AutoAuth from '@/components/AutoAuth'
+import AutoAuth from '@/app/components/AutoAuth'
 import { Toaster } from "@/components/ui/toaster"
-import ThemeProvider from '@/components/ThemeProvider'
+import ThemeProvider from '@/app/components/ThemeProvider'
 
 // connect to db
 mongoose.connect(process.env.MONGODB_URI!)

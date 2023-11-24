@@ -12,16 +12,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Avatar from "@/components/Avatar"
+import Avatar from "@/app/(main)/components/Avatar"
 import { toast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { Label } from "@/components/ui/label"
-import DeleteAccountDialog from "@/components/DeleteAccountDialog"
+import DeleteAccountDialog from "@/app/settings/components/DeleteAccountDialog"
 import send_email_codes from "@/actions/send_email_codes"
-import ChangeEmailDialog from "@/components/ChangeEmailDialog"
+import ChangeEmailDialog from "@/app/settings/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
 import useFormError from "@/hooks/useFormError"
 
@@ -124,7 +124,7 @@ export default () => {
               <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
               <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
               <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
-              <p className="max-w-[44rem] my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
+              <p className="my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
               { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
                 <p className="opacity-[.75] text-sm">
                   <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">

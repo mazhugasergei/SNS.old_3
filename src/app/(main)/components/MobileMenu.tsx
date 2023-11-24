@@ -1,19 +1,18 @@
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
 import { HiMenuAlt4 } from "react-icons/hi"
-import Logo from "./Logo"
+import Logo from "../../components/Logo"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuGroup } from "@/components/ui/dropdown-menu"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
-import { buttonVariants } from "./ui/button"
+import { buttonVariants } from "../../../components/ui/button"
 import { setUser } from "@/store/slices/user.slice"
 import Nav from "./Nav"
-import SettingsNav from "./SettingsNav"
 import Avatar from "./Avatar"
 import { Separator } from "@/components/ui/separator"
 
-export default ({ settings }: { settings: boolean | undefined }) => {
+export default () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.user.auth)
   const username = useSelector((state: RootState) => state.user.username)
@@ -35,12 +34,6 @@ export default ({ settings }: { settings: boolean | undefined }) => {
         <div className="h-[calc(100%-5rem)] relative my-10 pl-6 pr-6 flex flex-col justify-between">
           {/* links */}
           <div className="flex flex-col gap-4">
-            { settings && <>
-              <SheetClose asChild>
-                <SettingsNav />
-              </SheetClose>
-              <Separator />
-            </> }
             <SheetClose asChild>
               <Nav />
             </SheetClose>
