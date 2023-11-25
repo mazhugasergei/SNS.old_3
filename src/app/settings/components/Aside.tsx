@@ -2,8 +2,6 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { buttonVariants } from "@/components/ui/button"
-import { useSelector } from "react-redux"
-import { RootState } from "@/store/store"
 
 const items = [
   {
@@ -18,11 +16,10 @@ const items = [
 
 export default () => {
   const pathname = usePathname()
-  const auth = useSelector((state: RootState) => state.user.auth)
 
   return (
     <aside className="md:w-1/5 lg:w-1/6 -ml-4">
-      <nav className="sticky top-[5.05rem] flex flex-wrap gap-2 md:flex-col">
+      <nav className="flex flex-wrap gap-2 md:sticky md:top-[5.05rem] md:flex-col">
         {items.map((item) => (
           <Link
             key={item.href}

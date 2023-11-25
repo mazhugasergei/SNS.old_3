@@ -14,7 +14,7 @@ export default () => {
   const [searchOpen, setSearchOpen] = useState(false)
   const auth = useSelector((state: RootState) => state.user.auth)
   const buttonStyle = {
-    className: `${buttonVariants({ variant: "ghost" })} gap-3 text-base`,
+    className: `${buttonVariants({ variant: "ghost" })} gap-2`,
     style: {
       justifyContent: "flex-start"
     }
@@ -28,11 +28,22 @@ export default () => {
 
   return (
     <nav className="sticky top-[5.5rem] flex flex-col gap-2">
-      <Link href="/" {...buttonStyle}><LuHome {...iconStyle} />Home</Link>
-      <Link href="/messages" {...buttonStyle}><LuMessageSquare {...iconStyle} />Messages</Link>
-      <button {...buttonStyle} onClick={() => setSearchOpen(!searchOpen)}><LuSearch {...iconStyle} />Search</button>
+      <Link href="/" {...buttonStyle}>
+        <LuHome {...iconStyle} />
+        Home
+      </Link>
+      <Link href="/messages" {...buttonStyle}>
+        <LuMessageSquare {...iconStyle} />
+        Messages
+      </Link>
+      <button {...buttonStyle} onClick={() => setSearchOpen(!searchOpen)}>
+        <LuSearch {...iconStyle} />
+      Search</button>
       <Search {...{ searchOpen, setSearchOpen }} />
-      <Link href={`/settings/${auth ? "profile" : "appearance"}`} {...buttonStyle}><LuSettings {...iconStyle} />Settings</Link>
+      <Link href={`/settings/${auth ? "profile" : "appearance"}`} {...buttonStyle}>
+        <LuSettings {...iconStyle} />
+        Settings
+      </Link>
     </nav>
   )
 }
