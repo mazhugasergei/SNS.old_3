@@ -9,6 +9,10 @@ const items = [
     href: "/settings/profile",
   },
   {
+    title: "Account",
+    href: "/settings/account",
+  },
+  {
     title: "Appearance",
     href: "/settings/appearance",
   }

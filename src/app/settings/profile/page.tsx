@@ -122,26 +122,27 @@ export default () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* public view */}
-          <div>
-            {/* <h3 className="text-lg font-medium">Profile</h3>
+          {/* <div>
+            <h3 className="text-lg font-medium">Profile</h3>
             <p className="text-sm text-muted-foreground mb-4">This is how others will see you on the site.</p>
-            <Separator className="my-6" /> */}
-            <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
-              <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
-              <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
-              <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
-              <p className="my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
-              { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
-                <p className="opacity-[.75] text-sm">
-                  <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
-                    <LuMail />
-                    { form.getValues("email") !== undefined ? form.getValues("email") : email }
-                  </a>
-                </p>
-              }
-              { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
-            </div>
+            <Separator className="my-6" />
+          </div> */}
+
+          {/* public view */}
+          <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
+            <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
+            <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
+            <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
+            <p className="my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
+            { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
+              <p className="opacity-[.75] text-sm">
+                <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
+                  <LuMail />
+                  { form.getValues("email") !== undefined ? form.getValues("email") : email }
+                </a>
+              </p>
+            }
+            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
           </div>
 
           {/* settings */}
@@ -235,11 +236,6 @@ export default () => {
                 </FormItem>
               )}
             />
-            {/* danger zone */}
-            <div className="text-destructive space-y-3">
-              <Label className="block">Account removal</Label>
-              <Label htmlFor="deleteAccountDialog" className={`cursor-pointer block text-center ${buttonVariants({ variant: "destructive" })}`}>Delete account</Label>
-            </div>
           </div>
           <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6">
             <Button className="w-full" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <><ReloadIcon className="mr-2 h-4 w-4 animate-spin" />Saving</> : "Save changes" }</Button>
@@ -247,7 +243,6 @@ export default () => {
         </form>
       </Form>
       <ChangeEmailDialog newEmail={form.watch("email")} />
-      <DeleteAccountDialog />
     </>
   ) : <>loading...</>
 }
