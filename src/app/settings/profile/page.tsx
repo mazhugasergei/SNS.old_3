@@ -91,7 +91,7 @@ export default () => {
 
     // if changing email
     if(email !== data.email){
-      await send_email_codes(username as string, data.email)
+      await send_email_codes(username as string, email as string, data.email)
         .then(res => {
           if(res) document.getElementById("changeEmailDialogTrigger")?.click()
         })

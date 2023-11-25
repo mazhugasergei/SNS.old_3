@@ -47,7 +47,7 @@ export default ({ newEmail }: { newEmail: string }) => {
         const errType = error.substring(1, error.indexOf("]: "))
         const errMessage = error.substring(error.indexOf("]: ")+3)
         if(errType === "codes"){
-          form.setError("code_1", { type: "server", message: errMessage })
+          form.setError("code_1", { type: "server", message: "" })
           form.setError("code_2", { type: "server", message: errMessage })
         }
         else useToastError(form.handleSubmit(onSubmit))
