@@ -36,9 +36,9 @@ export default () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <h3 className="text-lg font-medium">Appearance</h3>
+          {/* <h3 className="text-lg font-medium">Appearance</h3>
           <p className="text-sm text-muted-foreground">Customize the appearance of the app.</p>
-          <Separator className="my-6" />
+          <Separator className="my-6" /> */}
           <div className="space-y-4">
             <FormField control={form.control} name="dark_theme"
               render={({ field }) => {

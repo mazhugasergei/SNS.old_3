@@ -25,6 +25,7 @@ import ChangeEmailDialog from "@/app/settings/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
 import useFormError from "@/hooks/useFormError"
 import { Separator } from "@/components/ui/separator"
+import useToastError from "@/hooks/useToastError"
 
 const formSchema = z.object({
   pfp: z.string().optional(),
@@ -110,7 +111,10 @@ export default () => {
             dispatch(setUser(moddedData))
           }
         })
-      .catch(err => useFormError(form, err))
+      .catch(err => {
+        if(err.message.substring(0, 5) === "Error") useToastError(form.handleSubmit(onSubmit))
+        useFormError(form, err)
+      })
     }
   }
 
@@ -120,9 +124,9 @@ export default () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* public view */}
           <div>
-            <h3 className="text-lg font-medium">Profile</h3>
+            {/* <h3 className="text-lg font-medium">Profile</h3>
             <p className="text-sm text-muted-foreground mb-4">This is how others will see you on the site.</p>
-            <Separator className="my-6" />
+            <Separator className="my-6" /> */}
             <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
               <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
               <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
@@ -184,6 +188,9 @@ export default () => {
                   <FormControl>
                     <Input placeholder="johnsmith" type="username" {...field} required />
                   </FormControl>
+                  <FormDescription>
+                    You can only change this once every 30 days.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

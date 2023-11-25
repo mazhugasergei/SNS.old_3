@@ -9,6 +9,11 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  lastUsernameUpdate: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
   fullname: {
     type: String,
     required: true

@@ -16,8 +16,8 @@ export default async (email: string, username: string, fullname: string, passwor
 
   // create not yet verified user document
   const verification_code = Math.floor((Math.random() * 10000)).toString().padStart(4, '0')
-  if(user) await User.findOneAndUpdate({ email }, { username, fullname, password: await bcrypt.hash(password, 12), verification_code } )
-  else await User.create({ email, username, fullname, password: await bcrypt.hash(password, 12), verification_code })
+  if(user) await User.findOneAndUpdate({ email }, { username, lastUsernameUpdate: Date.now(), fullname, password: await bcrypt.hash(password, 12), verification_code } )
+  else await User.create({ email, username, lastUsernameUpdate: Date.now(), fullname, password: await bcrypt.hash(password, 12), verification_code })
 
   // create transporter
   const transporter = nodemailer.createTransport({
