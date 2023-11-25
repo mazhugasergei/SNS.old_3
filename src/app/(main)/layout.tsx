@@ -4,6 +4,7 @@ import '@/styles/index.css'
 import Header from '@/app/(main)/components/Header'
 import Footer from '@/app/(main)/components/Footer'
 import Nav from '@/app/(main)/components/Nav'
+import RightAside from './components/RightAside'
 
 export const metadata: Metadata = {
   title: 'Home - Wave'
@@ -20,9 +21,7 @@ export default ({ children }: { children: React.ReactNode }) => {
         <main className="flex-1">
           { children }
         </main>
-        <aside className="hidden xl:block lg:w-1/6 -mr-4">
-          <div className="sticky top-[5.05rem]">•</div>
-        </aside>
+        <RightAside />
       </div>
       <Footer />
     </>
