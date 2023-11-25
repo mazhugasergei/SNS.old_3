@@ -52,7 +52,7 @@ export default ({ settings }: { settings?: boolean | undefined }) => {
           }
           { auth === false &&
             <>
-              <Link href="/log-in" className={`${buttonVariants({ variant: "outline" })} bg-background mr-4`}>Log in</Link>
+              <Link href="/log-in" className={`${buttonVariants({ variant: "ghost" })} bg-background mr-4`}>Log in</Link>
               <Link href="/sign-up" className={buttonVariants()}>Sign up</Link>
             </>
           }

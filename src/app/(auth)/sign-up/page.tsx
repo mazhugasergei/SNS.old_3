@@ -77,7 +77,7 @@ export default () => {
         <Header />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col max-w-sm space-y-2 mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight mb-2">Create account</h1>
+            <h1 className="text-4xl font-bold tracking-tight mb-2">Create an account</h1>
             <FormField
               control={form.control}
               name="email"

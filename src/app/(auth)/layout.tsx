@@ -9,8 +9,8 @@ export default ({ children }: { children: React.ReactNode }) => {
         flex-1
         items-start
         grid
-        md:grid-cols-[18rem_minmax(0,1fr)]
-        lg:grid-cols-[20rem_minmax(0,1fr)]
+        md:grid-cols-[20rem_minmax(0,1fr)]
+        lg:grid-cols-[22rem_minmax(0,1fr)]
         md:gap-8
         px-4
         sm:px-8

@@ -105,7 +105,7 @@ export default () => {
           if(res){
             toast({
               title: "Success.",
-              description: res ? "Changes were saved." : "There was an error saving the changes."
+              description: "Changes were saved."
             })
             dispatch(setUser(moddedData))
           }
@@ -229,9 +229,9 @@ export default () => {
               )}
             />
             {/* danger zone */}
-            <div className="container text-destructive space-y-2 bg-destructive/[.1] rounded-lg p-4">
-              <Label>Danger zone</Label>
-              <Label htmlFor="deleteAccountDialog" className={`cursor-pointer block w-full text-center ${buttonVariants({ variant: "destructive" })}`}>Delete account</Label>
+            <div className="text-destructive space-y-3">
+              <Label className="block">Account removal</Label>
+              <Label htmlFor="deleteAccountDialog" className={`cursor-pointer block text-center ${buttonVariants({ variant: "destructive" })}`}>Delete account</Label>
             </div>
           </div>
           <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6">

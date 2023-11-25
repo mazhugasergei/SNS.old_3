@@ -6,8 +6,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../../components/ui/input"
 import { Button } from "../../../components/ui/button"
 import verify_email_codes from "@/actions/verify_email_codes"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "@/store/store"
+import { setUser } from "@/store/slices/user.slice"
+import { ReloadIcon } from "@radix-ui/react-icons"
+import { toast } from "@/components/ui/use-toast"
+import useToastError from "@/hooks/useToastError"
 
 const formSchema = z.object({
   code_1: z.string().length(4, { message: "The code must contain 4 characters" }),
@@ -15,6 +19,7 @@ const formSchema = z.object({
 })
 
 export default ({ newEmail }: { newEmail: string }) => {
+  const dispatch = useDispatch()
   const email = useSelector((state: RootState) => state.user.email)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -29,16 +34,23 @@ export default ({ newEmail }: { newEmail: string }) => {
     await verify_email_codes(email as string, newEmail, data.code_1, data.code_2)
       .then(res => {
         if(res){
-          console.log(newEmail)
-          // TODO: update email in store
-          // TODO: add loading animation for the button
+          toast({
+            title: "Success.",
+            description: "Email was updated."
+          })
+          document.getElementById("changeEmailDialogTrigger")?.click()
+          dispatch(setUser({ email: newEmail }))
         }
       })
       .catch(err => {
         const error = err.message.replace("Error: ", "")
         const errType = error.substring(1, error.indexOf("]: "))
         const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
+        if(errType === "codes"){
+          form.setError("code_1", { type: "server", message: errMessage })
+          form.setError("code_2", { type: "server", message: errMessage })
+        }
+        else useToastError(form.handleSubmit(onSubmit))
       })
   }
 
@@ -70,7 +82,7 @@ export default ({ newEmail }: { newEmail: string }) => {
                 <FormMessage />
               </FormItem>
             )} />
-            <Button className="w-full">Submit</Button>
+            <Button disabled={form.formState.isSubmitting} className="w-full">{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Submit</Button>
           </form>
         </Form>
       </DialogContent>
