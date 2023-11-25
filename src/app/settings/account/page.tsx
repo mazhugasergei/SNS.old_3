@@ -12,24 +12,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { Label } from "@/components/ui/label"
 import DeleteAccountDialog from "@/app/settings/components/DeleteAccountDialog"
 
-const formSchema = z.object({
-  pfp: z.string().optional(),
-  email: z.string().max(50),
-  username: z.string()
-    .min(2, { message: "Username must be at least 2 characters" })
-    .max(50, { message: "Username must contain at most 50 characters" })
-    .refine(value =>
-      value !== "log-in" &&
-      value !== "sign-up" &&
-      value !== "verification" &&
-      value !== "messages" &&
-      value !== "settings",
-      { message: "Invalid username" }
-    ),
-  fullname: z.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" }),
-  bio: z.string().max(999, { message: "Bio must contain at most 999 characters" }).optional(),
-  private_email: z.boolean().optional()
-})
+const formSchema = z.object({})
 
 export default () => {
   const router = useRouter()
