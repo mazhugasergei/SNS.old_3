@@ -2,28 +2,13 @@ import { Metadata } from "next"
 import '@/styles/globals.css'
 import '@/styles/index.css'
 import { Separator } from "@/components/ui/separator"
-import SidebarNav from "./components/SidebarNav"
+import Aside from "./components/Aside"
 import Header from "@/app/(main)/components/Header"
 import Footer from "../(main)/components/Footer"
 
 export const metadata: Metadata = {
   title: "Settings - Wave"
 }
-
-const sidebarNavItems = [
-  {
-    title: "Profile",
-    href: "/settings/profile",
-  },
-  {
-    title: "Appearance",
-    href: "/settings/appearance",
-  },
-  {
-    title: "Notifications",
-    href: "/settings/notifications",
-  }
-]
 
 export default ({ children }: { children: React.ReactNode }) => {
   return (
@@ -39,11 +24,14 @@ export default ({ children }: { children: React.ReactNode }) => {
         </div>
         <Separator className="my-6" />
         {/* Main */}
-        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
-            <SidebarNav items={sidebarNavItems} />
+        <div className="flex flex-col gap-6 md:flex-row md:gap-12">
+          <Aside />
+          <main className="flex-1">
+            {children}
+          </main>
+          <aside className="hidden xl:block lg:w-1/6 -mr-4">
+            <div className="sticky top-[5.05rem]" />
           </aside>
-          <main className="flex-1 lg:max-w-2xl">{children}</main>
         </div>
       </div>
       <Footer />

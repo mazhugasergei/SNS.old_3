@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import '@/styles/index.css'
 import Header from '@/app/(main)/components/Header'
-import Aside from '@/app/(main)/components/Aside'
 import Footer from '@/app/(main)/components/Footer'
 import Nav from '@/app/(main)/components/Nav'
 
@@ -14,11 +13,16 @@ export default ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <div className="min-h-[calc(100vh-9.61rem)] container flex-1 items-start grid md:grid-cols-[13.75rem_minmax(0,1fr)] lg:grid-cols-[15rem_minmax(0,1fr)] md:gap-6 px-4 sm:px-8">
-        <Aside>
+      <div className="min-h-[calc(100vh-9.61rem)] container flex gap-12 pt-8">
+        <aside className="max-md:hidden md:w-1/5 lg:w-1/6 z-49 -ml-3">
           <Nav />
-        </Aside>
-        <main className="relative h-full py-8">{ children }</main>
+        </aside>
+        <main className="flex-1">
+          { children }
+        </main>
+        <aside className="hidden xl:block lg:w-1/6 -mr-4">
+          <div className="sticky top-[5.05rem]">•</div>
+        </aside>
       </div>
       <Footer />
     </>

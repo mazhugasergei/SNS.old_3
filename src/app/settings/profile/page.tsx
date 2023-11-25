@@ -60,7 +60,7 @@ export default () => {
 
   // redirect if not logged in
   useEffect(()=>{
-    if(auth === false) router.push("/settings/appearance")
+    if(auth === false) router.push("/settings/log-in")
     else if(auth) setLoggedIn(true)
   }, [auth])
 
@@ -119,7 +119,8 @@ export default () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* public view */}
           <div>
-            <h3 className="text-lg font-medium mb-4">Public view</h3>
+            <h3 className="text-lg font-medium">Public view</h3>
+            <p className="text-sm text-muted-foreground mb-4">This is how others will see you on the site.</p>
             <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
               <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
               <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
@@ -227,14 +228,12 @@ export default () => {
               )}
             />
             {/* danger zone */}
-            {/* <Separator /> */}
             <div className="container text-destructive space-y-2 bg-destructive/[.1] rounded-lg p-4">
               <Label>Danger zone</Label>
               <Label htmlFor="deleteAccountDialog" className={`cursor-pointer block w-full text-center ${buttonVariants({ variant: "destructive" })}`}>Delete account</Label>
             </div>
-            {/* <Separator /> */}
           </div>
-          <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6" style={{ marginBottom: "-1.5rem" }}>
+          <div className="sticky bottom-0 bg-background rounded-tl-md rounded-tr-md pb-6">
             <Button className="w-full" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting ? <><ReloadIcon className="mr-2 h-4 w-4 animate-spin" />Saving</> : "Save changes" }</Button>
           </div>
         </form>

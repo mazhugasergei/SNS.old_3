@@ -33,7 +33,7 @@ export default () => {
         <Logo />
         <div className="h-[calc(100%-5rem)] relative my-10 pl-6 pr-6 flex flex-col justify-between">
           {/* links */}
-          <div className="flex flex-col gap-4">
+          <div className="-ml-2">
             <SheetClose asChild>
               <Nav />
             </SheetClose>
