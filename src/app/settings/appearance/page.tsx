@@ -7,6 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } fr
 import { Switch } from "@/components/ui/switch"
 import { toast } from "@/components/ui/use-toast"
 import { useTheme } from "next-themes" 
+import { Separator } from "@/components/ui/separator"
 
 export default () => {
   const { theme, setTheme } = useTheme()
@@ -35,7 +36,9 @@ export default () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <h3 className="mb-4 text-lg font-medium">Appearance</h3>
+          <h3 className="text-lg font-medium">Appearance</h3>
+          <p className="text-sm text-muted-foreground">Customize the appearance of the app.</p>
+          <Separator className="my-6" />
           <div className="space-y-4">
             <FormField control={form.control} name="dark_theme"
               render={({ field }) => {
