@@ -10,11 +10,11 @@ export default async (username: string, data: UserType) => {
   }
 
   const user = await User.findOne({ username })
-  if(!user) throw "User not found"
+  if(!user) throw "" // User not found
 
   // if didn't wait 30 days since last username edit
   const daysSinceLastUsernameEdit = Math.floor((Date.now() - user.lastUsernameUpdate.getTime()) / 86400000)
-  if(daysSinceLastUsernameEdit < 30) throw `[username]: Wait ${30 - daysSinceLastUsernameEdit} more days until you can update the username`
+  if(daysSinceLastUsernameEdit < 30) throw `[username]: Wait ${30 - daysSinceLastUsernameEdit} more days until you can update your username`
   
   await user.updateOne({ ...data, lastUsernameUpdate: Date.now() })
   return true

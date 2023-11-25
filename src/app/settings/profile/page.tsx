@@ -112,7 +112,7 @@ export default () => {
           }
         })
       .catch(err => {
-        if(err.message.substring(0, 5) === "Error") useToastError(form.handleSubmit(onSubmit))
+        if(err.message === "Error: ") useToastError(form.handleSubmit(onSubmit))
         useFormError(form, err)
       })
     }
