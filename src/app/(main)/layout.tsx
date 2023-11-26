@@ -15,7 +15,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     <>
       <Header />
       <div className="min-h-[calc(100vh-9.61rem)] container flex gap-12 pt-8">
-        <aside className="max-md:hidden md:w-1/5 lg:w-1/6 z-49 -ml-3">
+        <aside className="max-md:hidden md:w-1/5 lg:w-1/6 z-49 -ml-4">
           <Nav />
         </aside>
         <main className="flex-1">
