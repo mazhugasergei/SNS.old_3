@@ -11,6 +11,8 @@ import { RootState } from "@/store/store"
 import { toast } from "../../../components/ui/use-toast"
 import { ToastAction } from "../../../components/ui/toast"
 import { setUser } from "@/store/slices/user.slice"
+import useToastError from "@/hooks/useToastError"
+import useFormError from "@/hooks/useFormError"
 
 const formSchema = z.object({
   password: z.string()
@@ -28,25 +30,14 @@ export default () => {
   })
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    const toastError = () => toast({
-      variant: "destructive",
-      title: "Uh oh! Something went wrong.",
-      description: "There was an error saving the changes.",
-      action: <ToastAction altText="Try again" onClick={form.handleSubmit(onSubmit)}>Try again</ToastAction>
-    })
-
     await delete_account(username as string, data.password)
       .then(() => {
         localStorage.removeItem("token")
         dispatch(setUser({ auth: false }))
       })
       .catch(err => {
-        toastError()
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
-        form.setError(errType, { type: "server", message: errMessage })
-        console.error(err.message)
+        if(err.message === "Error: ") useToastError(form.handleSubmit(onSubmit))
+        else useFormError(form, err)
       })
   }
 
