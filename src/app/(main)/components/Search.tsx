@@ -1,6 +1,6 @@
 "use client"
 import get_users from "@/actions/get_users"
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 
@@ -40,7 +40,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
     rounded-sm
     hover:bg-accent
     px-2
-    py-1.5
+    py-3
   `
 
   const handleItemClick = () => {
@@ -61,7 +61,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
   return (
     <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
       <CommandInput placeholder="Type to search..." onValueChange={setValue} />
-      <div className="p-1">
+      <div className="px-2 py-1">
         {/* No results */}
         { value && !users && <p className="text-center">{ pending ? "loading..." : "No results found." }</p> }
         {/* Yes results */}

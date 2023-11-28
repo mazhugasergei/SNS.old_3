@@ -3,7 +3,7 @@ import { RootState } from "@/store/store"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Switch } from "@/components/ui/switch"
 import * as z from "zod"
@@ -14,17 +14,13 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import Avatar from "@/app/(main)/components/Avatar"
 import { toast } from "@/components/ui/use-toast"
-import { ToastAction } from "@/components/ui/toast"
 import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
-import { LuCalendarDays, LuMail } from "react-icons/lu"
-import { Label } from "@/components/ui/label"
-import DeleteAccountDialog from "@/app/settings/components/DeleteAccountDialog"
+import { LuCalendar, LuMail } from "react-icons/lu"
 import send_email_codes from "@/actions/send_email_codes"
 import ChangeEmailDialog from "@/app/settings/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
 import useFormError from "@/hooks/useFormError"
-import { Separator } from "@/components/ui/separator"
 import useToastError from "@/hooks/useToastError"
 
 const formSchema = z.object({
@@ -142,7 +138,7 @@ export default () => {
                 </a>
               </p>
             }
-            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendar /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
           </div>
 
           {/* settings */}

@@ -28,7 +28,7 @@ export default () => {
           <Link
             key={item.href}
             href={item.href}
-            className={`${buttonVariants({ variant: "ghost" })} ${ pathname === item.href ? "bg-muted hover:bg-muted" : "hover:bg-transparent hover:underline"}`}
+            className={`${buttonVariants({ variant: "ghost" })} ${ pathname === item.href ? "bg-muted" : "hover:bg-transparent hover:underline"}`}
             style={{ justifyContent: "flex-start" }}
           >{item.title}</Link>
         ))}

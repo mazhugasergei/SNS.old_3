@@ -1,13 +1,12 @@
 "use client"
 import { RootState } from "@/store/store"
 import { useSelector } from "react-redux"
-import { BsPersonFill } from "react-icons/bs"
 import { buttonVariants } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import get_user from "@/actions/get_user"
 import Link from "next/link"
 import Avatar from "@/app/(main)/components/Avatar"
-import { LuCalendarDays, LuMail } from "react-icons/lu"
+import { LuCalendar, LuMail } from "react-icons/lu"
 import { UserType } from "@/types/User"
 
 export default ({ params }: { params: { profile: string } }) => {
@@ -37,7 +36,7 @@ export default ({ params }: { params: { profile: string } }) => {
         { !profile.private_email && <p className="opacity-[.75] text-sm">
           <a href={`mailto:${profile.email}`} className="flex items-center gap-1"><LuMail />{ profile.email }</a>
         </p> }
-        { profile.created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+        { profile.created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendar /> Joined on { new Date(profile.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
       </div>
     </>
 }

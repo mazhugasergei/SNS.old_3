@@ -16,8 +16,9 @@ export default async (username: string, data: UserType) => {
   if(data.username){
     const daysSinceLastUsernameEdit = Math.floor((Date.now() - user.lastUsernameUpdate.getTime()) / 86400000)
     if(daysSinceLastUsernameEdit < 30) throw `[username]: Wait ${30 - daysSinceLastUsernameEdit} more days until you can update your username`
+    else await user.updateOne({ lastUsernameUpdate: Date.now() })
   }
   
-  await user.updateOne({ ...data, lastUsernameUpdate: Date.now() })
+  await user.updateOne({ ...data })
   return true
 }

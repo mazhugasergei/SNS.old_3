@@ -10,7 +10,6 @@ import { buttonVariants } from "../../../components/ui/button"
 import { setUser } from "@/store/slices/user.slice"
 import Nav from "./Nav"
 import Avatar from "./Avatar"
-import { Separator } from "@/components/ui/separator"
 
 export default () => {
   const dispatch = useDispatch()
