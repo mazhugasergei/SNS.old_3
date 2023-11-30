@@ -18,7 +18,7 @@ import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
 import { LuCalendar, LuMail } from "react-icons/lu"
 import send_email_codes from "@/actions/send_email_codes"
-import ChangeEmailDialog from "@/app/settings/components/ChangeEmailDialog"
+import ChangeEmailDialog from "@/app/settings/profile/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
 import useFormError from "@/hooks/useFormError"
 import useToastError from "@/hooks/useToastError"
@@ -238,6 +238,8 @@ export default () => {
           </div>
         </form>
       </Form>
+      
+      {/* dialogs */}
       <ChangeEmailDialog newEmail={form.watch("email")} />
     </>
   ) : <>loading...</>

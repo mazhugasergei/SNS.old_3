@@ -3,12 +3,23 @@ import get_users from "@/actions/get_users"
 import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import Avatar from "./Avatar"
 
 export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [value, setValue] = useState<string>()
-  const [users, setUsers] = useState<{ fullname: string, username: string }[]>()
+  const [defaultUsers, setdefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
+  const [users, setUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
   const [pending, setPending] = useState<boolean>()
   let timeout = useRef<NodeJS.Timeout>()
+
+  useEffect(()=>{
+    ( async () =>
+      await get_users("")
+        .then(res => {
+          setdefaultUsers(res)
+          setPending(false)
+        }) )()
+  }, [])
 
   // search for users
   useEffect(()=>{
@@ -35,12 +46,14 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
 
   const itemClasses = `
     cursor-pointer
-    block
+    flex
+    items-center
+    gap-2
     text-sm
     rounded-sm
     hover:bg-accent
     px-2
-    py-3
+    py-2
   `
 
   const handleItemClick = () => {
@@ -67,13 +80,24 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
         {/* Yes results */}
         { users && <>
           <p className={categoryClasses}>People</p>
-          { users.map(user => <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>{ user.fullname }&nbsp;<span className="opacity-[.7] text-xs">{ user.username }</span></Link>) }
+          { users.map(user =>
+            <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
+              <Avatar src={user.pfp || ""} className="w-7 h-7" />
+              { user.fullname }
+              <span className="opacity-[.7] text-xs">{ user.username }</span>
+            </Link>
+          ) }
         </> }
         {/* Default value */}
-        { !value && <>
+        { !value && defaultUsers && <>
           <p className={categoryClasses}>People</p>
-          <Link href="/mazhugasergei" className={itemClasses} onClick={handleItemClick}>Mazhuga Sergei&nbsp;<span className="opacity-[.7] text-xs">mazhugasergei</span></Link>
-          <Link href="/egormiroshnichenko" className={itemClasses} onClick={handleItemClick}>Egor Miroshnichenko&nbsp;<span className="opacity-[.7] text-xs">egormiroshnichenko</span></Link>
+          { defaultUsers.map(user =>
+            <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
+              <Avatar src={user.pfp || ""} className="w-7 h-7" />
+              { user.fullname }
+              <span className="opacity-[.7] text-xs">{ user.username }</span>
+            </Link>
+          ) }
         </> }
       </div>
     </CommandDialog>
