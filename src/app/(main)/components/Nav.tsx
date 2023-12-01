@@ -27,7 +27,7 @@ export default () => {
   }
 
   return (
-    <nav className="sticky top-[5.5rem] flex flex-col gap-2">
+    <nav className="sticky top-[5.5rem] flex flex-col gap-1">
       <Link href="/" {...buttonStyle}>
         <LuHome {...iconStyle} />
         Home

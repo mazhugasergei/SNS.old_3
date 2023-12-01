@@ -42,7 +42,7 @@ export default ({ settings }: { settings?: boolean | undefined }) => {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <Link href={`/${username}`}><DropdownMenuItem>Profile</DropdownMenuItem></Link>
-                  <Link href="/settings/profile"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
+                  <Link href={`/settings/${auth ? "profile" : "appearance"}`}><DropdownMenuItem>Settings</DropdownMenuItem></Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogOut}>Log out</DropdownMenuItem>

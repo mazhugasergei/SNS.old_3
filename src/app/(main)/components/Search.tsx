@@ -7,21 +7,24 @@ import Avatar from "./Avatar"
 
 export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [value, setValue] = useState<string>()
-  const [defaultUsers, setdefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
+  const [defaultUsers, setDefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
   const [users, setUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
-  const [pending, setPending] = useState<boolean>()
+  const [pending, setPending] = useState(false)
   let timeout = useRef<NodeJS.Timeout>()
 
+  // getting default users
   useEffect(()=>{
-    ( async () =>
+    ( async ()=>{
+      setPending(true)
       await get_users("")
         .then(res => {
-          setdefaultUsers(res)
+          setDefaultUsers(res)
           setPending(false)
-        }) )()
+        })
+    } )()
   }, [])
 
-  // search for users
+  // getting users
   useEffect(()=>{
     clearTimeout(timeout.current)
     if(value){
@@ -32,7 +35,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
             setUsers(res)
             setPending(false)
           })
-      }, 1000)
+      }, 500)
     }
     else setUsers(undefined)
   }, [value])
@@ -65,7 +68,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
       setTimeout(()=>{
         setValue(undefined)
         setUsers(undefined)
-        setPending(false)
+        defaultUsers && setPending(false)
         clearTimeout(timeout.current)
       }, 250)
     }
@@ -74,22 +77,27 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
   return (
     <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
       <CommandInput placeholder="Type to search..." onValueChange={setValue} />
-      <div className="px-2 py-1">
-        {/* No results */}
-        { value && !users && <p className="text-center">{ pending ? "loading..." : "No results found." }</p> }
-        {/* Yes results */}
-        { users && <>
-          <p className={categoryClasses}>People</p>
-          { users.map(user =>
-            <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
-              <Avatar src={user.pfp || ""} className="w-7 h-7" />
-              { user.fullname }
-              <span className="opacity-[.7] text-xs">{ user.username }</span>
-            </Link>
-          ) }
-        </> }
-        {/* Default value */}
-        { !value && defaultUsers && <>
+      <div className="px-2 py-1"> {
+        // Loading...
+        pending ? <p className="text-center">loading...</p> :
+        // Searching...
+        value ? (
+          // No results
+          !users?.length ? <p className="text-center">No results found.</p> :
+          // Yes results
+          <>
+            <p className={categoryClasses}>People</p>
+            { users.map(user =>
+              <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
+                <Avatar src={user.pfp || ""} className="w-7 h-7" />
+                { user.fullname }
+                <span className="opacity-[.7] text-xs">{ user.username }</span>
+              </Link>
+            ) }
+          </>
+        ) :
+        // Default values
+        defaultUsers && <>
           <p className={categoryClasses}>People</p>
           { defaultUsers.map(user =>
             <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
@@ -98,8 +106,8 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
               <span className="opacity-[.7] text-xs">{ user.username }</span>
             </Link>
           ) }
-        </> }
-      </div>
+        </>
+      } </div>
     </CommandDialog>
   )
 }
