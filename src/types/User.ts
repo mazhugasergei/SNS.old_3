@@ -8,5 +8,5 @@ export type UserType = {
   bio?: string | null
   pfp?: string | null
   private_email?: boolean | null
-  created?: string | null
+  created?: number | null
 }

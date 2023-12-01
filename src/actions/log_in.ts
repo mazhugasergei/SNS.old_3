@@ -17,14 +17,14 @@ export default async (email: string, password: string) => {
   const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET!, { expiresIn: '30d' })
   
   return {
-    _id: user._id,
+    _id: user._id.toString(),
     email,
     username: user.username,
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
     private_email: user.private_email,
-    created: user.createdAt.toString(),
+    created: user.createdAt.getDate(),
     token
   }
 }

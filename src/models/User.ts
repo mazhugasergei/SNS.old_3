@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose"
+import { Schema, model, models } from "mongoose"
 
 const UserSchema = new Schema({
   email: {
@@ -42,5 +42,5 @@ const UserSchema = new Schema({
   }
 })
 
-delete mongoose.models['user']
+delete models['user']
 export default model('user', UserSchema)

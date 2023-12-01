@@ -16,7 +16,7 @@ import Avatar from "@/app/(main)/components/Avatar"
 import { toast } from "@/components/ui/use-toast"
 import update_profile from "@/actions/update_profile"
 import { setUser } from "@/store/slices/user.slice"
-import { LuCalendar, LuMail } from "react-icons/lu"
+import { LuCalendarDays, LuMail } from "react-icons/lu"
 import send_email_codes from "@/actions/send_email_codes"
 import ChangeEmailDialog from "@/app/settings/profile/components/ChangeEmailDialog"
 import { UserType } from "@/types/User"
@@ -128,8 +128,8 @@ export default () => {
           <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
             <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
             <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
-            <p className="opacity-[.75] text-sm">{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
-            <p className="my-2">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
+            <p className="opacity-[.75] text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
+            <p className="text-sm my-1">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
             { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
               <p className="opacity-[.75] text-sm">
                 <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
@@ -138,7 +138,7 @@ export default () => {
                 </a>
               </p>
             }
-            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendar /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
           </div>
 
           {/* settings */}

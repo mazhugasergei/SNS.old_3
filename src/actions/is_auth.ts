@@ -29,14 +29,14 @@ export default async (token: string) => {
   if(_id && password){
     const user = await User.findOne({ _id, password })
     if(user) return {
-      _id,
+      _id: user._id.toString(),
       email: user.email,
       username: user.username,
       fullname: user.fullname,
       bio: user.bio,
       pfp: user.pfp,
       private_email: user.private_email,
-      created: user.createdAt.toString()
+      created: user.createdAt.getDate()
     }
     else return null
   }
