@@ -11,8 +11,9 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserType>) => {
       if(action.payload.auth !== undefined){
         state.auth = action.payload.auth
-        if(state.auth === false){
+        if(action.payload.auth === false){
           state.is_signing_up = undefined
+          state._id = undefined
           state.email = undefined
           state.username = undefined
           state.fullname = undefined
@@ -23,6 +24,7 @@ export const userSlice = createSlice({
         }
       }
       if(action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
+      if(action.payload._id !== undefined) state._id = action.payload._id
       if(action.payload.email !== undefined) state.email = action.payload.email
       if(action.payload.username !== undefined) state.username = action.payload.username
       if(action.payload.fullname !== undefined) state.fullname = action.payload.fullname

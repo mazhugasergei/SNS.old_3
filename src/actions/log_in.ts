@@ -17,6 +17,7 @@ export default async (email: string, password: string) => {
   const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET!, { expiresIn: '30d' })
   
   return {
+    _id: user._id,
     email,
     username: user.username,
     fullname: user.fullname,

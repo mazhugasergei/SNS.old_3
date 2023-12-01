@@ -29,6 +29,7 @@ export default async (token: string) => {
   if(_id && password){
     const user = await User.findOne({ _id, password })
     if(user) return {
+      _id,
       email: user.email,
       username: user.username,
       fullname: user.fullname,
