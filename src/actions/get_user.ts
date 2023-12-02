@@ -11,6 +11,6 @@ export default async (username: string) => {
     bio: user.bio,
     pfp: user.pfp,
     private_email: user.private_email,
-    created: user.createdAt.getDate()
+    createdAt: user.createdAt.getDate()
   } : null
 }

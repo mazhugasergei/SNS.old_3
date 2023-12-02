@@ -36,7 +36,7 @@ export default async (token: string) => {
       bio: user.bio,
       pfp: user.pfp,
       private_email: user.private_email,
-      created: user.createdAt.getDate()
+      createdAt: user.createdAt.getDate()
     }
     else return null
   }

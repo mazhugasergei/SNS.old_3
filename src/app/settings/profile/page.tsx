@@ -38,7 +38,7 @@ const formSchema = z.object({
       { message: "Invalid username" }
     ),
   fullname: z.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" }),
-  bio: z.string().max(999, { message: "Bio must contain at most 999 characters" }).optional(),
+  bio: z.string().max(160, { message: "Bio must contain at most 160 characters" }).optional(),
   private_email: z.boolean().optional()
 })
 
@@ -52,7 +52,7 @@ export default () => {
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const bio = useSelector((state: RootState) => state.user.bio)
   const private_email = useSelector((state: RootState) => state.user.private_email)
-  const created = useSelector((state: RootState) => state.user.created)
+  const created = useSelector((state: RootState) => state.user.createdAt)
   const [newPFP,  setNewPFP] = useState<typeof pfp>()
   const [loggedIn,  setLoggedIn] = useState(false)
 

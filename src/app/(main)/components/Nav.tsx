@@ -9,10 +9,12 @@ import { useSelector } from "react-redux"
 import { useState } from "react"
 import Search from "./Search"
 import { buttonVariants } from "@/components/ui/button"
+import { LuUser2 } from "react-icons/lu"
 
 export default () => {
   const [searchOpen, setSearchOpen] = useState(false)
   const auth = useSelector((state: RootState) => state.user.auth)
+  const username = useSelector((state: RootState) => state.user.username)
   const buttonStyle = {
     className: `${buttonVariants({ variant: "ghost" })} gap-2`,
     style: {
@@ -40,6 +42,10 @@ export default () => {
         <LuSearch {...iconStyle} />
       Search</button>
       <Search {...{ searchOpen, setSearchOpen }} />
+      <Link href={auth ? `/${username}` : "/log-in"} {...buttonStyle}>
+        <LuUser2 {...iconStyle} />
+        Profile
+      </Link>
       <Link href={`/settings/${auth ? "profile" : "appearance"}`} {...buttonStyle}>
         <LuSettings {...iconStyle} />
         Settings
