@@ -7,6 +7,8 @@ import { PostType } from "@/types/Post"
 import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import UserCard from "./components/UserCard"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { LuHeart } from "react-icons/lu"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
   const user: UserType | null = await get_user(params.username)
@@ -22,16 +24,17 @@ export default async ({ params }: { params: { username: string } }) => {
 
   return (
     user === null ? <>user not found</> :
-    user && <div className="border-l border-r">
+    user && <>
       {/* profile details */}
-      <div className="contianer border-b p-10">
-        <Avatar src={user.pfp || ""} className="w-20 h-20 mb-3" />
+      <div className="contianer border-b px-8 pb-5">
+        <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
+          {/* <Image src={} /> */}
+        </AspectRatio>
+        <Avatar src={user.pfp || ""} className="w-[8.40625rem] h-[8.40625rem] mb-3 -mt-[4.203125rem]" />
         <p className="text-3xl font-bold">{ user.fullname }</p>
         <p className="opacity-70 text-sm">@{ user.username }</p>
         <p className="text-sm my-1">{ user.bio }</p>
-        { !user.private_email && <p className="opacity-70 text-sm hover:underline">
-          <a href={`mailto:${user.email}`} className="flex items-center gap-1"><LuMail />{ user.email }</a>
-        </p> }
+        { !user.private_email && <a href={`mailto:${user.email}`} className="inline-flex items-center gap-1 text-sm hover:underline opacity-70"><LuMail />{ user.email }</a> }
         { user.createdAt && <p className="flex items-center gap-1 opacity-70 text-sm"><LuCalendarDays /> Joined { new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }</p> }
       </div>
 
@@ -40,14 +43,14 @@ export default async ({ params }: { params: { username: string } }) => {
         <>loading...</> :
         <div className="-mb-[.0625rem]">
           { posts?.map((post, i) =>
-            <div className="grid grid-cols-[auto_1fr] gap-[.6875rem] items-start border-b text-sm px-10 py-5" key={post._id}>
+            <div className="grid grid-cols-[auto_1fr] gap-[.6875rem] items-start border-b text-sm px-8 py-5" key={post._id}>
               {/* pfp */}
               <UserCard {...{user}}>
                 <Link href={`/${user.username}`} className="rounded-full">
                   <Avatar src={user.pfp || ""} className="w-8 h-8 hover:brightness-[.92] transition" />
                 </Link>
               </UserCard>
-              {/* post */}
+              {/* body */}
               <div>
                 <UserCard {...{user}}>
                   <Link href={`/${user.username}`}>
@@ -67,11 +70,15 @@ export default async ({ params }: { params: { username: string } }) => {
                   </Tooltip>
                 </TooltipProvider>
                 <p className="text-sm">{ post.body }</p>
+                {/* post tools */}
+                <div className="flex gap-4 mt-2">
+                  <LuHeart />
+                </div>
               </div>
             </div>
           ) }
         </div>
       }
-    </div>
+    </>
   )
 }

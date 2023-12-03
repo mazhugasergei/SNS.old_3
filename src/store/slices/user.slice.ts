@@ -20,7 +20,7 @@ export const userSlice = createSlice({
           state.bio = undefined
           state.pfp = undefined
           state.private_email = undefined,
-          state.created = undefined
+          state.createdAt = undefined
         }
       }
       if(action.payload.is_signing_up !== undefined) state.is_signing_up = action.payload.is_signing_up
@@ -31,7 +31,7 @@ export const userSlice = createSlice({
       if(action.payload.bio !== undefined) state.bio = action.payload.bio
       if(action.payload.pfp !== undefined) state.pfp = action.payload.pfp
       if(action.payload.private_email !== undefined) state.private_email = action.payload.private_email
-      if(action.payload.created !== undefined) state.created = action.payload.created
+      if(action.payload.createdAt !== undefined) state.createdAt = action.payload.createdAt
     }
   }
 })

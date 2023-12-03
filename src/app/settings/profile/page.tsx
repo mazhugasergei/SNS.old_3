@@ -22,6 +22,7 @@ import ChangeEmailDialog from "@/app/settings/profile/components/ChangeEmailDial
 import { UserType } from "@/types/User"
 import useFormError from "@/hooks/useFormError"
 import useToastError from "@/hooks/useToastError"
+import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 const formSchema = z.object({
   pfp: z.string().optional(),
@@ -52,7 +53,7 @@ export default () => {
   const fullname = useSelector((state: RootState) => state.user.fullname)
   const bio = useSelector((state: RootState) => state.user.bio)
   const private_email = useSelector((state: RootState) => state.user.private_email)
-  const created = useSelector((state: RootState) => state.user.createdAt)
+  const createdAt = useSelector((state: RootState) => state.user.createdAt)
   const [newPFP,  setNewPFP] = useState<typeof pfp>()
   const [loggedIn,  setLoggedIn] = useState(false)
 
@@ -118,27 +119,22 @@ export default () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* <div>
-            <h3 className="text-lg font-medium">Profile</h3>
-            <p className="text-sm text-muted-foreground mb-4">This is how others will see you on the site.</p>
-            <Separator className="my-6" />
-          </div> */}
-
           {/* public view */}
-          <div className="contianer relative border rounded-lg p-10 shadow-sm mb-6">
-            <Avatar src={newPFP as string} className="w-20 h-20 mb-3" />
+          <div className="contianer relative border rounded-lg shadow-sm px-12 py-4 pb-6">
+            <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
+              {/* <Image src={} /> */}
+            </AspectRatio>
+            <Avatar src={newPFP as string} className="w-[8.40625rem] h-[8.40625rem] mb-3 -mt-[4.203125rem]" />
             <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
-            <p className="opacity-[.75] text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
+            <p className="opacity-70 text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
             <p className="text-sm my-1">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
             { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
-              <p className="opacity-[.75] text-sm">
-                <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="flex items-center gap-1">
-                  <LuMail />
-                  { form.getValues("email") !== undefined ? form.getValues("email") : email }
-                </a>
-              </p>
+              <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="inline-flex items-center gap-1 text-sm hover:underline opacity-70">
+                <LuMail />
+                { form.getValues("email") !== undefined ? form.getValues("email") : email }
+              </a>
             }
-            { created && <p className="flex items-center gap-1 opacity-[.75] text-sm"><LuCalendarDays /> Joined on { new Date(created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) }</p> }
+            { createdAt && <p className="flex items-center gap-1 opacity-70 text-sm"><LuCalendarDays /> Joined on { new Date(createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }</p> }
           </div>
 
           {/* settings */}

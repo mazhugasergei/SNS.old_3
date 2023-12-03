@@ -15,7 +15,7 @@ export default ({ children }: { children: React.ReactNode }) => {
     <>
       <div className="min-h-[calc(100vh-6.05rem)] container flex items-start gap-12">
         <Aside />
-        <main className="flex-1">
+        <main className="flex-1 pt-8">
           { children }
         </main>
         <RightAside />

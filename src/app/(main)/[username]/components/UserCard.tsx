@@ -2,14 +2,21 @@ import { UserType } from "@/types/User"
 import Link from "next/link"
 import Avatar from "../../components/Avatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { Button } from "@/components/ui/button"
+import { useSelector } from "react-redux"
+import { RootState } from "@/store/store"
 
 export default ({ user, children }: { user: UserType, children: React.ReactNode }) => {
+  // const _id = useSelector((state: RootState) => state.user._id)
+
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
         { children }
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
+      <HoverCardContent className="relative w-80">
+        {/* { _id !== user._id && <Button className="absolute top-0 right-0">Follow</Button> } */}
+        <Button className="absolute top-4 right-4">Follow</Button>
         <div className="space-y-2">
           <Link href={`/${user.username}`} className="inline-block hover:brightness-[.92] transition">
             <Avatar src={user.pfp || ""} />
