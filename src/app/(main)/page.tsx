@@ -1,11 +1,16 @@
-export default () => {
+import Link from "next/link"
+import UserCard from "./[username]/components/UserCard"
+import get_user from "@/actions/get_user"
+import { UserType } from "@/types/User"
+
+export default async () => {
+  const user: UserType | null = await get_user("mazhugasergei")
+
   return (
     <>
-      <div className="space-y-2">
-        home
-        {/* <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">Discover</h1>
-        <p className="text-lg text-muted-foreground">Discover new posts from people all around the world.</p> */}
-      </div>
+      { user && <UserCard {...{user}}>
+        <Link href="/mazhugasergei" className="text-sm hover:underline">@mazhugasergei</Link>
+      </UserCard> }
     </>
   )
 }

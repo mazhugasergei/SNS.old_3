@@ -22,10 +22,10 @@ export default async ({ params }: { params: { username: string } }) => {
 
   return (
     user === null ? <>user not found</> :
-    user && <div className="border-l border-r -mt-8">
+    user && <div className="border-l border-r">
       {/* profile details */}
       <div className="contianer border-b p-10">
-        <Avatar src={user.pfp as string} className="w-20 h-20 mb-3" />
+        <Avatar src={user.pfp || ""} className="w-20 h-20 mb-3" />
         <p className="text-3xl font-bold">{ user.fullname }</p>
         <p className="opacity-70 text-sm">@{ user.username }</p>
         <p className="text-sm my-1">{ user.bio }</p>
@@ -38,20 +38,21 @@ export default async ({ params }: { params: { username: string } }) => {
       {/* posts */}
       { posts === undefined ?
         <>loading...</> :
-        posts?.map((post, i) => <>
-          <div className="grid grid-cols-[auto_1fr] gap-[.6875rem] items-start border-b text-sm px-10 py-5" key={post._id}>
+        <div className="-mb-[.0625rem]">
+          { posts?.map((post, i) =>
+            <div className="grid grid-cols-[auto_1fr] gap-[.6875rem] items-start border-b text-sm px-10 py-5" key={post._id}>
               {/* pfp */}
               <UserCard {...{user}}>
-                <Link href={`/${user.username}`}>
-                  <Avatar src={user.pfp as string} className="w-8 h-8 hover:brightness-[.9] transition" />
+                <Link href={`/${user.username}`} className="rounded-full">
+                  <Avatar src={user.pfp || ""} className="w-8 h-8 hover:brightness-[.92] transition" />
                 </Link>
               </UserCard>
               {/* post */}
               <div>
                 <UserCard {...{user}}>
                   <Link href={`/${user.username}`}>
-                    <span className="font-bold hover:underline">{ user.fullname } </span>
-                    <span className="opacity-70">@{ user.username }</span>
+                    <span className="font-bold hover:underline">{ user.fullname }</span>
+                    <span className="opacity-70"> @{ user.username }</span>
                   </Link>
                 </UserCard>
                 <span className="opacity-70"> · </span>
@@ -67,8 +68,9 @@ export default async ({ params }: { params: { username: string } }) => {
                 </TooltipProvider>
                 <p className="text-sm">{ post.body }</p>
               </div>
-          </div>
-        </>)
+            </div>
+          ) }
+        </div>
       }
     </div>
   )

@@ -79,7 +79,7 @@ export default () => {
                 <FormItem className="space-y-1">
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" type="password" {...field} required />
+                    <Input placeholder="••••••••" type="password" {...field} required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -22,8 +22,8 @@ export default () => {
   const pathname = usePathname()
 
   return (
-    <aside className="md:w-1/5 lg:w-1/6 -ml-4">
-      <nav className="flex flex-wrap gap-2 md:sticky md:top-[5.05rem] md:flex-col">
+    <aside className="lg:w-1/5 xl:w-1/6">
+      <nav className="flex flex-wrap gap-2 lg:sticky lg:top-8 lg:flex-col -ml-4">
         {items.map((item) => (
           <Link
             key={item.href}

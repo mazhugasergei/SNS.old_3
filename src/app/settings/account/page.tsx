@@ -88,7 +88,7 @@ export default () => {
                 <FormItem>
                   <FormLabel>Current password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} placeholder="********" required={Boolean(form.watch("new_password")?.length)} />
+                    <Input type="password" {...field} placeholder="••••••••" required={Boolean(form.watch("new_password")?.length)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,7 +99,7 @@ export default () => {
                 <FormItem>
                   <FormLabel>New password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} placeholder="********" required={Boolean(form.watch("current_password")?.length)} />
+                    <Input type="password" {...field} placeholder="••••••••" required={Boolean(form.watch("current_password")?.length)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +110,7 @@ export default () => {
                 <FormItem>
                   <FormLabel>Repeat new password</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} placeholder="********" required={Boolean(form.watch("current_password")?.length)} />
+                    <Input type="password" {...field} placeholder="••••••••" required={Boolean(form.watch("current_password")?.length)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
