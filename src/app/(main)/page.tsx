@@ -1,10 +1,9 @@
 import Link from "next/link"
 import UserCard from "./[username]/components/UserCard"
-import get_user from "@/actions/get_user"
-import { UserType } from "@/types/User"
+import { getUser } from "@/actions/getUser"
 
 export default async () => {
-  const user: UserType | null = await get_user("mazhugasergei")
+  const user = await getUser("mazhugasergei")
 
   return (
     <>

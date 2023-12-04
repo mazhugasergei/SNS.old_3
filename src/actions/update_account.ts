@@ -2,6 +2,7 @@
 import User from "@/models/User"
 import { Account } from "@/types/Account"
 import bcrypt from "bcrypt"
+import { cookies } from "next/headers"
 
 export default async (data: Account) => {
   const { username } = data
@@ -19,6 +20,9 @@ export default async (data: Account) => {
     // update password
     await user.updateOne({ password: await bcrypt.hash(new_password!, 12) })
   }
+
+  // delete token
+  cookies().delete("token")
 
   return true
 }

@@ -1,4 +1,4 @@
-export type PostType = {
+export type Post = {
   _id: string
   authorID: string
   body: string

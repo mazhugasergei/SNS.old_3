@@ -1,6 +1,4 @@
 import { Metadata } from "next"
-import '@/styles/globals.css'
-import '@/styles/index.css'
 import { Separator } from "@/components/ui/separator"
 import SettingsAside from "./components/SettingsAside"
 import Aside from "../(main)/components/Aside"

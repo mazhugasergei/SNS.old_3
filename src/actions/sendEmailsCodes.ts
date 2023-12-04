@@ -2,7 +2,7 @@
 import User from "@/models/User"
 import nodemailer from "nodemailer"
 
-export default async (username: string, email: string, newEmail: string) => {
+export const sendEmailsCodes = async (username: string, email: string, newEmail: string) => {
   // if new email is in use
   await User.findOne({ email: newEmail })
     .then(user => {
@@ -34,7 +34,7 @@ export default async (username: string, email: string, newEmail: string) => {
             <img src="${process.env.LOGO}" width="80" />
           </a>
           <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0 .75rem;">${code_1}</div>
-          <div>Please enter this code in the provided field to complete the verification process. <b>ATTENTION:</b> If you did not initiate this verification process, change your password immediately, you also may contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a;">support team</a>.</div>
+          <div>Please enter this code in the provided field to complete the verification process. <b>ATTENTION:</b> If you did not initiate this verification process, change your password immediately, you also may contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a; font-weight: bold; text-decoration: underline;">support team</a>.</div>
         </div>
       </body>
     `
@@ -52,7 +52,7 @@ export default async (username: string, email: string, newEmail: string) => {
             <img src="${process.env.LOGO}" width="80" />
           </a>
           <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0 .75rem;">${code_2}</div>
-          <div>Please enter this code in the provided field to complete the verification process. If you did not initiate this verification process, please ignore this email. However, if you suspect any unauthorized access to your account, please contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a;">support team</a> immediately.</div>
+          <div>Please enter this code in the provided field to complete the verification process. If you did not initiate this verification process, please ignore this email. However, if you suspect any unauthorized access to your account, please contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a; font-weight: bold; text-decoration: underline;">support team</a> immediately.</div>
         </div>
       </body>
     `

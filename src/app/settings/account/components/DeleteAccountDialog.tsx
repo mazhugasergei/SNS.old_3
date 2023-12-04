@@ -1,40 +1,31 @@
+"use client"
 import { useForm } from "react-hook-form"
 import { Button } from "../../../../components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../../components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../../../../components/ui/form"
 import { Input } from "../../../../components/ui/input"
-import * as z from "zod"
+import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import delete_account from "@/actions/delete_account"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/store/store"
-import { toast } from "../../../../components/ui/use-toast"
-import { ToastAction } from "../../../../components/ui/toast"
-import { setUser } from "@/store/slices/user.slice"
+import { deleteAccount } from "@/actions/deleteAccount"
 import useToastError from "@/hooks/useToastError"
 import useFormError from "@/hooks/useFormError"
 
-const formSchema = z.object({
-  password: z.string()
+const formSchema = zod.object({
+  password: zod.string()
 })
 
 export default () => {
-  const dispatch = useDispatch()
-  const username = useSelector((state: RootState) => state.user.username)
-
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: ""
     }
   })
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await delete_account(username as string, data.password)
-      .then(() => {
-        localStorage.removeItem("token")
-        dispatch(setUser({ auth: false }))
-      })
+  const onSubmit = async (data: zod.infer<typeof formSchema>) => {
+    // TODO
+    // await deleteAccount(user?._id || "", data.password)
+    await deleteAccount("", data.password)
       .catch(err => {
         if(err.message === "Error: ") useToastError(form.handleSubmit(onSubmit))
         else useFormError(form, err)

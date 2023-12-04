@@ -1,12 +1,10 @@
-import { UserType } from "@/types/User"
+import { User } from "@/types/User"
 import Link from "next/link"
 import Avatar from "../../components/Avatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button"
-import { useSelector } from "react-redux"
-import { RootState } from "@/store/store"
 
-export default ({ user, children }: { user: UserType, children: React.ReactNode }) => {
+export default ({ user, children }: { user: User, children: React.ReactNode }) => {
   // const _id = useSelector((state: RootState) => state.user._id)
 
   return (

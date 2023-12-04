@@ -6,9 +6,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../../../../components/ui/input"
 import { Button } from "../../../../components/ui/button"
 import verify_email_codes from "@/actions/verify_email_codes"
-import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "@/store/store"
-import { setUser } from "@/store/slices/user.slice"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { toast } from "@/components/ui/use-toast"
 import useToastError from "@/hooks/useToastError"
@@ -19,8 +16,7 @@ const formSchema = z.object({
 })
 
 export default ({ newEmail }: { newEmail: string }) => {
-  const dispatch = useDispatch()
-  const email = useSelector((state: RootState) => state.user.email)
+  const email = ""
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +35,6 @@ export default ({ newEmail }: { newEmail: string }) => {
             description: "Email was updated."
           })
           document.getElementById("changeEmailDialogTrigger")?.click()
-          dispatch(setUser({ email: newEmail }))
         }
       })
       .catch(err => {

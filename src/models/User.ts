@@ -28,7 +28,10 @@ const UserSchema = new Schema({
   verification_code: String,
   changing_email_codes: [String],
 
-  private_email: Boolean,
+  private_email: {
+    type: Boolean,
+    default: false
+  },
 
   createdAt: {
     type: Date,
@@ -38,7 +41,7 @@ const UserSchema = new Schema({
   expires: {
     type: Date,
     default: Date.now,
-    expires: 300
+    expires: 3600 // 1h
   }
 })
 

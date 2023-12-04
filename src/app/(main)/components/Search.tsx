@@ -1,5 +1,5 @@
 "use client"
-import get_users from "@/actions/get_users"
+import { getUsers } from "@/actions/getUsers"
 import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
@@ -16,7 +16,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
   useEffect(()=>{
     ( async ()=>{
       setPending(true)
-      await get_users("")
+      await getUsers("")
         .then(res => {
           setDefaultUsers(res)
           setPending(false)
@@ -30,7 +30,7 @@ export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchO
     if(value){
       setPending(true)
       timeout.current = setTimeout(async ()=>{
-        await get_users(value)
+        await getUsers(value)
           .then(res => {
             setUsers(res)
             setPending(false)

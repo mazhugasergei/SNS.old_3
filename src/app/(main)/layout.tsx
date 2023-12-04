@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
-import '@/styles/globals.css'
-import '@/styles/index.css'
 import Footer from '@/app/(main)/components/Footer'
-import Nav from '@/app/(main)/components/Nav'
 import RightAside from './components/RightAside'
 import Aside from './components/Aside'
 

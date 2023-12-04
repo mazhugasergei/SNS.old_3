@@ -1,20 +1,18 @@
-import get_user from "@/actions/get_user"
+import { getUser } from "@/actions/getUser"
 import Avatar from "@/app/(main)/components/Avatar"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
-import { UserType } from "@/types/User"
-import get_posts from "@/actions/get_posts"
-import { PostType } from "@/types/Post"
+import { getPosts } from "@/actions/getPosts"
+import { Post } from "@/types/Post"
 import Link from "next/link"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import UserCard from "./components/UserCard"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { LuHeart } from "react-icons/lu"
 import { LuMessageCircle } from "react-icons/lu"
-import is_auth from "@/actions/is_auth"
-import { cookies } from "next/dist/client/components/headers"
+import { getAuthUser } from "@/actions/getAuthUser"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
-  const user: UserType | null = await get_user(params.username)
+  const user = await getUser(params.username)
 
   return {
     title: `${ user && `${user.fullname} (@${user.username}) - ` }Wave`
@@ -22,13 +20,9 @@ export const generateMetadata = async ({ params }: { params: { username: string 
 }
 
 export default async ({ params }: { params: { username: string } }) => {
-  const _cookies = cookies()
-  _cookies.getAll().forEach(cookie => console.log(cookie))
-  // const token = null
-  // const auth: UserType | null = token ? await is_auth(token) : null
-  // console.log(auth)
-  const user: UserType | null = await get_user(params.username)
-  const posts: PostType[] | null = user && user._id ? await get_posts(user._id) : null
+  const auth_user = await getAuthUser()
+  const user = await getUser(params.username)
+  const posts: Post[] | null = user && user._id ? await getPosts(user._id) : null
 
   return (
     user === null ? <>user not found</> :
@@ -82,9 +76,9 @@ export default async ({ params }: { params: { username: string } }) => {
                 <div className="flex gap-8 mt-2">
                   <div className="group cursor-pointer flex items-center gap-2">
                     <div className="group-hover:bg-[#F918801A] rounded-full transition p-2 -m-2">
-                      <LuHeart className="group-hover:stroke-[#F92083] transition" style={{ fill: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "", stroke: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "" }} />
+                      <LuHeart className="group-hover:stroke-[#F92083] transition" style={{ fill: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "", stroke: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "" }} />
                     </div>
-                    <span className="text-xs group-hover:text-[#F92083] transition" style={{ color: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "" }}>{ post.likes.length }</span>
+                    <span className="text-xs group-hover:text-[#F92083] transition" style={{ color: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "" }}>{ post.likes.length }</span>
                   </div>
                   <div className="group cursor-pointer flex items-center gap-2">
                     <div className="group-hover:bg-[#1D9BF01A] rounded-full transition p-2 -m-2">

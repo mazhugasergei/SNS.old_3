@@ -1,9 +1,10 @@
 "use server"
 import Post from "@/models/Post"
+import { Post as PostType } from "@/types/Post"
 
-export default async (authorID: string) => {
+export const getPosts = async (authorID: string) => {
   const data = await Post.find({ authorID })
-  const posts = data.map(post => ({
+  const posts: PostType[] = data.map(post => ({
     _id: post._id.toString(),
     authorID: post.authorID,
     body: post.body,

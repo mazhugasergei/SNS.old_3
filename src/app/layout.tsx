@@ -1,8 +1,8 @@
-import Provider from '@/store/Provider'
+import '@/styles/globals.css'
+import '@/styles/index.css'
 import mongoose from 'mongoose'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import AutoAuth from '@/app/components/AutoAuth'
 import { Toaster } from "@/components/ui/toaster"
 import ThemeProvider from '@/app/components/ThemeProvider'
 
@@ -20,15 +20,12 @@ export const metadata: Metadata = {
 export default ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <Provider>
-        <body className={`${inter.className} min-h-screen relative`}>
-          {/* <ThemeProvider attribute="class" disableTransitionOnChange> */}
-            <AutoAuth />
-            { children }
-            <Toaster />
-          {/* </ThemeProvider> */}
-        </body>
-      </Provider>
+      <body className={`${inter.className} min-h-screen relative`}>
+        {/* <ThemeProvider attribute="class" disableTransitionOnChange> */}
+          { children }
+          <Toaster />
+        {/* </ThemeProvider> */}
+      </body>
     </html>
   )
 }
