@@ -10,6 +10,24 @@ const PostSchema = new Schema({
     required: true
   },
 
+  likes: {
+    type: Number,
+    default: 0
+  },
+  comments: {
+    type: [{
+      authorID: {
+        type: String,
+        required: true
+      },
+      body: {
+        type: String,
+        required: true
+      }
+    }],
+    default: []
+  },
+
   createdAt: {
     type: Date,
     default: Date.now

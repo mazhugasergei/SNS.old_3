@@ -97,7 +97,7 @@ export default () => {
     
     // update profile
     if(Object.keys(newData).length){
-      const moddedData = {...newData, pfp: newPFP as string | undefined}
+      const moddedData = {...newData, pfp: newPFP || null}
       await update_profile(username as string, moddedData)
         .then(res => {
           if(res){
@@ -124,7 +124,7 @@ export default () => {
             <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
               {/* <Image src={} /> */}
             </AspectRatio>
-            <Avatar src={newPFP as string} className="w-[8.40625rem] h-[8.40625rem] mb-3 -mt-[4.203125rem]" />
+            <Avatar src={newPFP as string} className="w-[8.40625rem] h-[8.40625rem] border-4 border-background mb-3 -mt-[4.203125rem]" />
             <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
             <p className="opacity-70 text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
             <p className="text-sm my-1">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>

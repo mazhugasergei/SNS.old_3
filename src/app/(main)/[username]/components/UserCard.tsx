@@ -18,7 +18,7 @@ export default ({ user, children }: { user: UserType, children: React.ReactNode 
         {/* { _id !== user._id && <Button className="absolute top-0 right-0">Follow</Button> } */}
         <Button className="absolute top-4 right-4">Follow</Button>
         <div className="space-y-2">
-          <Link href={`/${user.username}`} className="inline-block hover:brightness-[.92] transition">
+          <Link href={`/${user.username}`} className="inline-block hover:brightness-[.92] transition mb-1">
             <Avatar src={user.pfp || ""} />
           </Link>
           <Link href={`/${user.username}`}>

@@ -19,6 +19,6 @@ export default async (username: string, data: UserType) => {
     else await user.updateOne({ lastUsernameUpdate: Date.now() })
   }
   
-  await user.updateOne({ ...data })
+  await user.updateOne(data)
   return true
 }

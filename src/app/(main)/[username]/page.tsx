@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import UserCard from "./components/UserCard"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { LuHeart } from "react-icons/lu"
+import { LuMessageCircle } from "react-icons/lu"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
   const user: UserType | null = await get_user(params.username)
@@ -30,7 +31,7 @@ export default async ({ params }: { params: { username: string } }) => {
         <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
           {/* <Image src={} /> */}
         </AspectRatio>
-        <Avatar src={user.pfp || ""} className="w-[8.40625rem] h-[8.40625rem] mb-3 -mt-[4.203125rem]" />
+        <Avatar src={user.pfp || ""} className="w-[8.40625rem] h-[8.40625rem] border-4 border-background mb-3 -mt-[4.203125rem]" />
         <p className="text-3xl font-bold">{ user.fullname }</p>
         <p className="opacity-70 text-sm">@{ user.username }</p>
         <p className="text-sm my-1">{ user.bio }</p>
@@ -71,8 +72,19 @@ export default async ({ params }: { params: { username: string } }) => {
                 </TooltipProvider>
                 <p className="text-sm">{ post.body }</p>
                 {/* post tools */}
-                <div className="flex gap-4 mt-2">
-                  <LuHeart />
+                <div className="flex gap-8 mt-2">
+                  <div className="group cursor-pointer flex items-center gap-2">
+                    <div className="group-hover:bg-[#F918801A] rounded-full transition p-2 -m-2">
+                      <LuHeart className="group-hover:stroke-[#F92083] transition" />
+                    </div>
+                    <span className="text-xs group-hover:text-[#F92083] transition">212</span>
+                  </div>
+                  <div className="group cursor-pointer flex items-center gap-2">
+                    <div className="group-hover:bg-[#1D9BF01A] rounded-full transition p-2 -m-2">
+                      <LuMessageCircle className="group-hover:stroke-[#1D9BF0] transition" />
+                    </div>
+                    <span className="text-xs group-hover:text-[#1D9BF0] transition">12</span>
+                  </div>
                 </div>
               </div>
             </div>
