@@ -11,8 +11,8 @@ const PostSchema = new Schema({
   },
 
   likes: {
-    type: Number,
-    default: 0
+    type: [String],
+    default: []
   },
   comments: {
     type: [{

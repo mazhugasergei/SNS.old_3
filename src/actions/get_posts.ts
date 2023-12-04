@@ -7,6 +7,8 @@ export default async (authorID: string) => {
     _id: post._id.toString(),
     authorID: post.authorID,
     body: post.body,
+    likes: post.likes,
+    comments: post.comments,
     createdAt: post.createdAt.getDate()
   }))
   return posts

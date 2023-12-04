@@ -10,6 +10,8 @@ import UserCard from "./components/UserCard"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { LuHeart } from "react-icons/lu"
 import { LuMessageCircle } from "react-icons/lu"
+import is_auth from "@/actions/is_auth"
+import { cookies } from "next/dist/client/components/headers"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
   const user: UserType | null = await get_user(params.username)
@@ -20,6 +22,11 @@ export const generateMetadata = async ({ params }: { params: { username: string 
 }
 
 export default async ({ params }: { params: { username: string } }) => {
+  const _cookies = cookies()
+  _cookies.getAll().forEach(cookie => console.log(cookie))
+  // const token = null
+  // const auth: UserType | null = token ? await is_auth(token) : null
+  // console.log(auth)
   const user: UserType | null = await get_user(params.username)
   const posts: PostType[] | null = user && user._id ? await get_posts(user._id) : null
 
@@ -75,15 +82,15 @@ export default async ({ params }: { params: { username: string } }) => {
                 <div className="flex gap-8 mt-2">
                   <div className="group cursor-pointer flex items-center gap-2">
                     <div className="group-hover:bg-[#F918801A] rounded-full transition p-2 -m-2">
-                      <LuHeart className="group-hover:stroke-[#F92083] transition" />
+                      <LuHeart className="group-hover:stroke-[#F92083] transition" style={{ fill: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "", stroke: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "" }} />
                     </div>
-                    <span className="text-xs group-hover:text-[#F92083] transition">212</span>
+                    <span className="text-xs group-hover:text-[#F92083] transition" style={{ color: post.likes.includes("655172ed28707b23c0df7751") ? "#F92083" : "" }}>{ post.likes.length }</span>
                   </div>
                   <div className="group cursor-pointer flex items-center gap-2">
                     <div className="group-hover:bg-[#1D9BF01A] rounded-full transition p-2 -m-2">
                       <LuMessageCircle className="group-hover:stroke-[#1D9BF0] transition" />
                     </div>
-                    <span className="text-xs group-hover:text-[#1D9BF0] transition">12</span>
+                    <span className="text-xs group-hover:text-[#1D9BF0] transition">{ post.comments.length }</span>
                   </div>
                 </div>
               </div>
