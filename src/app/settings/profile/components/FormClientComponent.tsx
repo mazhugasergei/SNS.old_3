@@ -11,8 +11,6 @@ import { Textarea } from "@/components/ui/textarea"
 import Avatar from "@/app/(main)/components/Avatar"
 import { updateProfile } from "@/actions/updateProfile"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
-import { sendEmailsCodes } from "@/actions/sendEmailsCodes"
-import ChangeEmailDialog from "@/app/settings/profile/components/ChangeEmailDialog"
 import { useFormError } from "@/hooks/useFormError"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { useState } from "react"
@@ -53,22 +51,13 @@ export const FormClientComponent = ({ user }: { user: User }) => {
   }
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    // if changing email
-    if(email !== data.email){
-      await sendEmailsCodes(username, email, data.email)
-        .then(res => {
-          if(res) document.getElementById("changeEmailDialogTrigger")?.click()
-        })
-        .catch(err => useFormError(form, err, onSubmit))
-    }
-    
     // update profile
     await updateProfile(username, {_id, createdAt, ...data, pfp: newPFP})
       .then(res => res.ok && useChangesSuccess())
       .catch(err => useFormError(form, err, onSubmit))
   }
 
-  return <>
+  return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* public view */}
@@ -115,7 +104,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
                 <FormItem>
                   <FormLabel>Fullname</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Smith" {...field} required />
+                    <Input placeholder="John Smith" {...field} />
                   </FormControl>
                   <FormDescription>
                     This is your public display name.
@@ -131,7 +120,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="johnsmith" type="username" {...field} required />
+                  <Input placeholder="johnsmith" type="username" {...field} />
                 </FormControl>
                 <FormDescription>
                   You can only change this once every 30 days.
@@ -186,8 +175,5 @@ export const FormClientComponent = ({ user }: { user: User }) => {
         </div>
       </form>
     </Form>
-    
-    {/* dialogs */}
-    <ChangeEmailDialog newEmail={form.watch("email")} />
-  </>
+  )
 }

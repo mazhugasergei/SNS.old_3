@@ -18,6 +18,9 @@ export const updateProfile = async (username: string, data: UserType) => {
     if(daysSinceLastUsernameEdit < 30) throw `[username]: Wait ${30 - daysSinceLastUsernameEdit} more day${(30 - daysSinceLastUsernameEdit) % 10 !== 1 && "s"} until you can update your username`
     else await user.updateOne({ lastUsernameUpdate: Date.now() })
   }
+
+  // TODO
+  // if changing email
   
   // update profile
   await user.updateOne(data)
