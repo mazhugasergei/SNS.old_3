@@ -8,8 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import useFormError from "@/hooks/useFormError"
-import useToastError from "@/hooks/useToastError"
+import { useFormError } from "@/hooks/useFormError"
 
 const formSchema = zod.object({
   email: zod.string().max(50),
@@ -45,14 +44,11 @@ export const FormClientComponent = () => {
     // generate verification code
     const { email, username, fullname, password } = values
     await signUp(email, username, fullname, password)
-      .then(res => {
+      .then(() => {
         form.reset()
         // TODO: redirect
       })
-      .catch(err => {
-        if(err.message.substring(7, 8) !== "[") useToastError(form.handleSubmit(onSubmit))
-        else useFormError(form, err)
-      })
+      .catch(err => useFormError(form, err, onSubmit))
   }
 
   return (

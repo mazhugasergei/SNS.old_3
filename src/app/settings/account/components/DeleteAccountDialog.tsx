@@ -7,14 +7,14 @@ import { Input } from "../../../../components/ui/input"
 import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { deleteAccount } from "@/actions/deleteAccount"
-import useToastError from "@/hooks/useToastError"
-import useFormError from "@/hooks/useFormError"
+import { useFormError } from "@/hooks/useFormError"
+import { User } from "@/types/User"
 
 const formSchema = zod.object({
   password: zod.string()
 })
 
-export default () => {
+export default ({ user }: { user: User }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -23,13 +23,8 @@ export default () => {
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    // TODO
-    // await deleteAccount(user?._id || "", data.password)
-    await deleteAccount("", data.password)
-      .catch(err => {
-        if(err.message === "Error: ") useToastError(form.handleSubmit(onSubmit))
-        else useFormError(form, err)
-      })
+    await deleteAccount(user?._id || "", data.password)
+      .catch(err => useFormError(form, err, onSubmit))
   }
 
   return (

@@ -1,6 +1,6 @@
 "use client"
 import { logIn } from "@/actions/logIn"
-import useFormError from "@/hooks/useFormError"
+import { useFormError } from "@/hooks/useFormError"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as zod from "zod"
@@ -36,7 +36,7 @@ export const FormClientComponent = () => {
         form.reset()
         router.push("/")
       })
-      .catch(err => useFormError(form, err))
+      .catch(err => useFormError(form, err, onSubmit))
   }
 
   return (

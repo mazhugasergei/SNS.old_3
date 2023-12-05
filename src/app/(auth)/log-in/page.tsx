@@ -1,10 +1,10 @@
-import { getAuth } from "@/actions/getAuthUser"
-import { cookies } from "next/headers"
+import { getAuthUser } from "@/actions/getAuthUser"
 import { FormClientComponent } from "./components/FormClientComponents"
+import { redirect } from "next/navigation"
 
 export default async () => {
-  const token = cookies().get("token")
-  const user = token ? await getAuth(token.value) : null
+  const user = await getAuthUser()
+  if(user) redirect("/")
 
   return <FormClientComponent />
 }

@@ -8,7 +8,7 @@ import { Button } from "../../../../components/ui/button"
 import verify_email_codes from "@/actions/verify_email_codes"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { toast } from "@/components/ui/use-toast"
-import useToastError from "@/hooks/useToastError"
+import { useFormError } from "@/hooks/useFormError"
 
 const formSchema = z.object({
   code_1: z.string().length(4, { message: "The code must contain 4 characters" }),
@@ -38,14 +38,13 @@ export default ({ newEmail }: { newEmail: string }) => {
         }
       })
       .catch(err => {
-        const error = err.message.replace("Error: ", "")
-        const errType = error.substring(1, error.indexOf("]: "))
-        const errMessage = error.substring(error.indexOf("]: ")+3)
+        const errType = err.message.substring(err.message.indexOf("[")+1, err.message.indexOf("]: "))
+        const errMessage = err.message.substring(err.message.indexOf("]: ")+3)
         if(errType === "codes"){
           form.setError("code_1", { type: "server", message: "" })
           form.setError("code_2", { type: "server", message: errMessage })
         }
-        else useToastError(form.handleSubmit(onSubmit))
+        else useFormError(form, err, onSubmit)
       })
   }
 

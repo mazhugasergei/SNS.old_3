@@ -3,8 +3,8 @@ export type User = {
   email: string
   username: string
   fullname: string
-  bio: string
-  pfp: string
+  bio?: string
+  pfp?: string
   private_email: boolean
   createdAt: number
 }
