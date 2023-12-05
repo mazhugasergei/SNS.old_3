@@ -5,8 +5,8 @@ import bcrypt from "bcrypt"
 import { cookies } from "next/headers"
 
 export const updateAccount = async (data: Account) => {
-  const { username, current_password, new_password } = data
-  const user = await User.findOne({ username })
+  const { _id, current_password, new_password } = data
+  const user = await User.findById(_id)
   if(!user) throw "" // user not found
 
   // if changing password

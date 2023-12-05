@@ -5,9 +5,9 @@ import { LuSettings } from "react-icons/lu"
 import { buttonVariants } from "@/components/ui/button"
 import { LuUser2 } from "react-icons/lu"
 import { getAuthUser } from "@/actions/getAuthUser"
-import SearchButton from "./SearchButton"
+import { SearchButton } from "./SearchButton"
 
-export default async () => {
+export const Nav = async () => {
   const user = await getAuthUser()
   
   const buttonStyle = {
@@ -29,15 +29,19 @@ export default async () => {
         <LuHome {...iconStyle} />
         Home
       </Link>
+      
       <Link href="/messages" {...buttonStyle}>
         <LuMessageSquare {...iconStyle} />
         Messages
       </Link>
+
       <SearchButton {...{buttonStyle}} {...{iconStyle}} />
+
       <Link href={user ? `/${user.username}` : "/log-in"} {...buttonStyle}>
         <LuUser2 {...iconStyle} />
         Profile
       </Link>
+
       <Link href={`/settings/${user ? "profile" : "appearance"}`} {...buttonStyle}>
         <LuSettings {...iconStyle} />
         Settings

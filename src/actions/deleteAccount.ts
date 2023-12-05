@@ -15,5 +15,5 @@ export const deleteAccount = async (_id: string, password: string) => {
   // delete token
   cookies().delete("token")
   
-  return
+  return { ok: true }
 }

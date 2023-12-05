@@ -14,11 +14,12 @@ export const logIn = async (email: string, password: string) => {
   // check if the password is correct
   const isValid = await bcrypt.compare(password, user.password)
   if(!isValid) throw "[password]: Incorrect password"
-  // token
-  const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET || "", { expiresIn: '30d' })
+
+  // create token
+  const token = jwt.sign({ _id: user._id, password: user.password }, process.env.JWT_SECRET || "", { expiresIn: '30d' })
   
-  // set token
+  // sace token
   cookies().set("token", token, { expires: new Date(new Date().getTime() + 2592000000) })
 
-  return
+  return { ok: true }
 }

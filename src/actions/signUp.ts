@@ -9,16 +9,16 @@ export const signUp = async (email: string, username: string, fullname: string, 
   // if the email is in use
   await User.findOne({ email })
     .then(user => {
-      if(user && !user.verification_code) throw "[email]: This email is already in use."
+      if(user) throw "[email]: This email is already in use."
     })
 
-  // if the username is in use by another email
+  // if the username is in use
   await User.findOne({ username })
-    .then(another_user => {
-      if(another_user && email !== another_user.email) throw "[username]: This username is already in use."
+    .then(user => {
+      if(user) throw "[username]: This username is already in use."
     })
 
-  // create verification code
+  // create verification url code
   const verification_code = await bcrypt.hash(Math.floor((Math.random() * 10000)).toString().padStart(4, '0'), 12)
 
   // create not yet verified user document
@@ -58,10 +58,10 @@ export const signUp = async (email: string, username: string, fullname: string, 
   })
 
   // create token
-  const token = jwt.sign({ _id: user?._id, password: user?.password }, process.env.JWT_SECRET || "", { expiresIn: '30d' })
+  const token = jwt.sign({ _id: user._id, password: user.password }, process.env.JWT_SECRET || "", { expiresIn: '30d' })
   
-  // set token
+  // save token
   cookies().set("token", token, { expires: new Date(new Date().getTime() + 2592000000) })
 
-  return
+  return { ok: true }
 }

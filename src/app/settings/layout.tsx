@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 import { Separator } from "@/components/ui/separator"
 import SettingsAside from "./components/SettingsAside"
-import Aside from "../(main)/components/Aside"
+import { Aside } from "../(main)/components/Aside"
 import Footer from "../(main)/components/Footer"
 
 export const metadata: Metadata = {

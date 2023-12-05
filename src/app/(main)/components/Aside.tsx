@@ -1,10 +1,10 @@
 import Logo from "@/app/components/Logo"
-import Nav from "./Nav"
+import { Nav } from "./Nav"
 import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { getAuthUser } from "@/actions/getAuthUser"
 
-export default async () => {
+export const Aside = async () => {
   const user = await getAuthUser()
 
   return (

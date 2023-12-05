@@ -14,26 +14,36 @@ import { User } from "@/types/User"
 import { useChangesSuccess } from "@/hooks/useChangesSuccess"
 
 const formSchema = zod.object({
-  current_password: zod.string().optional(),
+  current_password: zod.string()
+    .max(50, { message: "Password must contain at most 50 characters" })
+    .refine(value => value.length === 0 || value.length >= 8, { message: "Password must be at least 8 characters" })
+    .optional(),
   new_password: zod.string()
     .max(50, { message: "Password must contain at most 50 characters" })
     .refine(value => value.length === 0 || value.length >= 8, { message: "Password must be at least 8 characters" })
     .optional(),
-  repeat_new_password: zod.string().optional()
-}).refine(values => values.new_password === values.repeat_new_password, {
-  message: "Passwords must match",
-  path: ["repeat_new_password"]
+  repeat_new_password: zod.string()
+    .optional()
 })
+  .refine(values => values.new_password === values.repeat_new_password, {
+    message: "Passwords must match",
+    path: ["repeat_new_password"]
+  })
 
 export const FormClientComponent = ({ user }: { user: User }) => {
-  const { username } = user
+  const { _id } = user
 
   const form = useForm<zod.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      current_password: "",
+      new_password: "",
+      repeat_new_password: ""
+    }
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    await updateAccount({username, ...data})
+    await updateAccount({_id, ...data})
     .then(res => res.ok && useChangesSuccess())
     .catch(err => useFormError(form, err, onSubmit))
   }
@@ -47,7 +57,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
             <p className="text-sm text-muted-foreground mb-4">Mind that you will have to log in again when set a new password.</p>
             <Separator />
           </div>
-          <FormField control={form.control} name="current_password" defaultValue=""
+          <FormField control={form.control} name="current_password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Current password</FormLabel>
@@ -58,7 +68,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
               </FormItem>
             )}
           />
-          <FormField control={form.control} name="new_password" defaultValue=""
+          <FormField control={form.control} name="new_password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>New password</FormLabel>
@@ -69,7 +79,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
               </FormItem>
             )}
           />
-          <FormField control={form.control} name="repeat_new_password" defaultValue=""
+          <FormField control={form.control} name="repeat_new_password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Repeat new password</FormLabel>

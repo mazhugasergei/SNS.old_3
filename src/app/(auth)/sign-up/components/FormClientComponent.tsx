@@ -11,7 +11,9 @@ import Link from "next/link"
 import { useFormError } from "@/hooks/useFormError"
 
 const formSchema = zod.object({
-  email: zod.string().max(50),
+  email: zod.string()
+    .min(3, { message: "Email must be at least 3 characters" })
+    .max(50, { message: "Email must contain at most 50 characters" }),
   username: zod.string()
     .min(2, { message: "Username must be at least 2 characters" })
     .max(50, { message: "Username must contain at most 50 characters" })
@@ -21,16 +23,20 @@ const formSchema = zod.object({
       value !== "verification" &&
       value !== "messages" &&
       value !== "settings" &&
+      value !== "post" &&
       !value.includes("/"),
       { message: "Invalid username" }
     ),
-  password: zod.string().min(8, { message: "Password must be at least 8 characters" }).max(50, { message: "Password must contain at most 50 characters" }),
-  fullname: zod.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" })
+  password: zod.string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(50, { message: "Password must contain at most 50 characters" }),
+  fullname: zod.string()
+    .min(2, { message: "Fullname must be at least 2 characters" })
+    .max(50, { message: "Fullname must contain at most 50 characters" })
 })
 
 export const FormClientComponent = () => {
   const form = useForm<zod.infer<typeof formSchema>>({
-    mode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -40,14 +46,10 @@ export const FormClientComponent = () => {
     }
   })
 
-  const onSubmit = async (values: zod.infer<typeof formSchema>) => {
-    // generate verification code
-    const { email, username, fullname, password } = values
+  const onSubmit = async (data: zod.infer<typeof formSchema>) => {
+    const { email, username, fullname, password } = data
     await signUp(email, username, fullname, password)
-      .then(() => {
-        form.reset()
-        // TODO: redirect
-      })
+      .then(res => res.ok && form.reset())
       .catch(err => useFormError(form, err, onSubmit))
   }
 
@@ -62,7 +64,7 @@ export const FormClientComponent = () => {
             <FormItem className="space-y-1">
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="johnsmith@example.com" type="email" {...field} required />
+                <Input placeholder="johnsmith@example.com" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,7 +77,7 @@ export const FormClientComponent = () => {
             <FormItem className="space-y-1">
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="johnsmith" {...field} required />
+                <Input placeholder="johnsmith" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +90,7 @@ export const FormClientComponent = () => {
             <FormItem className="space-y-1">
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="••••••••" type="password" {...field} required />
+                <Input placeholder="••••••••" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,7 +103,7 @@ export const FormClientComponent = () => {
             <FormItem className="space-y-1">
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Smith" {...field} required />
+                <Input placeholder="John Smith" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.

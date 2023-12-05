@@ -4,7 +4,9 @@ import { User as UserType } from "@/types/User"
 
 export const getUser = async (username: string) => {
   const user = await User.findOne({ username })
-  const res: UserType | null = user ? {
+  if(!user) return null
+  
+  const res: UserType = {
     _id: user._id.toString(),
     email: user.email,
     username: user.username,
@@ -13,7 +15,7 @@ export const getUser = async (username: string) => {
     pfp: user.pfp,
     private_email: user.private_email,
     createdAt: user.createdAt.getDate()
-  } : null
+  }
 
   return res
 }

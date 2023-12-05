@@ -22,8 +22,11 @@ export const FormClientComponent = ({ user }: { user: User }) => {
   const [newPFP,  setNewPFP] = useState(pfp)
   
   const formSchema = zod.object({
-    pfp: zod.string().optional(),
-    email: zod.string().max(50),
+    pfp: zod.string()
+      .optional(),
+    email: zod.string()
+      .min(3, { message: "Email must be at least 3 characters" })
+      .max(50, { message: "Email must contain at most 50 characters" }),
     username: zod.string()
       .min(2, { message: "Username must be at least 2 characters" })
       .max(50, { message: "Username must contain at most 50 characters" })
@@ -32,16 +35,29 @@ export const FormClientComponent = ({ user }: { user: User }) => {
         value !== "sign-up" &&
         value !== "verification" &&
         value !== "messages" &&
-        value !== "settings",
+        value !== "settings" &&
+        value !== "post" &&
+        !value.includes("/"),
         { message: "Invalid username" }
       ),
-    fullname: zod.string().min(2, { message: "Full Name must be at least 2 characters" }).max(50, { message: "Full Name must contain at most 50 characters" }),
-    bio: zod.string().max(160, { message: "Bio must contain at most 160 characters" }).optional(),
+    fullname: zod.string()
+      .min(2, { message: "Fullname must be at least 2 characters" })
+      .max(50, { message: "Fullname must contain at most 50 characters" }),
+    bio: zod.string()
+      .max(160, { message: "Bio must contain at most 160 characters" })
+      .optional(),
     private_email: zod.boolean()
   })
 
   const form = useForm<zod.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullname: fullname || "",
+      username: username || "",
+      bio: bio || "",
+      email: email || "",
+      private_email: private_email
+    }
   })
 
   const handlePFPChange = (file: File) => {
@@ -51,8 +67,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
   }
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    // update profile
-    await updateProfile(username, {_id, createdAt, ...data, pfp: newPFP})
+    await updateProfile(_id, {_id, createdAt, ...data, pfp: newPFP})
       .then(res => res.ok && useChangesSuccess())
       .catch(err => useFormError(form, err, onSubmit))
   }
@@ -61,7 +76,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* public view */}
-        <div className="contianer relative border rounded-xl shadow-sm px-12 py-4 pb-8">
+        <div className="contianer relative border rounded-xl shadow-sm px-12 py-4 pb-6">
           <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
             {/* <Image src={} /> */}
           </AspectRatio>
@@ -98,7 +113,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
             )}
           />
           {/* fullname */}
-          <FormField control={form.control} name="fullname" defaultValue={fullname || ""}
+          <FormField control={form.control} name="fullname"
             render={({ field }) => {
               return (
                 <FormItem>
@@ -115,7 +130,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
             }}
           />
           {/* username */}
-          <FormField control={form.control} name="username" defaultValue={username || ""}
+          <FormField control={form.control} name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
@@ -130,7 +145,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
             )}
           />
           {/* bio */}
-          <FormField control={form.control} name="bio" defaultValue={bio || ""}
+          <FormField control={form.control} name="bio"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bio</FormLabel>
@@ -142,19 +157,19 @@ export const FormClientComponent = ({ user }: { user: User }) => {
             )}
           />
           {/* email */}
-          <FormField control={form.control} name="email" defaultValue={email || ""}
+          <FormField control={form.control} name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="johnsmith@example.com" type="email" {...field} required />
+                  <Input placeholder="johnsmith@example.com" type="email" {...field} />
                 </FormControl>
                 <FormMessage>{form.formState.errors.email?.message}</FormMessage>
               </FormItem>
             )}
           />
           {/* private_email */}
-          <FormField control={form.control} name="private_email" defaultValue={private_email as boolean}
+          <FormField control={form.control} name="private_email"
             render={({ field }) => (
               <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
                 <div className="space-y-0.5">

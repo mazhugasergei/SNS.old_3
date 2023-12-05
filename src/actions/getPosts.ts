@@ -12,5 +12,6 @@ export const getPosts = async (authorID: string) => {
     comments: post.comments,
     createdAt: post.createdAt.getDate()
   }))
+  
   return posts
 }

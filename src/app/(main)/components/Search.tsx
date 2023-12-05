@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import Avatar from "./Avatar"
 
-export default ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchOpen: Dispatch<SetStateAction<boolean>> }) => {
+export const Search = ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchOpen: Dispatch<SetStateAction<boolean>> }) => {
   const [value, setValue] = useState<string>()
   const [defaultUsers, setDefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
   const [users, setUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()

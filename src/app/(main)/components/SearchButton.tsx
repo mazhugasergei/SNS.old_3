@@ -1,14 +1,14 @@
 "use client"
 import { CSSProperties, useState } from "react"
 import { LuSearch } from "react-icons/lu"
-import Search from "./Search"
+import { Search } from "./Search"
 
 type Styles = {
   className?: string
   style?: CSSProperties
 }
 
-export default ({ buttonStyle, iconStyle }: { buttonStyle: Styles, iconStyle: Styles }) => {
+export const SearchButton = ({ buttonStyle, iconStyle }: { buttonStyle: Styles, iconStyle: Styles }) => {
   const [searchOpen, setSearchOpen] = useState(false)
 
   return (<>

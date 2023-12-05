@@ -12,18 +12,17 @@ import { User } from "@/types/User"
 
 const formSchema = zod.object({
   password: zod.string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .max(50, { message: "Password must contain at most 50 characters" }),
 })
 
 export default ({ user }: { user: User }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      password: ""
-    }
+    resolver: zodResolver(formSchema)
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    await deleteAccount(user?._id || "", data.password)
+    await deleteAccount(user._id, data.password)
       .catch(err => useFormError(form, err, onSubmit))
   }
 
@@ -45,7 +44,7 @@ export default ({ user }: { user: User }) => {
             <FormField control={form.control} name="password" render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input type="password" placeholder="Password" {...field} required />
+                  <Input type="password" placeholder="Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

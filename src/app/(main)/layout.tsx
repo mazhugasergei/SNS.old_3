@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Footer from '@/app/(main)/components/Footer'
 import RightAside from './components/RightAside'
-import Aside from './components/Aside'
+import { Aside } from './components/Aside'
 
 export const metadata: Metadata = {
   title: 'Home - Wave'
