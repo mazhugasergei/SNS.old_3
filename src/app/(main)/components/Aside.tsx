@@ -13,9 +13,9 @@ export const Aside = async () => {
       <Logo className="mb-4" />
       <Nav />
       { user ?
-        <Link href="/post" className={`block ${buttonVariants()}`}>
+        <Link href="/moment" className={`block ${buttonVariants()}`}>
           <LuPen className="md:hidden" />
-          <span className="max-md:hidden">Create Post</span>
+          <span className="max-md:hidden">New Moment</span>
         </Link> : 
         <>
           <Link href="/log-in" className={`${buttonVariants({ variant: "ghost" })} w-full bg-background mb-1.5`}>Log in</Link>
@@ -23,9 +23,9 @@ export const Aside = async () => {
         </>
       }
 
-      {/* <div className="mt-4">
+      <div className="text-xs mt-4" style={{ transform: "rotate(180deg)", writingMode: "vertical-rl", textOrientation: "sideways" }}>
         <p>auth: { user ? user.username : "null" }</p>
-      </div> */}
+      </div>
     </aside>
   )
 }

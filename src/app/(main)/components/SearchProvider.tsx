@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState, CSSProperties } from "react"
 import Avatar from "./Avatar"
 
-export const Search = ({ children }: { children: React.ReactNode }) => {
+export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchOpen, setSearchOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const [defaultUsers, setDefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
@@ -75,8 +75,8 @@ export const Search = ({ children }: { children: React.ReactNode }) => {
     }
   }, [searchOpen])
 
-  return (<>
-    { children }
+  return <>
+    <div className="grid" onClick={() => setSearchOpen(!searchOpen)}>{ children }</div>
     <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
       <CommandInput placeholder="Type to search..." onValueChange={setValue} />
       <div className="px-2 py-1"> {
@@ -111,5 +111,5 @@ export const Search = ({ children }: { children: React.ReactNode }) => {
         </>
       } </div>
     </CommandDialog>
-  </>)
+  </>
 }

@@ -5,7 +5,7 @@ import { LuSettings } from "react-icons/lu"
 import { buttonVariants } from "@/components/ui/button"
 import { LuUser2 } from "react-icons/lu"
 import { getAuthUser } from "@/actions/getAuthUser"
-import { Search } from "./Search"
+import { SearchProvider } from "./SearchProvider"
 
 export const Nav = async () => {
   const user = await getAuthUser()
@@ -13,6 +13,7 @@ export const Nav = async () => {
   const buttonStyle = {
     className: `${buttonVariants({ variant: "ghost" })} gap-2 md:justify-start`
   }
+
   const iconStyle = {
     style: {
       width: "1rem",
@@ -36,13 +37,12 @@ export const Nav = async () => {
         <span {...titleStyle}>Messages</span>
       </Link>
 
-      <Search {...{buttonStyle}} {...{iconStyle}}>
-        {/* <button {...buttonStyle} onClick={() => setSearchOpen(!searchOpen)}> */}
+      <SearchProvider>
         <button {...buttonStyle}>
           <LuSearch {...iconStyle} />
           <span {...titleStyle}>Search</span>
         </button>
-      </Search>
+      </SearchProvider>
 
       <Link href={user ? `/${user.username}` : "/log-in"} {...buttonStyle}>
         <LuUser2 {...iconStyle} />

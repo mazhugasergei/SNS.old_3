@@ -43,10 +43,9 @@ export default async ({ params }: { params: { username: string } }) => {
     </div>
 
     {/* posts */}
-    { posts === undefined ?
-      <>loading...</> :
+    { posts?.length ?
       <div className="-mb-[.0625rem]">
-        { posts?.map((post, i) =>
+        { posts.map(post =>
           <div className="grid grid-cols-[auto_1fr] gap-[.6875rem] items-start border-b text-sm px-8 py-5" key={post._id}>
             {/* pfp */}
             <UserCard {...{user}}>
@@ -92,7 +91,8 @@ export default async ({ params }: { params: { username: string } }) => {
             </div>
           </div>
         ) }
-      </div>
+      </div> :
+      <>no moments yet</>
     }
   </> : <>user not found</>
 }
