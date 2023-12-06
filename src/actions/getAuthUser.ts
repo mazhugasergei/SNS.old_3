@@ -32,7 +32,7 @@ export const getAuthUser = async () => {
     bio: user.bio,
     pfp: user.pfp,
     private_email: user.private_email,
-    createdAt: user.createdAt.getDate()
+    createdAt: user.createdAt.getTime()
   }
 
   return res
