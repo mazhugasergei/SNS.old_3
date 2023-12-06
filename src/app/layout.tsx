@@ -1,14 +1,12 @@
 import '@/styles/globals.css'
 import '@/styles/index.css'
-import mongoose from 'mongoose'
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from "@/components/ui/toaster"
 import ThemeProvider from '@/app/components/ThemeProvider'
+import { connectDB } from '@/actions/connectDB'
 
-// connect to db
-mongoose.connect(process.env.MONGODB_URI!)
-  .then(() => console.log("connected to db"))
+connectDB()
 
 const inter = Inter({ subsets: ['latin'] })
 
