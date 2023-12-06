@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="min-h-[calc(100vh-6.05rem)] container flex items-start gap-12">
+      <div className="min-h-[calc(100vh-6.05rem)] container flex items-start gap-2 sm:gap-12 max-sm:px-2">
         <Aside />
         <main className="flex-1 pt-8">
           { children }

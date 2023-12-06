@@ -19,7 +19,7 @@ export default async ({ user, children }: { user: User, children: React.ReactNod
           <Link href="/log-in" className={`${buttonVariants()} absolute top-4 right-4`}>Follow</Link>
         }
         <div className="space-y-2">
-          <Link href={`/${user.username}`} className="inline-block hover:brightness-[.92] transition mb-1">
+          <Link href={`/${user.username}`} className="inline-block hover:brightness-[.85] transition mb-1">
             <Avatar src={user.pfp || ""} />
           </Link>
           <Link href={`/${user.username}`}>

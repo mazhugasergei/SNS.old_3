@@ -7,10 +7,12 @@ export const deleteAccount = async (_id: string, password: string) => {
   const user = await User.findById(_id)
   if(!user) throw "" // user not found
 
-  // delete user if entered password is valid
+  // check if password is valid
   const isValid = await bcrypt.compare(password, user.password)
-  if(isValid) await user.deleteOne()
-  else throw "[password]: Incorrect password"
+  if(!isValid) throw "[password]: Incorrect password"
+  
+  // delete the user
+  await user.deleteOne()
 
   // delete token
   cookies().delete("token")

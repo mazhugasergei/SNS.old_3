@@ -1,8 +1,16 @@
-export default ({ params }: { params: { id: string, code: string } }) => {
-  const { id, code } = params
+import verifyEmail from "@/actions/verifyEmail"
+import { toast } from "@/components/ui/use-toast"
+import { redirect } from "next/navigation"
+
+export default async ({ searchParams }: { searchParams: { _id: string, code: string } }) => {
+  const { _id, code } = searchParams
+
+  const ok = await verifyEmail(_id, code)
+    .then(res => res.ok)
+    .catch(() => redirect("/"))
   
-  return (<>
-    <div>{ typeof id }</div>
-    <div>{ typeof code }</div>
+  return ok && (<>
+    <h1 className="text-4xl font-bold tracking-tight mb-2">Verified successfully!</h1>
+    <p className="text-sm font-medium">Thanks for verifying your email.</p>
   </>)
 }

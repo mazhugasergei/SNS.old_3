@@ -2,10 +2,11 @@
 import { getUsers } from "@/actions/getUsers"
 import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, CSSProperties } from "react"
 import Avatar from "./Avatar"
 
-export const Search = ({ searchOpen, setSearchOpen }: { searchOpen: boolean, setSearchOpen: Dispatch<SetStateAction<boolean>> }) => {
+export const Search = ({ children }: { children: React.ReactNode }) => {
+  const [searchOpen, setSearchOpen] = useState(false)
   const [value, setValue] = useState<string>()
   const [defaultUsers, setDefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
   const [users, setUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
@@ -74,7 +75,8 @@ export const Search = ({ searchOpen, setSearchOpen }: { searchOpen: boolean, set
     }
   }, [searchOpen])
 
-  return (
+  return (<>
+    { children }
     <CommandDialog open={searchOpen} onOpenChange={setSearchOpen}>
       <CommandInput placeholder="Type to search..." onValueChange={setValue} />
       <div className="px-2 py-1"> {
@@ -109,5 +111,5 @@ export const Search = ({ searchOpen, setSearchOpen }: { searchOpen: boolean, set
         </>
       } </div>
     </CommandDialog>
-  )
+  </>)
 }

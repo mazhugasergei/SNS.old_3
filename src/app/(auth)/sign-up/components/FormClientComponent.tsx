@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { useFormError } from "@/hooks/useFormError"
+import { toast } from "@/components/ui/use-toast"
 
 const formSchema = zod.object({
   email: zod.string()
@@ -49,7 +50,16 @@ export const FormClientComponent = () => {
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
     const { email, username, fullname, password } = data
     await signUp(email, username, fullname, password)
-      .then(res => res.ok && form.reset())
+      .then(res => {
+        if(res.ok){
+          form.reset()
+          toast({
+            title: "Welcome aboard! ⛴️",
+            description: "Don't forget to verify your email, it helps to ensure that your account is secure. Please note that if you do not verify the email during 1 hour, your account will be deleted permanently.",
+            duration: 20000
+          })
+        }
+      })
       .catch(err => useFormError(form, err, onSubmit))
   }
 

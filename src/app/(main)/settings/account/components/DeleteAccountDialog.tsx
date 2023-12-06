@@ -1,14 +1,15 @@
 "use client"
 import { useForm } from "react-hook-form"
-import { Button } from "../../../../components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../../components/ui/dialog"
-import { Form, FormControl, FormField, FormItem, FormMessage } from "../../../../components/ui/form"
-import { Input } from "../../../../components/ui/input"
+import { Button } from "../../../../../components/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../../../components/ui/dialog"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "../../../../../components/ui/form"
+import { Input } from "../../../../../components/ui/input"
 import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { deleteAccount } from "@/actions/deleteAccount"
 import { useFormError } from "@/hooks/useFormError"
 import { User } from "@/types/User"
+import { ReloadIcon } from "@radix-ui/react-icons"
 
 const formSchema = zod.object({
   password: zod.string()
@@ -18,7 +19,10 @@ const formSchema = zod.object({
 
 export default ({ user }: { user: User }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      password: ""
+    }
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
@@ -49,7 +53,7 @@ export default ({ user }: { user: User }) => {
                 <FormMessage />
               </FormItem>
             )} />
-            <Button variant="destructive" className="w-full">Delete permanently</Button>
+            <Button variant="destructive" className="w-full" disabled={form.formState.isSubmitting}>{ form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> }Delete permanently</Button>
           </form>
         </Form>
       </DialogContent>

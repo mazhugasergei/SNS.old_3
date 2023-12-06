@@ -45,13 +45,14 @@ export const signUp = async (email: string, username: string, fullname: string, 
     to: `Recipient <${email}>`,
     subject: `Verify your email`,
     html: `
-      <body style="background: #0f172a; color: #0f172a; border-radius: .5rem; padding: 4rem 2rem;">
+        <body style="background: #0f172a; color: #0f172a; border-radius: .5rem; padding: 4rem 2rem;">
         <div class="container" style="background: #fff; max-width: 32rem; border-radius: .5rem; padding: 2rem; margin-left: auto; margin-right: auto;">
           <a href="/">
             <img src="${process.env.LOGO}" width="80" />
           </a>
           <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0 .75rem;">Verify your email</div>
-          <div>Please click <a href="http://localhost:3000/verification?id=${user._id}&code=${verification_code}" style="color: #0f172a; text-decoration: underline;">here</a> to verify your email on Wave, otherwise you account will be deleted forever after 1 hour. If you did not initiate this verification process, please ignore this email. However, if you suspect any unauthorized access to your account, please contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a; font-weight: bold; text-decoration: underline;">support team</a> immediately.</div>
+          <div>Click the button below to verify your email on Wave, it helps to ensure that your account is secure. Please note that if you do not verify the email during 1 hour, your account will be deleted permanently. If you did not initiate this verification process, please ignore this email. However, if you suspect any unauthorized access to your account, please contact our <a href="mailto:ghbdtnghbdtn8@gmail.com" style="color: #0f172a; font-weight: bold; text-decoration: underline;">support team</a> immediately.</div>
+          <a href="http://localhost:3000/verification?_id=${user._id}&code=${verification_code}" style="max-width: 10rem; display: block; text-align: center; text-decoration: none; color: #fafafa; font-weight: 500; background: #18181b; border-radius: .375rem; box-shadow: 0 .0625rem .1875rem 0 rgba(0, 0, 0, .1), 0 .0625rem .125rem -0.0625rem rgba(0, 0, 0, .1); padding: .5rem 1rem; margin: 1rem auto 0;">Verify my email</a>
         </div>
       </body>
     `

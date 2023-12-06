@@ -7,7 +7,7 @@ import { cookies } from "next/headers"
 export const updateAccount = async (data: Account) => {
   const { _id, current_password, new_password } = data
   const user = await User.findById(_id)
-  if(!user) throw "" // user not found
+  if(!user) throw ""
 
   // if changing password
   if(current_password?.length && new_password?.length){

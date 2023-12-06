@@ -76,18 +76,18 @@ export const FormClientComponent = ({ user }: { user: User }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* public view */}
-        <div className="contianer relative border rounded-xl shadow-sm px-12 py-4 pb-6">
-          <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-8">
+        <div className="contianer relative border rounded-xl shadow-sm px-6 py-2 pb-3 sm:px-12 sm:py-4 sm:pb-6">
+          <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-4 sm:-mx-8">
             {/* <Image src={} /> */}
           </AspectRatio>
-          <Avatar src={newPFP as string} className="w-[8.40625rem] h-[8.40625rem] border-4 border-background mb-3 -mt-[4.203125rem]" />
-          <p className="text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
+          <Avatar src={newPFP as string} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
+          <p className="text-2xl sm:text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
           <p className="opacity-70 text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
           <p className="text-sm my-1">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
           { !(form.watch("private_email") !== undefined ? form.watch("private_email") : private_email) &&
             <a href={`mailto:${form.watch("email") !== undefined ? form.watch("email") : email}`} className="inline-flex items-center gap-1 text-sm hover:underline opacity-70">
               <LuMail />
-              { form.getValues("email") !== undefined ? form.getValues("email") : email }
+              <span className="break-all">{ form.getValues("email") !== undefined ? form.getValues("email") : email }</span>
             </a>
           }
           { createdAt && <p className="flex items-center gap-1 opacity-70 text-sm"><LuCalendarDays /> Joined on { new Date(createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }</p> }

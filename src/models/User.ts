@@ -26,7 +26,6 @@ const UserSchema = new Schema({
   pfp: String,
 
   verification_code: String,
-  changing_email_codes: [String],
 
   private_email: {
     type: Boolean,

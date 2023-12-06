@@ -4,7 +4,7 @@ import User from "@/models/User"
 
 export const updateProfile = async (_id: string, data: UserType) => {
   const user = await User.findById(_id)
-  if(!user) throw "" // user not found
+  if(!user) throw ""
 
   // if username is in use
   if(user.username !== data.username){
