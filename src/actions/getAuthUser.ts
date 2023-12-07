@@ -31,6 +31,7 @@ export const getAuthUser = async () => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
+    banner: user.banner,
     private_email: user.private_email,
     createdAt: user.createdAt.getTime()
   }

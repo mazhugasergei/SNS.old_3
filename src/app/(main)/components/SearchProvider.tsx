@@ -2,8 +2,8 @@
 import { getUsers } from "@/actions/getUsers"
 import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
-import { useEffect, useRef, useState, CSSProperties } from "react"
-import Avatar from "./Avatar"
+import { useEffect, useRef, useState } from "react"
+import { UserAvatar } from "./UserAvatar"
 
 export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchOpen, setSearchOpen] = useState(false)
@@ -91,7 +91,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
             <p className={categoryClasses}>People</p>
             { users.map(user =>
               <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
-                <Avatar src={user.pfp || ""} className="w-7 h-7" />
+                <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
                 { user.fullname }
                 <span className="opacity-[.7] text-xs">{ user.username }</span>
               </Link>
@@ -103,7 +103,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
           <p className={categoryClasses}>People</p>
           { defaultUsers.map(user =>
             <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
-              <Avatar src={user.pfp || ""} className="w-7 h-7" />
+              <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
               { user.fullname }
               <span className="opacity-[.7] text-xs">{ user.username }</span>
             </Link>

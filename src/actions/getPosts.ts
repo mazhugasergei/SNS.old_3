@@ -10,7 +10,7 @@ export const getPosts = async (authorID: string) => {
     body: post.body,
     likes: post.likes,
     comments: post.comments,
-    createdAt: post.createdAt.getDate()
+    createdAt: post.createdAt.getTime()
   }))
   
   return posts

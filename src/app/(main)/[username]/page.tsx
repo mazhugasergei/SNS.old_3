@@ -1,5 +1,5 @@
 import { getUser } from "@/actions/getUser"
-import Avatar from "@/app/(main)/components/Avatar"
+import { UserAvatar } from "@/app/(main)/components/UserAvatar"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { getPosts } from "@/actions/getPosts"
 import Link from "next/link"
@@ -9,6 +9,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { LuHeart } from "react-icons/lu"
 import { LuMessageCircle } from "react-icons/lu"
 import { getAuthUser } from "@/actions/getAuthUser"
+import { Banner } from "../components/Banner"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
   const user = await getUser(params.username)
@@ -26,10 +27,8 @@ export default async ({ params }: { params: { username: string } }) => {
   return user ? <>
     {/* profile details */}
     <div className="contianer border-b px-4 pb-3 px-4 pb-3 sm:px-8 sm:pb-6">
-      <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-4 sm:-mx-8">
-        {/* <Image src={} /> */}
-      </AspectRatio>
-      <Avatar src={user.pfp || ""} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
+      <Banner src={user.banner} className="-mx-4 sm:-mx-8" />
+      <UserAvatar src={user.pfp} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
       <p className="text-2xl sm:text-3xl font-bold">{ user.fullname }</p>
       <p className="opacity-70 text-sm">@{ user.username }</p>
       <p className="text-sm my-1">{ user.bio }</p>
@@ -50,7 +49,7 @@ export default async ({ params }: { params: { username: string } }) => {
             {/* pfp */}
             <UserCard {...{user}}>
               <Link href={`/${user.username}`} className="rounded-full">
-                <Avatar src={user.pfp || ""} className="w-8 h-8 hover:brightness-[.92] transition" />
+                <UserAvatar src={user.pfp || ""} className="w-8 h-8 hover:brightness-[.92] transition" />
               </Link>
             </UserCard>
             {/* body */}

@@ -22,8 +22,15 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  bio: String,
-  pfp: String,
+  bio: {
+    type: String,
+    default: null
+  },
+  pfp: {
+    type: String,
+    default: null
+  },
+  banner: String,
 
   verification_code: String,
 

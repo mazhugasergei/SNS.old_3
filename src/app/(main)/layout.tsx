@@ -15,7 +15,7 @@ export default ({ children }: { children: React.ReactNode }) => {
         <main className="flex-1 pt-8">
           { children }
         </main>
-        {/* <RightAside /> */}
+        <RightAside />
       </div>
       <Footer />
     </>

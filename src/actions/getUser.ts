@@ -13,6 +13,7 @@ export const getUser = async (username: string) => {
     fullname: user.fullname,
     bio: user.bio,
     pfp: user.pfp,
+    banner: user.banner,
     private_email: user.private_email,
     createdAt: user.createdAt.getTime()
   }

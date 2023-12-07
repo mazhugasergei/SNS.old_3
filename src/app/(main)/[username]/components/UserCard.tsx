@@ -1,6 +1,6 @@
 import { User } from "@/types/User"
 import Link from "next/link"
-import Avatar from "../../components/Avatar"
+import Avatar from "../../components/UserAvatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { getAuthUser } from "@/actions/getAuthUser"

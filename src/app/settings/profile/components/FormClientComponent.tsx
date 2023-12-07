@@ -8,21 +8,24 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Avatar from "@/app/(main)/components/Avatar"
+import { UserAvatar } from "@/app/(main)/components/UserAvatar"
 import { updateProfile } from "@/actions/updateProfile"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { useFormError } from "@/hooks/useFormError"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { User } from "@/types/User"
 import { useChangesSuccess } from "@/hooks/useChangesSuccess"
+import { Banner } from "@/app/(main)/components/Banner"
 
 export const FormClientComponent = ({ user }: { user: User }) => {
-  const { _id, email, username, fullname, bio, pfp, private_email, createdAt } = user
-  const [newPFP,  setNewPFP] = useState(pfp)
+  const { _id, email, username, fullname, bio, banner, pfp, private_email, createdAt } = user
+  const [newPFP,  setNewPFP] = useState<string | null | undefined>(pfp)
+  const [newBanner,  setNewBanner] = useState<string | null | undefined>(banner)
   
   const formSchema = zod.object({
     pfp: zod.string()
+      .optional(),
+    banner: zod.string()
       .optional(),
     email: zod.string()
       .min(3, { message: "Email must be at least 3 characters" })
@@ -56,18 +59,71 @@ export const FormClientComponent = ({ user }: { user: User }) => {
       username: username || "",
       bio: bio || "",
       email: email || "",
-      private_email: private_email
+      private_email
     }
   })
 
-  const handlePFPChange = (file: File) => {
+  const resizeImage = (base64: string, targetWidth: number, targetHeight: number): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.src = base64
+      img.onload = ()=>{
+        const aspectRatio = img.width / img.height
+        let x, y, width, height
+        if(aspectRatio > targetWidth / targetHeight) {
+          // image is wider than the target aspect ratio
+          width = img.height * (targetWidth / targetHeight)
+          height = img.height
+          x = (img.width - width) / 2
+          y = 0
+        }
+        else{
+          // image is taller than the target aspect ratio
+          width = img.width
+          height = img.width * (targetHeight / targetWidth)
+          x = 0
+          y = (img.height - height) / 2
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = targetWidth
+        canvas.height = targetHeight
+        const ctx = canvas.getContext('2d')
+        ctx?.drawImage(img, x, y, width, height, 0, 0, targetWidth, targetHeight)
+        resolve(canvas.toDataURL('image/jpeg'))
+      }
+      img.onerror = error => reject(error)
+    })
+  }
+
+  const getImg = (file: File, width: number, height?: number): Promise<string> => {
+    // read file
     const reader = new FileReader()
     reader.readAsDataURL(file)
-    reader.onload = () => setNewPFP(String(reader.result))
+    // return base64
+    return new Promise((resolve, reject) => {
+      reader.onload = async () => {
+        try {
+          // resize size
+          const result = await resizeImage(String(reader.result), width, height || width)
+          resolve(result)
+        } catch (error) {
+          reject(error)
+        }
+      }
+    })
+  }
+
+  const handlePFPChange = async (file: File) => {
+    const img = await getImg(file, 400)
+    setNewPFP(img)
+  }
+  const handleBannerChange = async (file: File) => {
+    const img = await getImg(file, 1500, 500)
+    setNewBanner(img)
   }
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    await updateProfile(_id, {_id, createdAt, ...data, pfp: newPFP})
+    await updateProfile(_id, {_id, createdAt, ...data, pfp: newPFP, banner: newBanner})
       .then(res => res.ok && useChangesSuccess())
       .catch(err => useFormError(form, err, onSubmit))
   }
@@ -77,10 +133,8 @@ export const FormClientComponent = ({ user }: { user: User }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* public view */}
         <div className="contianer relative border rounded-xl shadow-sm px-6 py-2 pb-3 sm:px-12 sm:py-4 sm:pb-6">
-          <AspectRatio ratio={112400 / 37466} className="bg-border rounded-lg -mx-4 sm:-mx-8">
-            {/* <Image src={} /> */}
-          </AspectRatio>
-          <Avatar src={newPFP as string} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
+          <Banner src={newBanner} className="-mx-4 sm:-mx-8" />
+          <UserAvatar src={newPFP} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
           <p className="text-2xl sm:text-3xl font-bold">{ form.watch("fullname") !== undefined ? form.watch("fullname") : fullname }</p>
           <p className="opacity-70 text-sm">@{ form.watch("username") !== undefined ? form.watch("username") : username }</p>
           <p className="text-sm my-1">{ form.watch("bio") !== undefined ? form.watch("bio") : bio }</p>
@@ -102,10 +156,29 @@ export const FormClientComponent = ({ user }: { user: User }) => {
                 <FormLabel>Profile picture</FormLabel>
                 <FormControl>
                   <div className="flex flex-wrap gap-2">
-                    <Avatar src={newPFP as string} className="w-[2.25rem] h-[2.25rem]" />
+                    <UserAvatar src={newPFP} className="w-[2.25rem] h-[2.25rem]" />
                     <Input id="pfpInput" className="hidden" type="file" {...field} onChange={e => e.target.files && handlePFPChange(e.target.files[0])} />
                     <Button type="button" variant="outline" onClick={() => document.getElementById("pfpInput")?.click()}>Choose picture</Button>
-                    <Button type="button" variant="outline" onClick={() => setNewPFP(undefined)}>Remove picture</Button>
+                    <Button type="button" variant="outline" onClick={() => setNewPFP(null)}>Remove picture</Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* banner */}
+          <FormField control={form.control} name="banner" defaultValue=""
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Banner</FormLabel>
+                <FormControl>
+                  <div className="flex flex-wrap gap-2">
+                    <div className="w-[6.7501201089rem]">
+                      <Banner src={newBanner} />
+                    </div>
+                    <Input id="bannerInput" className="hidden" type="file" {...field} onChange={e => e.target.files && handleBannerChange(e.target.files[0])} />
+                    <Button type="button" variant="outline" onClick={() => document.getElementById("bannerInput")?.click()}>Choose picture</Button>
+                    <Button type="button" variant="outline" onClick={() => setNewBanner(null)}>Remove picture</Button>
                   </div>
                 </FormControl>
                 <FormMessage />

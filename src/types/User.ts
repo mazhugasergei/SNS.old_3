@@ -5,6 +5,7 @@ export type User = {
   fullname: string
   bio?: string | null
   pfp?: string | null
+  banner?: string | null
   private_email: boolean
   verification_code?: string
   createdAt: number
