@@ -26,19 +26,21 @@ export default async ({ params }: { params: { username: string } }) => {
 
   return user ? <>
     {/* profile details */}
-    <div className="contianer border-b px-4 pb-3 px-4 pb-3 sm:px-8 sm:pb-6">
-      <Banner src={user.banner} className="-mx-4 sm:-mx-8" />
-      <UserAvatar src={user.pfp} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
-      <p className="text-2xl sm:text-3xl font-bold">{ user.fullname }</p>
-      <p className="opacity-70 text-sm">@{ user.username }</p>
-      <p className="text-sm my-1">{ user.bio }</p>
-      { !user.private_email && 
-        <a href={`mailto:${user.email}`} className="inline-flex items-center gap-1 text-sm hover:underline opacity-70">
-          <LuMail />
-          <span className="break-all">{ user.email }</span>
-        </a>
-      }
-      { user.createdAt && <p className="flex items-center gap-1 opacity-70 text-sm"><LuCalendarDays /> Joined { new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }</p> }
+    <div className="contianer border-b">
+      <Banner src={user.banner} />
+      <div className="px-4 pb-3 sm:px-8 sm:pb-6">
+        <UserAvatar src={user.pfp} className="w-[20vw] h-[20vw] sm:w-[8.40625rem] sm:h-[8.40625rem] border-4 border-background mb-3 -mt-[calc(20vw/2)] md:-mt-[4.203125rem]" />
+        <p className="text-2xl sm:text-3xl font-bold">{ user.fullname }</p>
+        <p className="opacity-70 text-sm">@{ user.username }</p>
+        <p className="text-sm my-1">{ user.bio }</p>
+        { !user.private_email && 
+          <a href={`mailto:${user.email}`} className="inline-flex items-center gap-1 text-sm hover:underline opacity-70">
+            <LuMail />
+            <span className="break-all">{ user.email }</span>
+          </a>
+        }
+        { user.createdAt && <p className="flex items-center gap-1 opacity-70 text-sm"><LuCalendarDays /> Joined { new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }</p> }
+      </div>
     </div>
 
     {/* posts */}
