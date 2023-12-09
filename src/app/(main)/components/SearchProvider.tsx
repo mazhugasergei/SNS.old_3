@@ -17,7 +17,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(()=>{
     ( async ()=>{
       setPending(true)
-      await getUsers("")
+      await getUsers()
         .then(res => {
           setDefaultUsers(res)
           setPending(false)

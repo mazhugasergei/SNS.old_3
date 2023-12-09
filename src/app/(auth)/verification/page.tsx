@@ -1,5 +1,4 @@
 import verifyEmail from "@/actions/verifyEmail"
-import { toast } from "@/components/ui/use-toast"
 import { redirect } from "next/navigation"
 
 export default async ({ searchParams }: { searchParams: { _id: string, code: string } }) => {

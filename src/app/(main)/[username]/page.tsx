@@ -12,7 +12,7 @@ import { getAuthUser } from "@/actions/getAuthUser"
 import { Banner } from "../components/Banner"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
-  const user = await getUser(params.username)
+  const user = await getUser({ username: params.username })
 
   return {
     title: `${ user && `${user.fullname} (@${user.username}) - ` }Wave`
@@ -21,7 +21,7 @@ export const generateMetadata = async ({ params }: { params: { username: string 
 
 export default async ({ params }: { params: { username: string } }) => {
   const auth_user = await getAuthUser()
-  const user = await getUser(params.username)
+  const user = await getUser({ username: params.username })
   const posts = user?._id ? await getPosts(user._id) : null
 
   return user ? <>

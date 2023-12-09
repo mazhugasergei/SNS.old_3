@@ -3,12 +3,13 @@ import { Separator } from "@/components/ui/separator"
 import SettingsAside from "./components/SettingsAside"
 import { Aside } from "../(main)/components/Aside"
 import Footer from "../(main)/components/Footer"
+import { ReactNode } from "react"
 
 export const metadata: Metadata = {
   title: "Settings - Wave"
 }
 
-export default ({ children }: { children: React.ReactNode }) => {
+export default ({ children }: { children: ReactNode }) => {
   return (
     <>
       <div className="min-h-[calc(100vh-6.05rem)] container flex items-start gap-2 sm:gap-12 max-sm:px-2">

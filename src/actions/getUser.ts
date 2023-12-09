@@ -1,9 +1,16 @@
 "use server"
 import User from "@/models/User"
 import { User as UserType } from "@/types/User"
+import mongoose from "mongoose"
 
-export const getUser = async (username: string) => {
-  const user = await User.findOne({ username })
+export const getUser = async ({ _id, username }: { _id?: string, username?: string }) => {
+  const user =
+    // if id is provided
+    _id && mongoose.Types.ObjectId.isValid(_id) ? await User.findById(_id) :
+    // if username is provided
+    username ? await User.findOne({ username }) :
+    // else no user to look for
+    null
   if(!user) return null
   
   const res: UserType = {

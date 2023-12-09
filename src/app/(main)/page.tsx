@@ -3,8 +3,8 @@ import UserCard from "./[username]/components/UserCard"
 import { getUser } from "@/actions/getUser"
 
 export default async () => {
-  const mazhugasergei = await getUser("mazhugasergei")
-  const egormiroshnichenko = await getUser("egormiroshnichenko")
+  const mazhugasergei = await getUser({ username: "mazhugasergei" })
+  const egormiroshnichenko = await getUser({ username: "egormiroshnichenko" })
 
   return (
     <>
