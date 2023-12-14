@@ -3,9 +3,9 @@ import { Chats } from "./components/Chats"
 
 export default async ({ children }: { children: ReactNode }) => {
   return (
-    <div className="min-h-[calc(100vh-2rem)] flex gap-6 lg:gap-12 pb-8">
+    <div className="min-h-[calc(100vh-2rem)] grid grid-cols-[auto_1fr] lg:grid-cols-[2fr_5fr] gap-3 lg:gap-6 pb-8">
       <Chats />
-      <div className="flex-1 border rounded-lg">{ children }</div>
+      { children }
     </div>
   )
 }

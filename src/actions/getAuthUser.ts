@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import { User as UserType } from "@/types/User"
 import { cookies } from "next/headers"
 
-export const getAuthUser = async () => {
+export const getAuthUser = async (): Promise<UserType | null> => {
   // get token
   const token = cookies().get("token")?.value
 

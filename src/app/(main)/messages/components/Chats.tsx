@@ -26,9 +26,9 @@ export const Chats = async () => {
   return chats && (
     <div className="flex flex-col">{
       chats.map(chat => chat && (
-        <Link href={`/messages/${chat._id}`} className={itemClasses} key={chat.username}>
+        <Link href={`/messages/${chat._id}`} className={itemClasses} key={chat._id}>
           <UserAvatar src={chat.pfp || ""} className="w-7 h-7" />
-          { chat.name }
+          <div className="max-lg:hidden line-clamp-1">{ chat.fullname }</div>
         </Link>
       ))
     }</div>

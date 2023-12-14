@@ -1,5 +1,5 @@
 "use client"
-import { getUsers } from "@/actions/getUsers"
+import { searchUsers } from "@/actions/searchUsers"
 import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
@@ -17,7 +17,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(()=>{
     ( async ()=>{
       setPending(true)
-      await getUsers()
+      await searchUsers()
         .then(res => {
           setDefaultUsers(res)
           setPending(false)
@@ -31,7 +31,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     if(value){
       setPending(true)
       timeout.current = setTimeout(async ()=>{
-        await getUsers(value)
+        await searchUsers(value)
           .then(res => {
             setUsers(res)
             setPending(false)

@@ -4,7 +4,7 @@ export type Post = {
   body: string
   likes: string[]
   comments: {
-    authorID: string,
+    authorID: string
     body: string
   }[]
   createdAt: number
