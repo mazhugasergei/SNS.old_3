@@ -1,6 +1,6 @@
 "use client"
 import * as zod from "zod"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,13 +9,15 @@ import { useFormError } from "@/hooks/useFormError"
 import { toast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea"
 import { LuSendHorizonal } from "react-icons/lu"
-import { sendMessage } from "@/actions/sendMessage"
+import Chat from "@/models/Chat"
+import Message from "@/models/Message"
+import { sendMessage } from "../../actions/sendMessage"
 
 const formSchema = zod.object({
   message: zod.string()
 })
 
-export const FormClientComponent = ({ chat_id, user_id }: { chat_id: string, user_id: string }) => {
+export const MessageInput = ({ chat_id, user_id }: { chat_id: string, user_id: string }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,7 +28,8 @@ export const FormClientComponent = ({ chat_id, user_id }: { chat_id: string, use
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
     const { message } = data
     if(!message.length) return
-    await sendMessage(message, chat_id, user_id)
+
+    await sendMessage(chat_id, user_id, message)
       .then(res => res.ok && toast({ description: "Message sent." }))
       .catch(err => useFormError(form, err, onSubmit))
   }

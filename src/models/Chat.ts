@@ -1,26 +1,17 @@
 import { Schema, model, models } from "mongoose"
 
-const MessageSchema = new Schema({
-  authorID: {
-    type: String,
-    required: true
-  },
-  message: {
-    type: String,
-    required: true
+const ChatSchema = new Schema({
+  pfp: String,
+  name: String,
+  users: [String],
+  unread: {
+    type: Number,
+    default: 0
   },
   createdAt: {
     type: Date,
     default: Date.now
   }
-})
-
-const ChatSchema = new Schema({
-  name: String,
-  people: [String],
-  pfp: String,
-  username: String,
-  messages: [MessageSchema]
 })
 
 delete models['chat']
