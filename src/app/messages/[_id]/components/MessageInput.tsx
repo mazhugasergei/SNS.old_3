@@ -1,6 +1,6 @@
 "use client"
 import * as zod from "zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,8 +9,6 @@ import { useFormError } from "@/hooks/useFormError"
 import { toast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea"
 import { LuSendHorizonal } from "react-icons/lu"
-import Chat from "@/models/Chat"
-import Message from "@/models/Message"
 import { sendMessage } from "../../actions/sendMessage"
 
 const formSchema = zod.object({
@@ -30,7 +28,12 @@ export const MessageInput = ({ chat_id, user_id }: { chat_id: string, user_id: s
     if(!message.length) return
 
     await sendMessage(chat_id, user_id, message)
-      .then(res => res.ok && toast({ description: "Message sent." }))
+      .then(res => {
+        if(res.ok){
+          toast({ description: "Message sent." })
+          form.reset()
+        }
+      })
       .catch(err => useFormError(form, err, onSubmit))
   }
 

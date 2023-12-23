@@ -5,6 +5,9 @@ import { UserAvatar } from "../../(main)/components/UserAvatar"
 import Chat from "@/models/Chat"
 import { getUser } from "@/actions/getUser"
 import Message from "@/models/Message"
+import { SearchProvider } from "@/app/(main)/components/SearchProvider"
+import { Button } from "@/components/ui/button"
+import { LuPlusSquare } from "react-icons/lu"
 
 export const Chats = async () => {
   const user = await getAuthUser()
@@ -32,8 +35,14 @@ export const Chats = async () => {
   })()
 
   return chats ? (
-    <div className="flex flex-col py-8">{
-      chats.map(chat => {
+    <div className="flex flex-col py-4">
+      <SearchProvider message>
+        <Button className="mb-2">
+          <LuPlusSquare className="lg:hidden" />
+          <span className="max-lg:hidden">New chat</span>
+        </Button>
+      </SearchProvider>
+      { chats.map(chat => {
         if(chat){
           const lastMessageTimeDiff = chat.lastMessageTime ? Date.now() - chat.lastMessageTime.getTime() : null
           const lastMessageTimeNumber = chat.lastMessageTime ? new Date(chat.lastMessageTime.getTime()) : null
@@ -60,7 +69,7 @@ export const Chats = async () => {
             </Link>
           )
         }
-      })
-    }</div>
+      }) }
+    </div>
   ) : <>no chats</>
 }

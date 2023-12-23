@@ -5,10 +5,7 @@ import { User as UserType } from "@/types/User"
 import { cookies } from "next/headers"
 
 export const getAuthUser = async (): Promise<UserType | null> => {
-  // get token
   const token = cookies().get("token")?.value
-
-  // check if token exists
   if(!token) return null
 
   // verify token
@@ -23,8 +20,8 @@ export const getAuthUser = async (): Promise<UserType | null> => {
   // check if the user still exists
   const user = await User.findOne({ _id, password })
   if(!user) return null
-  
-  const res: UserType = {
+
+  return {
     _id: user._id.toString(),
     email: user.email,
     username: user.username,
@@ -35,6 +32,4 @@ export const getAuthUser = async (): Promise<UserType | null> => {
     private_email: user.private_email,
     createdAt: user.createdAt.getTime()
   }
-
-  return res
 }

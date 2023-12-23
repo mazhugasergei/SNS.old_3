@@ -4,12 +4,22 @@ import { CommandDialog, CommandInput } from "@/components/ui/command"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { UserAvatar } from "./UserAvatar"
+import { createChat } from "@/actions/createChat"
+import { redirect, useRouter } from "next/navigation"
 
-export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
+type User = {
+  _id: string
+  pfp?: string | null
+  fullname: string
+  username: string
+}
+
+export const SearchProvider = ({ children, message = false }: { children: React.ReactNode, message?: boolean }) => {
+  const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false)
   const [value, setValue] = useState<string>()
-  const [defaultUsers, setDefaultUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
-  const [users, setUsers] = useState<{ pfp?: string | null, fullname: string, username: string }[]>()
+  const [defaultUsers, setDefaultUsers] = useState<User[]>()
+  const [users, setUsers] = useState<User[]>()
   const [pending, setPending] = useState(false)
   let timeout = useRef<NodeJS.Timeout>()
 
@@ -60,7 +70,11 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
     py-2
   `
 
-  const handleItemClick = () => {
+  const handleItemClick = (user_id: string) => {
+    if(message){
+      createChat(user_id)
+        .then(res => res.ok && router.push(`/messages/${res.chat_id}`))
+    }
     setSearchOpen(false)
   }
 
@@ -90,7 +104,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
           <>
             <p className={categoryClasses}>People</p>
             { users.map(user =>
-              <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
+              <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick(user._id)} key={user.username}>
                 <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
                 { user.fullname }
                 <span className="opacity-[.7] text-xs">{ user.username }</span>
@@ -102,7 +116,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
         defaultUsers && <>
           <p className={categoryClasses}>People</p>
           { defaultUsers.map(user =>
-            <Link href={`/${user.username}`} className={itemClasses} onClick={handleItemClick} key={user.username}>
+            <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick(user._id)} key={user.username}>
               <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
               { user.fullname }
               <span className="opacity-[.7] text-xs">{ user.username }</span>
