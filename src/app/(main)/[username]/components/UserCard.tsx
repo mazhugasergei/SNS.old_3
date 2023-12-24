@@ -1,12 +1,21 @@
-import { User } from "@/types/User"
 import Link from "next/link"
 import { UserAvatar } from "../../components/UserAvatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthId } from "@/actions/getAuthId"
+import User from "@/models/User"
+
+type User = {
+  _id: string
+  username: string
+  pfp?: string
+  fullname: string
+  bio?: string
+}
 
 export default async ({ user, children }: { user: User, children: React.ReactNode }) => {
-  const auth_user = await getAuthUser()
+  const authId = await getAuthId()
+  const auth_user = await User.findById(authId)
 
   return (
     <HoverCard>

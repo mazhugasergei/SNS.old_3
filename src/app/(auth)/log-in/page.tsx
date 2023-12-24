@@ -1,10 +1,10 @@
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthId } from "@/actions/getAuthId"
 import { FormClientComponent } from "./components/FormClientComponents"
 import { redirect } from "next/navigation"
 
 export default async () => {
-  const user = await getAuthUser()
-  if(user) redirect("/")
+  const authId = await getAuthId()
+  if(authId) redirect("/")
 
   return <FormClientComponent />
 }

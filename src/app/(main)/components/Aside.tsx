@@ -2,19 +2,21 @@ import Logo from "@/app/components/Logo"
 import { Nav } from "./Nav"
 import Link from "next/link"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthId } from "@/actions/getAuthId"
 import { LuPen } from "react-icons/lu"
 import { logOut } from "@/actions/logOut"
 import { RxExit } from "react-icons/rx"
+import User from "@/models/User"
 
 export const Aside = async () => {
-  const user = await getAuthUser()
+  const authId = await getAuthId()
+  const username = (await User.findById(authId, "username"))?.username
 
   return (
     <aside className="sticky top-0 md:w-1/5 lg:w-1/6 z-49 flex flex-col pt-8">
       <Logo className="mb-4" />
       <Nav />
-      { user ? <>
+      { authId ? <>
         <Link href="/moment" className={`block ${buttonVariants()} mb-2`}>
           <LuPen className="md:hidden" />
           <span className="max-md:hidden">New Moment</span>
@@ -33,7 +35,7 @@ export const Aside = async () => {
       }
 
       <div className="text-xs mt-4" style={{ transform: "rotate(180deg)", writingMode: "vertical-rl", textOrientation: "sideways" }}>
-        <p>auth: { user ? user.username : "null" }</p>
+        <p>auth: { authId ? username : "null" }</p>
       </div>
     </aside>
   )

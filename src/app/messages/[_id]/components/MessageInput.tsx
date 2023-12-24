@@ -15,7 +15,7 @@ const formSchema = zod.object({
   message: zod.string()
 })
 
-export const MessageInput = ({ chat_id, user_id }: { chat_id: string, user_id: string }) => {
+export const MessageInput = ({ chat_id }: { chat_id: string }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -27,7 +27,7 @@ export const MessageInput = ({ chat_id, user_id }: { chat_id: string, user_id: s
     const { message } = data
     if(!message.length) return
 
-    await sendMessage(chat_id, user_id, message)
+    await sendMessage(chat_id, message)
       .then(res => {
         if(res.ok){
           toast({ description: "Message sent." })

@@ -1,6 +1,5 @@
 "use server"
 import User from "@/models/User"
-import { User as UserType } from "@/types/User"
 import mongoose from "mongoose"
 
 export const getUser = async ({ _id, username }: { _id?: string, username?: string }) => {
@@ -12,8 +11,8 @@ export const getUser = async ({ _id, username }: { _id?: string, username?: stri
     // else no user to look for
     null
   if(!user) return null
-  
-  const res: UserType = {
+
+  return {
     _id: user._id.toString(),
     email: user.email,
     username: user.username,
@@ -24,6 +23,4 @@ export const getUser = async ({ _id, username }: { _id?: string, username?: stri
     private_email: user.private_email,
     createdAt: user.createdAt.getTime()
   }
-
-  return res
 }

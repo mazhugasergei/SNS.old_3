@@ -1,6 +1,5 @@
 "use server"
 import { getUser } from "./getUser"
-import { Chat } from "@/types/Chat"
 
 export const formatChat = async (chat: Chat, user_id: string) => {
   if(!chat.people) return null

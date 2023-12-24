@@ -70,7 +70,7 @@ export const SearchProvider = ({ children, message = false }: { children: React.
     py-2
   `
 
-  const handleItemClick = (user_id: string) => {
+  const handleItemClick = (user_id: string[]) => {
     if(message){
       createChat(user_id)
         .then(res => res.ok && router.push(`/messages/${res.chat_id}`))
@@ -104,7 +104,7 @@ export const SearchProvider = ({ children, message = false }: { children: React.
           <>
             <p className={categoryClasses}>People</p>
             { users.map(user =>
-              <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick(user._id)} key={user.username}>
+              <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick([user._id])} key={user.username}>
                 <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
                 { user.fullname }
                 <span className="opacity-[.7] text-xs">{ user.username }</span>
@@ -116,7 +116,7 @@ export const SearchProvider = ({ children, message = false }: { children: React.
         defaultUsers && <>
           <p className={categoryClasses}>People</p>
           { defaultUsers.map(user =>
-            <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick(user._id)} key={user.username}>
+            <Link href={!message ? `/${user.username}` : "#"} className={itemClasses} onClick={() => handleItemClick([user._id])} key={user.username}>
               <UserAvatar src={user.pfp || ""} className="w-7 h-7" />
               { user.fullname }
               <span className="opacity-[.7] text-xs">{ user.username }</span>

@@ -1,4 +1,4 @@
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthUser } from "@/actions/getAuthId"
 import { FormClientComponent } from "./components/FormClientComponent"
 import DeleteAccountDialog from "./components/DeleteAccountDialog"
 import { redirect } from "next/navigation"

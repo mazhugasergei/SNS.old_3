@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import UserCard from "./components/UserCard"
 import { LuHeart } from "react-icons/lu"
 import { LuMessageCircle } from "react-icons/lu"
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthUser } from "@/actions/getAuthId"
 import { Banner } from "../components/Banner"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {

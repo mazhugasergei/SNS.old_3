@@ -4,11 +4,11 @@ import { LuMessageSquare } from "react-icons/lu"
 import { LuSettings } from "react-icons/lu"
 import { buttonVariants } from "@/components/ui/button"
 import { LuUser2 } from "react-icons/lu"
-import { getAuthUser } from "@/actions/getAuthUser"
+import { getAuthId } from "@/actions/getAuthId"
 import { SearchProvider } from "./SearchProvider"
 
 export const Nav = async () => {
-  const user = await getAuthUser()
+  const user = await getAuthId()
   
   const buttonStyle = {
     className: `${buttonVariants({ variant: "ghost" })} gap-2 md:justify-start`
