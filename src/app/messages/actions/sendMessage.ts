@@ -11,7 +11,7 @@ export const sendMessage = async (chatId: string, message: string) => {
     .then(user => user?.chats.find(chat => chat._id?.toString() === chatId))
   if(!chat) throw ""
 
-  const participants = [authId.toString(), ...chat?.participants]
+  const participants = [authId.toString(), ...chat.participants.filter(_id => _id !== authId.toString())]
 
   // update the chats
   participants.forEach(async (participantId) => {
@@ -20,14 +20,22 @@ export const sendMessage = async (chatId: string, message: string) => {
     if(!chatExists){
       const currUser = await User.findById(participantId)
       if(!currUser) throw ""
+      // group chat
       if(participants.length > 2){
-        console.log("sendMEssage TODO")
+        currUser.chats.push({
+          _id: chat._id,
+          name: chat.name,
+          image: chat.image,
+          participants: participants.filter(_id => _id !== participantId)
+        })
+        await currUser.save()
       }
+      // 1:1 chat
       else{
-        const friend = await User.findById(participants.find(item => item !== participantId))
+        const friend = await User.findById(participants.find(_id => _id !== participantId))
         if(!friend) throw ""
         currUser.chats.push({
-          _id: new mongoose.Types.ObjectId(chatId),
+          _id: chat._id,
           name: friend.fullname,
           image: friend.pfp,
           participants: [friend._id.toString()]
@@ -41,8 +49,7 @@ export const sendMessage = async (chatId: string, message: string) => {
       { 
         $set: {
           "chats.$.lastMessage": message,
-          "chats.$.lastMessageTime": Date.now(),
-          "chats.$.unread": participantId === authId.toString() ? "chats.$.unread" : "chats.$.unread"+1
+          "chats.$.lastMessageTime": Date.now()
         },
         $push: {
           "chats.$.messages": {

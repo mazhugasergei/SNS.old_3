@@ -11,17 +11,16 @@ export type User = {
   chats: [
     {
       _id: string
-      name: string,
-      image?: string,
+      image?: string
       participants: string[]
       lastMessage?: string
       lastMessageTime?: Date
       unread: number
       messages: {
         _id: string
-        sender: string,
-        body: string,
-        createdAt: Date,
+        sender: string
+        body: string
+        createdAt: Date
         updatedAt: Date
       }[]
     }

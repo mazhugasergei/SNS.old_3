@@ -4,6 +4,7 @@ import nodemailer from "nodemailer"
 import bcrypt from "bcrypt"
 import { cookies } from "next/headers"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 
 export const signUp = async (email: string, username: string, fullname: string, password: string) => {
   // if the email is in use
@@ -21,14 +22,15 @@ export const signUp = async (email: string, username: string, fullname: string, 
   // create verification url code
   const verification_code = await bcrypt.hash(Math.floor((Math.random() * 10000)).toString().padStart(4, '0'), 12)
 
-  // create not yet verified user document
-  const user = await User.create({
+  // create user object
+  const user = {
+    _id: new mongoose.Types.ObjectId(),
     email,
     username,
     fullname,
     password: await bcrypt.hash(password, 12),
     verification_code
-  })
+  }
 
   // create transporter
   const transporter = nodemailer.createTransport({
@@ -57,6 +59,9 @@ export const signUp = async (email: string, username: string, fullname: string, 
       </body>
     `
   })
+
+  // create not yet verified user document
+  await User.create(user)
 
   // create token
   const token = jwt.sign({ _id: user._id, password: user.password }, process.env.JWT_SECRET || "", { expiresIn: '30d' })

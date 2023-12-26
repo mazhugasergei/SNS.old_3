@@ -14,7 +14,10 @@ const messagesSchema = new Schema({
 })
 
 const chatSchema = new Schema({
-  name: String,
+  _id: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
   image: String,
   participants: [String],
   lastMessage: String,
