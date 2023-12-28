@@ -1,4 +1,3 @@
-import { getUser } from "@/actions/getUser"
 import { UserAvatar } from "@/app/(main)/components/UserAvatar"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { getPosts } from "@/actions/getPosts"
@@ -7,11 +6,19 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import UserCard from "./components/UserCard"
 import { LuHeart } from "react-icons/lu"
 import { LuMessageCircle } from "react-icons/lu"
-import { getAuthUser } from "@/actions/getAuthId"
+import { getAuthId } from "@/actions/getAuthId"
 import { Banner } from "../components/Banner"
+import { User } from "@/models/User"
 
 export const generateMetadata = async ({ params }: { params: { username: string } }) => {
-  const user = await getUser({ username: params.username })
+  const user = await (async ()=>{
+    const user = await User.findOne({ username: params.username }, ["username", "fullname"])
+    if(!user) throw ""
+    return {
+      username: user.username,
+      fullname: user.fullname
+    }
+  })()
 
   return {
     title: `${ user && `${user.fullname} (@${user.username}) - ` }Wave`
@@ -19,11 +26,26 @@ export const generateMetadata = async ({ params }: { params: { username: string 
 }
 
 export default async ({ params }: { params: { username: string } }) => {
-  const auth_user = await getAuthUser()
-  const user = await getUser({ username: params.username })
-  const posts = user?._id ? await getPosts(user._id) : null
+  const authId = await getAuthId()
+  const user = await (async ()=>{
+    const user = await User.findOne({ username: params.username }, ["_id", "username", "fullname", "email", "pfp", "bio", "banner", "private_email", "createdAt"])
+    if(!user) throw ""
+    return {
+      _id: user._id.toString(),
+      username: user.username,
+      fullname: user.fullname,
+      email: user.email,
+      pfp: user.pfp,
+      bio: user.bio,
+      banner: user.banner,
+      private_email: user.private_email,
+      createdAt: user.createdAt
+    }
+  })()
+  if(!user) return <>user not found</>
+  const posts = user._id ? await getPosts(user._id.toString()) : null
 
-  return user ? <>
+  return <>
     {/* profile details */}
     <div className="contianer border-b">
       <Banner src={user.banner} />
@@ -77,9 +99,9 @@ export default async ({ params }: { params: { username: string } }) => {
               <div className="flex gap-8 mt-2">
                 <div className="group cursor-pointer flex items-center gap-2">
                   <div className="group-hover:bg-[#F918801A] rounded-full transition p-2 -m-2">
-                    <LuHeart className="group-hover:stroke-[#F92083] transition" style={{ fill: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "", stroke: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "" }} />
+                    <LuHeart className="group-hover:stroke-[#F92083] transition" style={{ fill: authId && post.likes.includes(authId) ? "#F92083" : "", stroke: authId && post.likes.includes(authId) ? "#F92083" : "" }} />
                   </div>
-                  <span className="text-xs group-hover:text-[#F92083] transition" style={{ color: auth_user && post.likes.includes(auth_user._id) ? "#F92083" : "" }}>{ post.likes.length }</span>
+                  <span className="text-xs group-hover:text-[#F92083] transition" style={{ color: authId && post.likes.includes(authId) ? "#F92083" : "" }}>{ post.likes.length }</span>
                 </div>
                 <div className="group cursor-pointer flex items-center gap-2">
                   <div className="group-hover:bg-[#1D9BF01A] rounded-full transition p-2 -m-2">
@@ -94,5 +116,5 @@ export default async ({ params }: { params: { username: string } }) => {
       </div> :
       <>no moments yet</>
     }
-  </> : <>user not found</>
+  </>
 }

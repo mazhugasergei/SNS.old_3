@@ -6,7 +6,6 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { useFormError } from "@/hooks/useFormError"
-import { toast } from "@/components/ui/use-toast"
 import { Textarea } from "@/components/ui/textarea"
 import { LuSendHorizonal } from "react-icons/lu"
 import { sendMessage } from "../../actions/sendMessage"
@@ -28,12 +27,7 @@ export const MessageInput = ({ chat_id }: { chat_id: string }) => {
     if(!message.length) return
 
     await sendMessage(chat_id, message)
-      .then(res => {
-        if(res.ok){
-          toast({ description: "Message sent." })
-          form.reset()
-        }
-      })
+      .then(res => res.ok && form.reset())
       .catch(err => useFormError(form, err, onSubmit))
   }
 

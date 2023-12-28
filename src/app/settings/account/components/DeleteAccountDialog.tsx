@@ -8,7 +8,6 @@ import * as zod from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { deleteAccount } from "@/actions/deleteAccount"
 import { useFormError } from "@/hooks/useFormError"
-import { User } from "@/types/User"
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 const formSchema = zod.object({
@@ -17,7 +16,7 @@ const formSchema = zod.object({
     .max(50, { message: "Password must contain at most 50 characters" }),
 })
 
-export default ({ user }: { user: User }) => {
+export default ({ authId }: { authId: string }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,7 +25,7 @@ export default ({ user }: { user: User }) => {
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    await deleteAccount(user._id, data.password)
+    await deleteAccount(authId, data.password)
       .catch(err => useFormError(form, err, onSubmit))
   }
 

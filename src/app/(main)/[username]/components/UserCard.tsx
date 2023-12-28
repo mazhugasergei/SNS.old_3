@@ -3,19 +3,18 @@ import { UserAvatar } from "../../components/UserAvatar"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { getAuthId } from "@/actions/getAuthId"
-import User from "@/models/User"
+import { User } from "@/models/User"
 
 type User = {
   _id: string
   username: string
-  pfp?: string
   fullname: string
+  pfp?: string
   bio?: string
 }
 
 export default async ({ user, children }: { user: User, children: React.ReactNode }) => {
   const authId = await getAuthId()
-  const auth_user = await User.findById(authId)
 
   return (
     <HoverCard>
@@ -23,8 +22,8 @@ export default async ({ user, children }: { user: User, children: React.ReactNod
         { children }
       </HoverCardTrigger>
       <HoverCardContent className="relative w-80">
-        { auth_user ?
-          auth_user._id !== user._id && <Button className="absolute top-4 right-4">Follow</Button> :
+        { authId ?
+          authId !== user._id && <Button className="absolute top-4 right-4">Follow</Button> :
           <Link href="/log-in" className={`${buttonVariants()} absolute top-4 right-4`}>Follow</Link>
         }
         <div className="space-y-2">

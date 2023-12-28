@@ -1,7 +1,7 @@
 "use server"
-import User from "@/models/User"
+import { User, Chat } from "@/models/User"
 import { getAuthId } from "./getAuthId"
-import mongoose from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 /*
   If more than 2 members chosen
@@ -25,26 +25,27 @@ export const createChat = async (participants: string[]) => {
   const participantsTotal = [authId.toString(), ...participants]
 
   if(participantsTotal.length > 2){
-    const newChat = authUser.chats.create({
+    const newChat = new Chat({
       image: "",
       participants
     })
+    authUser.chats.push(newChat)
+    console.log(1, newChat)
     await authUser.save()
     return { ok: true, chatId: newChat._id.toString() }
   }
-
   else{
     const exists = authUser.chats.find(chat => chat.participants === participants)
     if(exists) return { ok: true, chatId: exists._id.toString() }
     const friend = await User.findById(participants[0])
     if(!friend) throw ""
     const hasChatWithYou = friend.chats.find(chat => chat.participants.length === 1 && chat.participants[0] === authId.toString())
-    const newChatId = hasChatWithYou ? hasChatWithYou._id : new mongoose.Types.ObjectId()
-    authUser.chats.create({
-      _id: newChatId,
+    const newChat = new Chat({
+      _id: hasChatWithYou ? hasChatWithYou._id : new Types.ObjectId(),
       participants
     })
+    authUser.chats.push(newChat)
     await authUser.save()
-    return { ok: true, chatId: newChatId.toString() }
+    return { ok: true, chatId: newChat._id.toString() }
   }
 }

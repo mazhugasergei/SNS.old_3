@@ -40,10 +40,10 @@ export const FormClientComponent = () => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-      fullname: ""
+      email: "ghbdtnghbdtn8@gmail.com",
+      username: "mazhugasergei",
+      password: "12345678",
+      fullname: "Mazhuga Sergei"
     }
   })
 

@@ -8,7 +8,7 @@ export type User = {
   banner?: string | null
   private_email: boolean
   verification_code?: string
-  chats: [
+  chats?: [
     {
       _id: string
       image?: string

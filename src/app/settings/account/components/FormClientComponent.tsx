@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { updateAccount } from "@/actions/updateAccount"
 import { useFormError } from "@/hooks/useFormError"
 import { Separator } from "@/components/ui/separator"
-import { User } from "@/types/User"
 import { useChangesSuccess } from "@/hooks/useChangesSuccess"
 
 const formSchema = zod.object({
@@ -30,9 +29,7 @@ const formSchema = zod.object({
     path: ["repeat_new_password"]
   })
 
-export const FormClientComponent = ({ user }: { user: User }) => {
-  const { _id } = user
-
+export const FormClientComponent = ({ authId }: { authId: string }) => {
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +40,7 @@ export const FormClientComponent = ({ user }: { user: User }) => {
   })
 
   const onSubmit = async (data: zod.infer<typeof formSchema>) => {
-    await updateAccount({_id, ...data})
+    await updateAccount({_id: authId, ...data})
     .then(res => res.ok && useChangesSuccess())
     .catch(err => useFormError(form, err, onSubmit))
   }

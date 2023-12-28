@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 
 export default ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en">
+    <html lang="en" /* >>> */ suppressHydrationWarning={true} /* <<< */>
       <body className={`${inter.className} min-h-screen relative`}>
-        {/* <ThemeProvider attribute="class" disableTransitionOnChange> */}
+        <ThemeProvider attribute="class" disableTransitionOnChange>
           { children }
           <Toaster />
-        {/* </ThemeProvider> */}
+        </ThemeProvider>
       </body>
     </html>
   )

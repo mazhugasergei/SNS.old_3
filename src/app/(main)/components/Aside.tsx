@@ -6,7 +6,7 @@ import { getAuthId } from "@/actions/getAuthId"
 import { LuPen } from "react-icons/lu"
 import { logOut } from "@/actions/logOut"
 import { RxExit } from "react-icons/rx"
-import User from "@/models/User"
+import { User } from "@/models/User"
 
 export const Aside = async () => {
   const authId = await getAuthId()

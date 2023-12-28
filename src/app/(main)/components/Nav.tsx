@@ -6,9 +6,11 @@ import { buttonVariants } from "@/components/ui/button"
 import { LuUser2 } from "react-icons/lu"
 import { getAuthId } from "@/actions/getAuthId"
 import { SearchProvider } from "./SearchProvider"
+import { User } from "@/models/User"
 
 export const Nav = async () => {
-  const user = await getAuthId()
+  const authId = await getAuthId()
+  const authUser = await User.findById(authId)
   
   const buttonStyle = {
     className: `${buttonVariants({ variant: "ghost" })} gap-2 md:justify-start`
@@ -32,7 +34,7 @@ export const Nav = async () => {
         <span {...titleStyle}>Home</span>
       </Link>
       
-      <Link href={user ? `/messages` : "/log-in"} {...buttonStyle}>
+      <Link href={authId ? `/messages` : "/log-in"} {...buttonStyle}>
         <LuMessageSquare {...iconStyle} />
         <span {...titleStyle}>Messages</span>
       </Link>
@@ -44,12 +46,12 @@ export const Nav = async () => {
         </button>
       </SearchProvider>
 
-      <Link href={user ? `/${user.username}` : "/log-in"} {...buttonStyle}>
+      <Link href={`/${authUser?.username}` || "/log-in"} {...buttonStyle}>
         <LuUser2 {...iconStyle} />
         <span {...titleStyle}>Profile</span>
       </Link>
 
-      <Link href={`/settings/${user ? "profile" : "appearance"}`} {...buttonStyle}>
+      <Link href={`/settings/${authId ? "profile" : "appearance"}`} {...buttonStyle}>
         <LuSettings {...iconStyle} />
         <span {...titleStyle}>Settings</span>
       </Link>

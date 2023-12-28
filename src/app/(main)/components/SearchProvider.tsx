@@ -70,10 +70,10 @@ export const SearchProvider = ({ children, message = false }: { children: React.
     py-2
   `
 
-  const handleItemClick = (user_id: string[]) => {
+  const handleItemClick = (participants: string[]) => {
     if(message){
-      createChat(user_id)
-        .then(res => res.ok && router.push(`/messages/${res.chat_id}`))
+      createChat(participants)
+        .then(res => res.ok && router.push(`/messages/${res.chatId}`))
     }
     setSearchOpen(false)
   }

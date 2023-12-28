@@ -1,6 +1,6 @@
 "use server"
 import { User as UserType } from "@/types/User"
-import User from "@/models/User"
+import { User } from "@/models/User"
 
 export const updateProfile = async (_id: string, data: UserType) => {
   const user = await User.findById(_id)

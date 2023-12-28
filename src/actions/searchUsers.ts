@@ -1,5 +1,5 @@
 "use server"
-import User from "@/models/User"
+import { User } from "@/models/User"
 
 export const searchUsers = async (search?: string) => {
   const data = await User.find({ $or: [ { username: { $regex: search || "", $options: 'i' } }, { fullname: { $regex: search || "", $options: 'i' } } ] }).limit(5)

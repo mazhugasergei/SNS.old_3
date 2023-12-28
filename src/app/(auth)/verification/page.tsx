@@ -1,4 +1,4 @@
-import User from "@/models/User"
+import { User } from "@/models/User"
 import { redirect } from "next/navigation"
 
 export default async ({ searchParams }: { searchParams: { _id: string, code: string } }) => {

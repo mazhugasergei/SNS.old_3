@@ -1,6 +1,6 @@
-import { Schema, model, models } from "mongoose"
+import { Schema, Types, model, models } from "mongoose"
 
-const messagesSchema = new Schema({
+const MessagesSchema = new Schema({
   sender: String,
   body: String,
   createdAt: {
@@ -13,11 +13,12 @@ const messagesSchema = new Schema({
   }
 })
 
-const chatSchema = new Schema({
+const ChatSchema = new Schema({
   _id: {
     type: Schema.Types.ObjectId,
-    required: true
+    default: new Types.ObjectId
   },
+  name: String,
   image: String,
   participants: [String],
   lastMessage: String,
@@ -26,7 +27,7 @@ const chatSchema = new Schema({
     type: Number,
     default: 0
   },
-  messages: [messagesSchema]
+  messages: [MessagesSchema]
 })
 
 const UserSchema = new Schema({
@@ -68,7 +69,7 @@ const UserSchema = new Schema({
     default: false
   },
 
-  chats: [chatSchema],
+  chats: [ChatSchema],
 
   createdAt: {
     type: Date,
@@ -78,9 +79,11 @@ const UserSchema = new Schema({
   expires: {
     type: Date,
     default: Date.now,
-    expires: 3600 // 1h
+    expires: 3600
   }
 })
 
+delete models['chat']
+export const Chat = model('chat', ChatSchema)
 delete models['user']
-export default model('user', UserSchema)
+export const User = model('user', UserSchema)

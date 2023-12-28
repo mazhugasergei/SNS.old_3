@@ -1,7 +1,6 @@
 "use server"
 import { getAuthId } from "@/actions/getAuthId"
-import User from "@/models/User"
-import mongoose from "mongoose"
+import { User } from "@/models/User"
 
 export const sendMessage = async (chatId: string, message: string) => {
   const authId = await getAuthId()

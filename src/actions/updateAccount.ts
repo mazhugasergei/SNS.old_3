@@ -1,5 +1,5 @@
 "use server"
-import User from "@/models/User"
+import { User } from "@/models/User"
 import { Account } from "@/types/Account"
 import bcrypt from "bcrypt"
 import { cookies } from "next/headers"
