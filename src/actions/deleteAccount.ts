@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
 
 export const deleteAccount = async (_id: string, password: string) => {
   const user = await User.findById(_id)
-  if(!user) throw "" // user not found
+  if(!user) throw ""
 
   // check if password is valid
   const isValid = await bcrypt.compare(password, user.password)

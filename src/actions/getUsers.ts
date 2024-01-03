@@ -1,5 +1,5 @@
 "use server"
-import User from "@/models/User"
+import { User } from "@/models/User"
 
 export const getUsers = async (_ids: string[]) => {
   const data = await User.find({ _id: _ids })

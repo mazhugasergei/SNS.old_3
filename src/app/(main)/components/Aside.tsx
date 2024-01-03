@@ -5,38 +5,36 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { getAuthId } from "@/actions/getAuthId"
 import { LuPen } from "react-icons/lu"
 import { logOut } from "@/actions/logOut"
-import { RxExit } from "react-icons/rx"
 import { User } from "@/models/User"
+import { LuLogIn } from "react-icons/lu"
+import { LuLogOut } from "react-icons/lu"
 
 export const Aside = async () => {
-  const authId = await getAuthId()
-  const username = (await User.findById(authId, "username"))?.username
+	const authId = await getAuthId()
+	const username = (await User.findById(authId, "username"))?.username
 
-  return (
-    <aside className="sticky top-0 md:w-1/5 lg:w-1/6 z-49 flex flex-col pt-8">
-      <Logo className="mb-4" />
-      <Nav />
-      { authId ? <>
-        <Link href="/moment" className={`block ${buttonVariants()} mb-2`}>
-          <LuPen className="md:hidden" />
-          <span className="max-md:hidden">New Moment</span>
-        </Link>
-        <form action={logOut}>
-          <Button variant="outline" className="w-full">
-            <RxExit className="md:hidden" />
-            <span className="max-md:hidden">Log out</span>
-          </Button>
-        </form>
-      </> :
-        <>
-          <Link href="/log-in" className={`${buttonVariants({ variant: "ghost" })} w-full bg-background mb-1.5`}>Log in</Link>
-          <Link href="/sign-up" className={`${buttonVariants()} w-full`}>Sign up</Link>
-        </>
-      }
-
-      <div className="text-xs mt-4" style={{ transform: "rotate(180deg)", writingMode: "vertical-rl", textOrientation: "sideways" }}>
-        <p>auth: { authId ? username : "null" }</p>
-      </div>
-    </aside>
-  )
+	return (
+		<aside className="sticky min-h-[100vh] top-0 md:w-1/5 lg:w-1/6 z-49 flex flex-col border-r pb-2 pr-2">
+			<div className="sticky top-4 sm:top-8 mb-2">
+				<Logo className="mb-4" />
+				<Nav />
+			</div>
+			<div className="mt-auto">
+				{authId ? (
+					<Link
+						href={`/${username}` || "/log-in"}
+						className={`min-h-[2.25rem] flex justify-center items-center bg-primary hover:bg-primary/90 text-center text-sm text-primary-foreground font-medium rounded-md shadow transition p-2 md:px-4`}
+					></Link>
+				) : (
+					<Link
+						href="/log-in"
+						className={`min-h-[2.25rem] flex justify-center items-center bg-primary hover:bg-primary/90 text-center text-sm text-primary-foreground font-medium rounded-md shadow transition p-2 md:px-4`}
+					>
+						<LuLogIn className="md:hidden" />
+						<span className="max-md:hidden">Log in</span>
+					</Link>
+				)}
+			</div>
+		</aside>
+	)
 }
