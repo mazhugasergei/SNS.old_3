@@ -28,7 +28,7 @@ export const Aside = async () => {
 	}
 
 	return (
-		<aside className="sticky min-h-screen top-0 md:w-1/5 lg:w-1/6 z-49 flex flex-col border-r pb-2 pr-2 md:pr-4">
+		<aside className="sticky min-h-screen top-0 md:w-1/5 lg:w-1/6 z-49 flex flex-col border-r pb-4 pr-2 md:pr-4">
 			<div className="sticky top-4 sm:top-8 mb-2">
 				<Logo className="mb-4" />
 				<nav className="flex flex-col gap-1">
@@ -62,7 +62,7 @@ export const Aside = async () => {
 					{authId && (
 						<Link
 							href="/moment"
-							className="min-h-[2.25rem] flex justify-center items-center bg-primary hover:bg-primary/90 text-center text-sm text-primary-foreground font-medium rounded-md shadow transition p-2 md:px-4"
+							className="min-h-[2.25rem] flex justify-center items-center bg-primary hover:bg-primary/90 text-center text-sm text-primary-foreground font-medium rounded-md shadow transition p-2 md:px-4 mt-1"
 						>
 							<LuPen className="md:hidden" />
 							<span className="max-md:hidden">New Moment</span>

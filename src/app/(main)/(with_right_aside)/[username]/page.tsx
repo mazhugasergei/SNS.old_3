@@ -1,4 +1,4 @@
-import { UserAvatar } from "@/app/(main)/components/UserAvatar"
+import { UserAvatar } from "@/app/(main)/(with_right_aside)/components/UserAvatar"
 import { LuCalendarDays, LuMail } from "react-icons/lu"
 import { getPosts } from "@/actions/getPosts"
 import Link from "next/link"
