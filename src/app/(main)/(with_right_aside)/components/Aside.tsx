@@ -6,11 +6,12 @@ import { User } from "@/models/User"
 import { LuLogIn } from "react-icons/lu"
 import { LuSettings } from "react-icons/lu"
 import { SearchProvider } from "./SearchProvider"
+import { UserAvatar } from "./UserAvatar"
 
 export const Aside = async () => {
 	const authId = await getAuthId()
-	const authUser = await User.findById(authId)
 	const username = (await User.findById(authId, "username"))?.username
+	const pfp = (await User.findById(authId, "pfp"))?.pfp
 
 	const buttonStyle = {
 		className: `min-h-[2.25rem] flex max-md:justify-center items-center gap-2 hover:bg-accent text-center text-sm font-medium rounded-md transition p-2 md:px-4`
@@ -49,7 +50,7 @@ export const Aside = async () => {
 						</button>
 					</SearchProvider>
 
-					<Link href={`/${authUser?.username}` || "/log-in"} {...buttonStyle}>
+					<Link href={`/${username}` || "/log-in"} {...buttonStyle}>
 						<LuUser2 {...iconStyle} />
 						<span {...titleStyle}>Profile</span>
 					</Link>
@@ -70,10 +71,14 @@ export const Aside = async () => {
 					)}
 				</nav>
 			</div>
+			{/* Profile */}
 			<div className="mt-auto">
 				{authId ? (
-					<Link href={`/${username}` || "/log-in"} {...buttonStyle}>
-						<LuUser2 {...iconStyle} />
+					<Link
+						href={`/${username}` || "/log-in"}
+						className={`${buttonStyle.className} max-md:rounded-full max-sm:p-0 max-md:mx-auto`}
+					>
+						<UserAvatar src={pfp} className="w-7 h-7 sm:w-8 sm:h-8" />
 						<span {...titleStyle}>Profile</span>
 					</Link>
 				) : (

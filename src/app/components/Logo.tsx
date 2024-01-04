@@ -5,9 +5,9 @@ export default ({ className }: { className?: string }) => {
 	return (
 		<Link
 			href="/"
-			className={`min-h-[2.25rem] inline-flex max-md:justify-center items-center md:self-start hover:bg-accent text-center text-sm font-medium rounded-md transition p-2 sm:px-4 ${className}`}
+			className={`min-h-[2.25rem] flex md:inline-flex max-md:justify-center items-center md:self-start hover:bg-accent text-center text-sm font-medium rounded-md transition p-2 sm:px-4 ${className}`}
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-5 w-5 md:h-6 md:w-6">
 				<rect width="256" height="256" fill="none" />
 				<line
 					x1="208"
