@@ -4,9 +4,11 @@ import { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "@/components/ui/toaster"
 import ThemeProvider from "@/app/components/ThemeProvider"
-import { connectDB } from "@/actions/connectDB"
+import mongoose from "mongoose"
+import { User } from "@/models/User"
 
-connectDB()
+// connect to the db
+mongoose.connect(process.env.MONGODB_URI!).then(() => console.log("connected to db"))
 
 const inter = Inter({ subsets: ["latin"] })
 

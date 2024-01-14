@@ -1,7 +1,11 @@
 import Image from "next/image"
+import { Chats } from "./components/Chats"
 
 export default () => {
-  return (
-    <div className="self-center">Select chat</div>
-  )
+	return (
+		<>
+			<Chats />
+			<div className="max-lg:hidden flex justify-center items-center border-x">Select chat</div>
+		</>
+	)
 }

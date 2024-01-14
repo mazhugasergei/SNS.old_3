@@ -4,10 +4,9 @@ import { redirect } from "next/navigation"
 import { UserAvatar } from "../../(with_right_aside)/components/UserAvatar"
 import { SearchProvider } from "@/app/(main)/(with_right_aside)/components/SearchProvider"
 import { Button } from "@/components/ui/button"
-import { LuPlusSquare } from "react-icons/lu"
 import { User } from "@/models/User"
 
-export const Chats = async () => {
+export const Chats = async ({ className }: { className?: string }) => {
 	const authId = await getAuthId()
 	if (!authId) redirect("/log-in")
 
@@ -56,12 +55,9 @@ export const Chats = async () => {
 	if (!chats) return <>no chats</>
 
 	return (
-		<div className="flex flex-col py-4">
+		<div className={`${className} flex flex-col py-4`}>
 			<SearchProvider message>
-				<Button className="mb-2">
-					<LuPlusSquare className="lg:hidden" />
-					<span className="max-lg:hidden">New chat</span>
-				</Button>
+				<Button className="mb-2">New chat</Button>
 			</SearchProvider>
 			{chats.map((chat) => {
 				return (
@@ -71,7 +67,7 @@ export const Chats = async () => {
 						key={chat._id}
 					>
 						<UserAvatar src={chat.image} className="w-8 h-8" />
-						<div className="max-lg:hidden flex-1">
+						<div className="flex-1">
 							<div className="flex items-center">
 								<div className="line-clamp-1">{chat.name}</div>
 								{chat.lastMessageTime && (
